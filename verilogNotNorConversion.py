@@ -6,10 +6,9 @@ import shutil
 
 
 # Given an entire file string, this function gets the type (folder before) and filename
-def getFileValues(nameVerilog):
-  print(nameVerilog)
-  type = nameVerilog.split('/')[1]
-  Filename = nameVerilog.split('/')[2]
+def getFileValues(name,nameVerilog):
+  type = name.split('/')[1]
+  Filename = nameVerilog
   return type, Filename
 
 # This class holds the gates of the verilog file
@@ -451,7 +450,7 @@ for name in ('Verilog/Uninfected/',''):
     print("\n"+nameVerilog)
 
     # Get file parameters
-    type, Filename = getFileValues(nameVerilog)
+    type, Filename = getFileValues(name,nameVerilog)
 
     Verilog = readVerilogGates(nameVerilog)
     #debugVerilogRead(Verilog)
