@@ -1,9 +1,6 @@
-import glob
 from os import read
 import random
-import re
 from tokenize import Name, Number
-from typing import Sequence
 import os
 import shutil
 import sys
