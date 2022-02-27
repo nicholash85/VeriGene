@@ -486,7 +486,7 @@ def printVectors(Folder,nameVerilog, VectorizedKmer):
 
   name = Folder + "/" + test + "/" + type + "/" + Filename + ".txt"
 
-  print(name)
+  # print(name)
 
   # DNAFile = open(name,"w")
   # DNAFile.write(VectorizedKmer)
@@ -532,15 +532,16 @@ readAllDNAParts()
 # Loop through Verilog files
 for name in ('Verilog/Infected/',''):
   for nameVerilog in os.listdir(name):
+    start = start1 = time.time()
     nameVerilog = os.path.join(name,nameVerilog)
-    start = time.time()
+    end1 = time.time()
+    print("Runtime of the "+"os.path.join"+"step is "+str(end1 - start1))
+    start1 = time.time()
 
     # Create DNA 
 
     # print file being processed
-    #print(f"\n{nameVerilog}")
-
-    start1 = time.time()
+    print("\n"+nameVerilog)
 
     # Get file parameters
     type, Filename = getFileValues(nameVerilog)
