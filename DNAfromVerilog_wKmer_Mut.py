@@ -483,9 +483,8 @@ def VectorizeKmer(KmerArray):
 
     VectorArray.append("".join(HexChars))
 
-  VectorString = " ".join(VectorArray)
   # print(VectorString)
-  return VectorString 
+  return VectorArray
 
 def printVectors(Folder,nameVerilog, VectorizedKmer):
   type, Filename = getFileValues(nameVerilog)
@@ -503,7 +502,7 @@ def printVectors(Folder,nameVerilog, VectorizedKmer):
   # print(name)
 
   # DNAFile = open(name,"w")
-  # DNAFile.write(VectorizedKmer)
+  # DNAFile.write(" ".join(VectorizedKmer))
   # DNAFile.close()
 
 def emptyDirectories(FilePath):
