@@ -9,8 +9,8 @@ import time
 
 # Given an entire file string, this function gets the type (folder before) and filename
 def getFileValues(nameVerilog):
-  type = nameVerilog.split('\\')[1]
-  Filename = nameVerilog.split('\\')[2]
+  type = nameVerilog.split('/')[1]
+  Filename = nameVerilog.split('/')[2]
   return type, Filename
 
 # This class holds the gates of the verilog file
@@ -370,7 +370,7 @@ def printDNAFiles(nameVerilog, SequenceOrder):
 
   type, Filename = getFileValues(nameVerilog)
 
-  name = "DNA_Custom\\" + type + "\\" + Filename + ".txt"
+  name = "DNA_Custom/" + type + "/" + Filename + ".txt"
 
   # print(name)
 
@@ -381,7 +381,7 @@ def printDNAFiles(nameVerilog, SequenceOrder):
 def printKmerFile(Folder, nameVerilog, ModKmer):
   type, Filename = getFileValues(nameVerilog)
 
-  name = Folder + "\\" + type + "\\" + Filename + ".txt"
+  name = Folder + "/" + type + "/" + Filename + ".txt"
 
   # print(name)
 
@@ -484,7 +484,7 @@ def printVectors(Folder,nameVerilog, VectorizedKmer):
   else:
     test = 'Test'
 
-  name = Folder + "\\" + test + "\\" + type + "\\" + Filename + ".txt"
+  name = Folder + "/" + test + "/" + type + "/" + Filename + ".txt"
 
   print(name)
 
@@ -530,7 +530,7 @@ emptyDirectories('K-MersRandomMut_custom')
 # Read all DNA parts from files
 readAllDNAParts()
 # Loop through Verilog files
-for name in ('Verilog\\Infected\\',''):
+for name in ('Verilog/Infected/',''):
   for nameVerilog in os.listdir(name):
     nameVerilog = os.path.join(name,nameVerilog)
     # start = time.time()
