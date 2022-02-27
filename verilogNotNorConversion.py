@@ -444,7 +444,7 @@ def emptyDirectories(FilePath):
 emptyDirectories('NORVerilog')
 # Loop through Verilog files
 print("Working")
-for name in ('Verilog\\Uninfected\\',''):  
+for name in ('Verilog/Uninfected/',''):  
   print(name)
   print(os.listdir(name))
   for nameVerilog in os.listdir(name):
