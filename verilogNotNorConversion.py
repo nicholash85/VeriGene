@@ -446,6 +446,7 @@ emptyDirectories('NORVerilog')
 print("Working")
 for name in ('Verilog\\Uninfected\\',''):  
   print(name)
+  print(glob.glob(name + '/*.v'))
   for nameVerilog in glob.glob(name + '/*.v'):
     print("Here")
     # print file being processed
