@@ -2,12 +2,11 @@ import glob
 from os import read
 import random
 import re
-from tokenize import Name, Number
+from tokenize import Number
 from typing import Sequence
 import os
 import shutil
 import sys
-import time
 
 
 # Given an entire file string, this function gets the type (folder before) and filename
@@ -105,15 +104,15 @@ def readVerilogGates(nameVerilog):
 
 #Prints all Verilog values
 def debugVerilogRead(Verilog):
-  print("\nVerilog File Name: "+Verilog.name)
-  print("Verilog Input List: "+Verilog.input)
-  print("Verilog Output List: "+Verilog.output)
-  print("Verilog Wire List: "+Verilog.wires+"\n")
+  print(f"\nVerilog File Name: {Verilog.name}")
+  print(f"Verilog Input List: {Verilog.input}")
+  print(f"Verilog Output List: {Verilog.output}")
+  print(f"Verilog Wire List: {Verilog.wires}\n")
     
   for k in range(0,len(Verilog.gates)):
-    print("\t Verilog gate "+str(k)+": "+Verilog.gates[k].name)
-    print("\t Gate "+str(k)+" inputs: "+Verilog.gates[k].input)
-    print("\t Gate "+str(k)+" outputs: "+Verilog.gates[k].output+"\n")
+    print(f"\t Verilog gate {k}: {Verilog.gates[k].name}")
+    print(f"\t Gate {k} inputs: {Verilog.gates[k].input}")
+    print(f"\t Gate {k} outputs: {Verilog.gates[k].output}\n")
 
 class GeneralDNAPart:
   use = ""
@@ -224,19 +223,19 @@ def debugDNA(TypeOrder, PartOrder, SequenceOrder):
     tnum += 1
     # print(f"t.use: {t.use}")
     if t.use != "":
-      print("Terminator use: +"+t.use)
+      print(f"Terminator use: {t.use}")
   for p in promoter:
     pnum += 1
     # print(f"p.use: {p.use}")
     if p.use != "":
-      print("promoter use: "+p.use)
+      print(f"promoter use: {p.use}")
   
-  print("P: "+pnum)
-  print("T: "+tnum)
+  print(f"P: {pnum}")
+  print(f"T: {tnum}")
 
-  print("Type Order: "+TypeOrder+"\n")
-  print("Part Order: "+PartOrder+"\n")
-  print("Sequence Order: "+SequenceOrder+"\n")
+  print(f"Type Order: {TypeOrder}\n")
+  print(f"Part Order: {PartOrder}\n")
+  print(f"Sequence Order: {SequenceOrder}\n")
 
   
 
@@ -404,29 +403,22 @@ def ModifyKmer(Kmer):
   return ModKmer
 
 def KmerCreator(SequenceOrder):
-  start = time.time()
-  
   DNA = ""
   for w in range(0,len(SequenceOrder)):
     DNA += SequenceOrder[w]
-  
-  ModDNA = ModifyKmer(DNA)
 
   # print(f"\nDNA: {DNA}\n")
   Kmer = ''
-  for k in range(len(ModDNA)-5):
-    Kmer = Kmer + ModDNA[k:k+6] + ' '
-
+  for k in range(len(DNA)-5):
+    Kmer = Kmer + DNA[k:k+6] + ' '
   # print(f"\nKmer: {Kmer}\n")
 
-  # ModKmer = ModifyKmer(Kmer)
+  ModKmer = ModifyKmer(Kmer)
   # print(f"\nModKmer: {ModKmer}\n")
-  return Kmer
+  return ModKmer
 
 # Convert DNA (a,c,t,g) to Hexadecimal
 def VectorizeKmer(ModKmer):
-  start = time.time()
-
   KmerArray = ModKmer.split(" ")
   VectorArray = []
   for CurrentKmer in KmerArray:
@@ -489,11 +481,11 @@ def printVectors(Folder,nameVerilog, VectorizedKmer):
 
   name = Folder + "\\" + test + "\\" + type + "\\" + Filename + ".txt"
 
-  print(name)
+  # print(name)
 
-  # DNAFile = open(name,"w")
-  # DNAFile.write(VectorizedKmer)
-  # DNAFile.close()
+  DNAFile = open(name,"w")
+  DNAFile.write(VectorizedKmer)
+  DNAFile.close()
 
 def emptyDirectories(FilePath):
   print("Emptying Directories")
@@ -521,7 +513,7 @@ def emptyDirectories(FilePath):
         except Exception as e:
             print('Failed to delete %s. Reason: %s' % (file_path, e))
 
-  print(FilePath+" emptied.")
+  print(f"{FilePath} emptied.")
 
 # ==============================
 # MAIN PROGRAM PROCESSING 
@@ -532,16 +524,15 @@ emptyDirectories('K-MersRandomMut_custom')
 
 # Read all DNA parts from files
 readAllDNAParts()
+
 # Loop through Verilog files
-for name in ('','Verilog\\Infected\\'):
+for name in ('Verilog\\Infected\\',''):
   for nameVerilog in glob.glob(name + '/*.v'):
-    # start = time.time()
 
     # Create DNA 
 
     # print file being processed
     #print(f"\n{nameVerilog}")
-
 
     # Get file parameters
     type, Filename = getFileValues(nameVerilog)
@@ -567,8 +558,6 @@ for name in ('','Verilog\\Infected\\'):
     printVectors("K-MersRandomMut_custom",nameVerilog, VectorizedKmer)
 
     clearDNAAssignments()
-    # end = time.time()
-    # print(f"Runtime of the program is {end - start}")
 
     
 

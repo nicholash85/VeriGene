@@ -109,16 +109,16 @@ def readVerilogGates(nameVerilog):
 
 #Prints all Verilog values
 def debugVerilogRead(Verilog):
-  print(f"\nVerilog File Name: {Verilog.name}")
-  print(f"Verilog Input List: {Verilog.input}")
-  print(f"Verilog Output List: {Verilog.output}")
-  print(f"Verilog Wire List: {Verilog.wires}\n")
+  print("\nVerilog File Name: "+Verilog.name)
+  print("Verilog Input List: "+Verilog.input)
+  print("Verilog Output List: "+Verilog.output)
+  print("Verilog Wire List: "+Verilog.wires+"\n")
     
   for k in range(0,len(Verilog.gates)):
-    print(f"\t Verilog gate {k}: {Verilog.gates[k].name}")
-    print(f"\t Gate {k} inputs: {Verilog.gates[k].input}")
-    print(f"\t Gate {k} outputs: {Verilog.gates[k].output}")
-    print(f"\t Gate {k} comment: {Verilog.gates[k].comment}\n")
+    print("\t Verilog gate "+str(k)+": "+Verilog.gates[k].name)
+    print("\t Gate "+str(k)+" inputs: "+Verilog.gates[k].input)
+    print("\t Gate "+str(k)+" outputs: "+Verilog.gates[k].output)
+    print("\t Gate "+str(k)+" comment: "+Verilog.gates[k].comment+"\n")
 
 #Modify Verilog to NOR/NOR Logic
 def ConvertNORLogic(Verilog):
@@ -377,34 +377,34 @@ def ConvertNORLogic(Verilog):
 def SetNORVerilog(Verilog):
 
   #Module Line
-  temp =  f"module {Verilog.name}(output "
+  temp =  "module "+Verilog.name+"(output "
   for k in range(0,len(Verilog.output)):
-    temp += f"{Verilog.output[k]}, "
-  temp += f"input "
+    temp += Verilog.output[k]+", "
+  temp += "input "
   for k in range(0,len(Verilog.input)):
     if k != len(Verilog.input)-1:
-      temp += f"{Verilog.input[k]}, "
+      temp += Verilog.input[k]+", "
     else:
-      temp += f"{Verilog.input[k]});\n"
+      temp += Verilog.input[k]+");\n"
   
   #wire Line
-  temp+= f"\twire "
+  temp+= "\twire "
   for k in range(0,len(Verilog.wires)):
     if k != len(Verilog.wires)-1:
-      temp += f"{Verilog.wires[k]}, "
+      temp += Verilog.wires[k]+", "
     else:
-      temp += f"{Verilog.wires[k]};\n\n"
+      temp += Verilog.wires[k]+";\n\n"
 
   #Gates
   for g in range(0,len(Verilog.gates)):
-    temp += f"\t{Verilog.gates[g].name}({Verilog.gates[g].output[0]},"
+    temp += "\t"+Verilog.gates[g].name+"("+Verilog.gates[g].output[0]+","
     for i in range(0,len(Verilog.gates[g].input)):
       if i != len(Verilog.gates[g].input)-1:
-        temp += f"{Verilog.gates[g].input[i]},"
+        temp += Verilog.gates[g].input[i]+","
       else:
-        temp += f"{Verilog.gates[g].input[i]}); {Verilog.gates[g].comment}\n"
+        temp += Verilog.gates[g].input[i]+"); "+Verilog.gates[g].comment+"\n"
 
-  temp += f"endmodule"
+  temp += "endmodule"
   return temp
 
 def WriteVerilog(WrittenVerilog, type, filename, path):
@@ -427,18 +427,18 @@ def emptyDirectories(FilePath):
       except Exception as e:
           print('Failed to delete %s. Reason: %s' % (file_path, e))
 
-  folder = os.path.join(sys.path[0], FilePath + '/Infected')
-  for filename in os.listdir(folder):
-      file_path = os.path.join(folder, filename)
-      try:
-          if os.path.isfile(file_path) or os.path.islink(file_path):
-              os.unlink(file_path)
-          elif os.path.isdir(file_path):
-              shutil.rmtree(file_path)
-      except Exception as e:
-          print('Failed to delete %s. Reason: %s' % (file_path, e))
+  # folder = os.path.join(sys.path[0], FilePath + '/Infected')
+  # for filename in os.listdir(folder):
+  #     file_path = os.path.join(folder, filename)
+  #     try:
+  #         if os.path.isfile(file_path) or os.path.islink(file_path):
+  #             os.unlink(file_path)
+  #         elif os.path.isdir(file_path):
+  #             shutil.rmtree(file_path)
+  #     except Exception as e:
+  #         print('Failed to delete %s. Reason: %s' % (file_path, e))
 
-  print(f"{FilePath} emptied.")
+  print(FilePath+" emptied.")
 
 
 
@@ -447,7 +447,7 @@ def emptyDirectories(FilePath):
 #emptyDirectories('NORVerilog')
 # Loop through Verilog files
 print("Working")
-for name in ('Verilog\\Infected\\',''):  
+for name in ('Verilog\\Uninfected\\',''):  
   for nameVerilog in glob.glob(name + '/*.v'):
   
     # print file being processed

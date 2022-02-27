@@ -2,10 +2,12 @@ import glob
 from os import read
 import random
 import re
+from tokenize import Name, Number
 from typing import Sequence
 import os
-import sys
 import shutil
+import sys
+import time
 
 
 # Given an entire file string, this function gets the type (folder before) and filename
@@ -103,15 +105,15 @@ def readVerilogGates(nameVerilog):
 
 #Prints all Verilog values
 def debugVerilogRead(Verilog):
-  print(f"\nVerilog File Name: {Verilog.name}")
-  print(f"Verilog Input List: {Verilog.input}")
-  print(f"Verilog Output List: {Verilog.output}")
-  print(f"Verilog Wire List: {Verilog.wires}\n")
+  print("\nVerilog File Name: "+Verilog.name)
+  print("Verilog Input List: "+Verilog.input)
+  print("Verilog Output List: "+Verilog.output)
+  print("Verilog Wire List: "+Verilog.wires+"\n")
     
   for k in range(0,len(Verilog.gates)):
-    print(f"\t Verilog gate {k}: {Verilog.gates[k].name}")
-    print(f"\t Gate {k} inputs: {Verilog.gates[k].input}")
-    print(f"\t Gate {k} outputs: {Verilog.gates[k].output}\n")
+    print("\t Verilog gate "+str(k)+": "+Verilog.gates[k].name)
+    print("\t Gate "+str(k)+" inputs: "+Verilog.gates[k].input)
+    print("\t Gate "+str(k)+" outputs: "+Verilog.gates[k].output+"\n")
 
 class GeneralDNAPart:
   use = ""
@@ -137,8 +139,6 @@ def readDNALines(filename):
       names.append(array[0])
       Sequences.append(array[1])
   return names, Sequences
-
-
 
 cassette = []
 cds = []
@@ -181,8 +181,6 @@ def readGeneralDNAParts(filename):
     for k in range(0,len(names)):
       scar.append(GeneralDNAPart(names[k],sequences[k]))   
 
-
-
 def readAllDNAParts():
   readGeneralDNAParts("terminator.txt")
   readGeneralDNAParts("promoter.txt")
@@ -192,12 +190,9 @@ def readAllDNAParts():
   readGeneralDNAParts("ribozyme.txt")
   readGeneralDNAParts("scar.txt")
 
-  logicGates = ["nor"]
-  #Change from original DNA creator to have every cds for NOR
-  for k in range(0,len(cds)):
-    cds[k].use = logicGates[0]
-
-
+  logicGates = ["not","nor","or","and","nand","xnor","xor"]
+  for k in range(0,len(logicGates)):
+    cds[k].use = logicGates[k]
 
 def assignDNAParts(Verilog):
 
@@ -229,19 +224,19 @@ def debugDNA(TypeOrder, PartOrder, SequenceOrder):
     tnum += 1
     # print(f"t.use: {t.use}")
     if t.use != "":
-      print(f"Terminator use: {t.use}")
+      print("Terminator use: +"+t.use)
   for p in promoter:
     pnum += 1
     # print(f"p.use: {p.use}")
     if p.use != "":
-      print(f"promoter use: {p.use}")
+      print("promoter use: "+p.use)
   
-  print(f"P: {pnum}")
-  print(f"T: {tnum}")
+  print("P: "+pnum)
+  print("T: "+tnum)
 
-  print(f"Type Order: {TypeOrder}\n")
-  print(f"Part Order: {PartOrder}\n")
-  print(f"Sequence Order: {SequenceOrder}\n")
+  print("Type Order: "+TypeOrder+"\n")
+  print("Part Order: "+PartOrder+"\n")
+  print("Sequence Order: "+SequenceOrder+"\n")
 
   
 
@@ -256,8 +251,6 @@ def clearDNAAssignments():
   
   # print("clear printing")
   # debugDNA([],[],[])
-
-
 
 def createDNASequence(Verilog):
   TypeOrder = []
@@ -296,6 +289,7 @@ def createDNASequence(Verilog):
     TypeOrder.append("Ribozyme")
     PartOrder.append(ribozyme[ribozymeNum].name)
     SequenceOrder.append(ribozyme[ribozymeNum].sequence)
+    ribozymeNum += 1
     if ribozymeNum+1 >= len(ribozyme):
       ribozymeNum = 0
     else:
@@ -311,11 +305,11 @@ def createDNASequence(Verilog):
       rbsNum += 1
     
     # Add cds/gene/gate
-    g = random.randint(0, len(cds))
-    if cds[g].use == Verilog.gates[gateNum].name:
-      TypeOrder.append(Verilog.gates[gateNum].name)
-      PartOrder.append(cds[g].name)
-      SequenceOrder.append(cds[g].sequence)
+    for g in cds:
+      if g.use == Verilog.gates[gateNum].name:
+        TypeOrder.append(Verilog.gates[gateNum].name)
+        PartOrder.append(g.name)
+        SequenceOrder.append(g.sequence)
       # if g.use != "":
       #   print(f"Verilog: {Verilog.gates[gateNum].name}")
       #   print(f"gene: {g.use}")
@@ -353,6 +347,7 @@ def createDNASequence(Verilog):
     TypeOrder.append("cassette")
     PartOrder.append(cassette[cassetteNum].name)
     SequenceOrder.append(cassette[cassetteNum].sequence)
+    cassetteNum += 1
     if cassetteNum+1 >= len(cassette):
       cassetteNum = 0
     else:
@@ -378,7 +373,7 @@ def printDNAFiles(nameVerilog, SequenceOrder):
 
   type, Filename = getFileValues(nameVerilog)
 
-  name = "DNA_Custom_NOR\\" + type + "\\" + Filename + ".txt"
+  name = "DNA_Custom\\" + type + "\\" + Filename + ".txt"
 
   # print(name)
 
@@ -386,64 +381,194 @@ def printDNAFiles(nameVerilog, SequenceOrder):
   DNAFile.write(DNA)
   DNAFile.close()
 
+def printKmerFile(Folder, nameVerilog, ModKmer):
+  type, Filename = getFileValues(nameVerilog)
+
+  name = Folder + "\\" + type + "\\" + Filename + ".txt"
+
+  # print(name)
+
+  DNAFile = open(name,"w")
+  DNAFile.write(ModKmer)
+  DNAFile.close()
+
+def ModifyKmer(Kmer):
+  Ks = list(Kmer)
+  #Add mutations
+  for index in range(0, len(Kmer)):
+    base = ["a","c","t","g"]
+    if random.randint(0, 100) == 1 and Kmer[index] != " ":
+      Ks[index] = base[random.randint(0, 3)]
+  
+  ModKmer = "".join(Ks)
+  return ModKmer
+
+def KmerCreator(SequenceOrder):
+  start = time.time()
+  
+  DNA = ""
+  for w in range(0,len(SequenceOrder)):
+    DNA += SequenceOrder[w]
+  
+  ModDNA = ModifyKmer(DNA)
+
+  # print(f"\nDNA: {DNA}\n")
+  Kmer = ''
+  for k in range(len(ModDNA)-5):
+    Kmer = Kmer + ModDNA[k:k+6] + ' '
+
+  # print(f"\nKmer: {Kmer}\n")
+
+  # ModKmer = ModifyKmer(Kmer)
+  # print(f"\nModKmer: {ModKmer}\n")
+  return Kmer
+
+# Convert DNA (a,c,t,g) to Hexadecimal
+def VectorizeKmer(ModKmer):
+  start = time.time()
+
+  KmerArray = ModKmer.split(" ")
+  VectorArray = []
+  for CurrentKmer in KmerArray:
+    NumberizedChars = []
+
+    # Base 4 DNA sequences
+    for char in CurrentKmer:
+      if char == "a" or char == 'A':
+        NumberizedChars.append('0')
+      elif char == "c" or char == 'C':
+        NumberizedChars.append('1')
+      elif char == "t" or char == 'T':
+        NumberizedChars.append('2')
+      elif char == "g" or char == 'G':
+        NumberizedChars.append('3')
+      else:
+        NumberizedChars.append("9")
+  
+    HexChars = []
+    # Base 16 DNA sequences
+    for i in range(1,len(NumberizedChars),2):
+      BaseHex = int(NumberizedChars[i])*4+int(NumberizedChars[i-1])
+
+      # Convert to Hex notation
+      if BaseHex < 10:
+        HexChars.append(str(BaseHex))
+      elif BaseHex == 10:
+        HexChars.append("A")
+      elif BaseHex == 11:
+        HexChars.append("B")
+      elif BaseHex == 12:
+        HexChars.append("C")
+      elif BaseHex == 13:
+        HexChars.append("D")
+      elif BaseHex == 14:
+        HexChars.append("E")
+      elif BaseHex == 15:
+        HexChars.append("F")
+
+    # print(CurrentKmer)
+    # print("".join(NumberizedChars))
+    # print("".join(HexChars))
+
+    VectorArray.append("".join(HexChars))
+
+  VectorString = " ".join(VectorArray)
+  # print(VectorString)
+  return VectorString 
+
+def printVectors(Folder,nameVerilog, VectorizedKmer):
+  type, Filename = getFileValues(nameVerilog)
+
+  rand = random.randint(0, 100)
+  if rand < 60:
+    test = 'Train'
+  elif rand < 75:
+    test = 'Validation'
+  else:
+    test = 'Test'
+
+  name = Folder + "\\" + test + "\\" + type + "\\" + Filename + ".txt"
+
+  print(name)
+
+  # DNAFile = open(name,"w")
+  # DNAFile.write(VectorizedKmer)
+  # DNAFile.close()
+
 def emptyDirectories(FilePath):
-  #Empty Directories
-  # folder = os.path.join(sys.path[0], FilePath + '/Uninfected')
-  # for filename in os.listdir(folder):
-  #     file_path = os.path.join(folder, filename)
-  #     try:
-  #         if os.path.isfile(file_path) or os.path.islink(file_path):
-  #             os.unlink(file_path)
-  #         elif os.path.isdir(file_path):
-  #             shutil.rmtree(file_path)
-  #     except Exception as e:
-  #         print('Failed to delete %s. Reason: %s' % (file_path, e))
+  print("Emptying Directories")
+  for test in ["Test","Train","Validation"]:
+  # Empty Directories
+    folder = os.path.join(sys.path[0], FilePath + '/' + test + '/Uninfected')
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e))
 
-  folder = os.path.join(sys.path[0], FilePath + '/Infected')
-  for filename in os.listdir(folder):
-      file_path = os.path.join(folder, filename)
-      try:
-          if os.path.isfile(file_path) or os.path.islink(file_path):
-              os.unlink(file_path)
-          elif os.path.isdir(file_path):
-              shutil.rmtree(file_path)
-      except Exception as e:
-          print('Failed to delete %s. Reason: %s' % (file_path, e))
+    # folder = os.path.join(sys.path[0], FilePath + '/' + test + '/Infected')
+    # for filename in os.listdir(folder):
+    #     file_path = os.path.join(folder, filename)
+    #     try:
+    #         if os.path.isfile(file_path) or os.path.islink(file_path):
+    #             os.unlink(file_path)
+    #         elif os.path.isdir(file_path):
+    #             shutil.rmtree(file_path)
+    #     except Exception as e:
+    #         print('Failed to delete %s. Reason: %s' % (file_path, e))
 
-  print(f"{FilePath} emptied.")
+  print(FilePath+" emptied.")
 
 # ==============================
 # MAIN PROGRAM PROCESSING 
 # ==============================
 
 #Clear Directory
-emptyDirectories('DNA_Custom_NOR')
+emptyDirectories('K-MersRandomMut_custom_NOR')
 
 # Read all DNA parts from files
 readAllDNAParts()
-
 # Loop through Verilog files
-for name in ('NORVerilog\\Infected\\',''):
+for name in ('','NORVerilog\\Uninfected\\'):
   for nameVerilog in glob.glob(name + '/*.v'):
+    # start = time.time()
+
+    # Create DNA 
 
     # print file being processed
-    # print(f"\n{nameVerilog}")
+    #print(f"\n{nameVerilog}")
+
 
     # Get file parameters
     type, Filename = getFileValues(nameVerilog)
 
     Verilog = readVerilogGates(nameVerilog)
-    debugVerilogRead(Verilog)
+    #debugVerilogRead(Verilog)
 
     assignDNAParts(Verilog)
 
     TypeOrder, PartOrder, SequenceOrder = createDNASequence(Verilog)
     
-    debugDNA(TypeOrder, PartOrder, SequenceOrder)
+    # debugDNA(TypeOrder, PartOrder, SequenceOrder)
+    # printDNAFiles(nameVerilog, SequenceOrder)
 
-    printDNAFiles(nameVerilog, SequenceOrder)
+    # Create Kmer
+    ModKmer = KmerCreator(SequenceOrder)
+
+    # printKmerFile("DNA_Custom",nameVerilog, ModKmer)
+
+    # Vectorize Data
+    VectorizedKmer = VectorizeKmer(ModKmer)
+
+    printVectors("K-MersRandomMut_custom_NOR",nameVerilog, VectorizedKmer)
 
     clearDNAAssignments()
+    # end = time.time()
+    # print(f"Runtime of the program is {end - start}")
 
     
 

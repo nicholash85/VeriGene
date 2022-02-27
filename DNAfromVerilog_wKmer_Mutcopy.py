@@ -105,15 +105,15 @@ def readVerilogGates(nameVerilog):
 
 #Prints all Verilog values
 def debugVerilogRead(Verilog):
-  print(f"\nVerilog File Name: {Verilog.name}")
-  print(f"Verilog Input List: {Verilog.input}")
-  print(f"Verilog Output List: {Verilog.output}")
-  print(f"Verilog Wire List: {Verilog.wires}\n")
+  print("\nVerilog File Name: "+Verilog.name)
+  print("Verilog Input List: "+Verilog.input)
+  print("Verilog Output List: "+Verilog.output)
+  print("Verilog Wire List: "+Verilog.wires+"\n")
     
   for k in range(0,len(Verilog.gates)):
-    print(f"\t Verilog gate {k}: {Verilog.gates[k].name}")
-    print(f"\t Gate {k} inputs: {Verilog.gates[k].input}")
-    print(f"\t Gate {k} outputs: {Verilog.gates[k].output}\n")
+    print("\t Verilog gate "+str(k)+": "+Verilog.gates[k].name)
+    print("\t Gate "+str(k)+" inputs: "+Verilog.gates[k].input)
+    print("\t Gate "+str(k)+" outputs: "+Verilog.gates[k].output+"\n")
 
 class GeneralDNAPart:
   use = ""
@@ -224,19 +224,19 @@ def debugDNA(TypeOrder, PartOrder, SequenceOrder):
     tnum += 1
     # print(f"t.use: {t.use}")
     if t.use != "":
-      print(f"Terminator use: {t.use}")
+      print("Terminator use: +"+t.use)
   for p in promoter:
     pnum += 1
     # print(f"p.use: {p.use}")
     if p.use != "":
-      print(f"promoter use: {p.use}")
+      print("promoter use: "+p.use)
   
-  print(f"P: {pnum}")
-  print(f"T: {tnum}")
+  print("P: "+pnum)
+  print("T: "+tnum)
 
-  print(f"Type Order: {TypeOrder}\n")
-  print(f"Part Order: {PartOrder}\n")
-  print(f"Sequence Order: {SequenceOrder}\n")
+  print("Type Order: "+TypeOrder+"\n")
+  print("Part Order: "+PartOrder+"\n")
+  print("Sequence Order: "+SequenceOrder+"\n")
 
   
 
@@ -521,7 +521,7 @@ def emptyDirectories(FilePath):
     #     except Exception as e:
     #         print('Failed to delete %s. Reason: %s' % (file_path, e))
 
-  print(f"{FilePath} emptied.")
+  print(FilePath+" emptied.")
 
 # ==============================
 # MAIN PROGRAM PROCESSING 
