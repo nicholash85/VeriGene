@@ -1,9 +1,6 @@
-import glob
 from os import read
 import random
-import re
 from tokenize import Name, Number
-from typing import Sequence
 import os
 import shutil
 import sys
@@ -533,7 +530,7 @@ emptyDirectories('K-MersRandomMut_custom_NOR')
 # Read all DNA parts from files
 readAllDNAParts()
 # Loop through Verilog files
-for name in ('','NORVerilog\\Uninfected\\'):
+for name in ('NORVerilog\\Uninfected\\',''):
   for nameVerilog in os.listdir(name):
     nameVerilog = os.path.join(name,nameVerilog)
     # start = time.time()

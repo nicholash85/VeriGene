@@ -530,7 +530,7 @@ emptyDirectories('K-MersRandomMut_custom')
 # Read all DNA parts from files
 readAllDNAParts()
 # Loop through Verilog files
-for name in ('','Verilog\\Uninfected\\'):
+for name in ('Verilog\\Uninfected\\',''):
   for nameVerilog in os.listdir(name):
     nameVerilog = os.path.join(name,nameVerilog)
     # start = time.time()
