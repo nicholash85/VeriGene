@@ -540,31 +540,57 @@ for name in ('Verilog/Infected/',''):
     # print file being processed
     #print(f"\n{nameVerilog}")
 
+    start1 = time.time()
 
     # Get file parameters
     type, Filename = getFileValues(nameVerilog)
+    end1 = time.time()
+    print("Runtime of the step is "+str(end1 - start1))
+    start1 = time.time()
 
     Verilog = readVerilogGates(nameVerilog)
     #debugVerilogRead(Verilog)
+    end1 = time.time()
+    print("Runtime of the step is "+str(end1 - start1))
+    start1 = time.time()
 
     assignDNAParts(Verilog)
+    end1 = time.time()
+    print("Runtime of the step is "+str(end1 - start1))
+    start1 = time.time()
 
     TypeOrder, PartOrder, SequenceOrder = createDNASequence(Verilog)
+    end1 = time.time()
+    print("Runtime of the step is "+str(end1 - start1))
+    start1 = time.time()
     
     # debugDNA(TypeOrder, PartOrder, SequenceOrder)
     # printDNAFiles(nameVerilog, SequenceOrder)
 
     # Create Kmer
     ModKmer = KmerCreator(SequenceOrder)
+    end1 = time.time()
+    print("Runtime of the step is "+str(end1 - start1))
+    start1 = time.time()
 
     # printKmerFile("DNA_Custom",nameVerilog, ModKmer)
 
     # Vectorize Data
     VectorizedKmer = VectorizeKmer(ModKmer)
+    end1 = time.time()
+    print("Runtime of the step is "+str(end1 - start1))
+    start1 = time.time()
 
     printVectors("K-MersRandomMut_custom",nameVerilog, VectorizedKmer)
+    end1 = time.time()
+    print("Runtime of the step is "+str(end1 - start1))
+    start1 = time.time()
 
     clearDNAAssignments()
+    end1 = time.time()
+    print("Runtime of the step is "+str(end1 - start1))
+    start1 = time.time()
+    
     end = time.time()
     print("Runtime of the program is "+str(end - start))
 
