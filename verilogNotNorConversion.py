@@ -6,9 +6,9 @@ import shutil
 
 
 # Given an entire file string, this function gets the type (folder before) and filename
-def getFileValues(name,nameVerilog):
-  type = name.split('/')[1]
-  Filename = nameVerilog
+def getFileValues(nameVerilog):
+  type = nameVerilog.split('/')[1]
+  Filename = nameVerilog.split('/')[2]
   return type, Filename
 
 # This class holds the gates of the verilog file
@@ -446,6 +446,8 @@ emptyDirectories('NORVerilog')
 print("Working")
 for name in ('Verilog/Uninfected/',''):  
   for nameVerilog in os.listdir(name):
+    nameVerilog = os.path.join(name,nameVerilog)
+    
     # print file being processed
     print("\n"+nameVerilog)
 
