@@ -447,12 +447,12 @@ print("Working")
 for name in ('Verilog/Uninfected/',''):  
   for nameVerilog in os.listdir(name):
     nameVerilog = os.path.join(name,nameVerilog)
-    
+
     # print file being processed
     print("\n"+nameVerilog)
 
     # Get file parameters
-    type, Filename = getFileValues(name,nameVerilog)
+    type, Filename = getFileValues(nameVerilog)
 
     Verilog = readVerilogGates(nameVerilog)
     #debugVerilogRead(Verilog)
