@@ -447,7 +447,7 @@ print("Working")
 for name in ('Verilog\\Uninfected\\',''):  
   print(name)
   for nameVerilog in glob.glob(name + '/*.v'):
-  
+    print("Here")
     # print file being processed
     print("\n"+nameVerilog)
 
