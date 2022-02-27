@@ -7,6 +7,7 @@ import shutil
 
 # Given an entire file string, this function gets the type (folder before) and filename
 def getFileValues(nameVerilog):
+  print(nameVerilog)
   type = nameVerilog.split('/')[1]
   Filename = nameVerilog.split('/')[2]
   return type, Filename
