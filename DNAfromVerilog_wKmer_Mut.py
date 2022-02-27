@@ -533,7 +533,7 @@ readAllDNAParts()
 for name in ('Verilog/Infected/',''):
   for nameVerilog in os.listdir(name):
     nameVerilog = os.path.join(name,nameVerilog)
-    # start = time.time()
+    start = time.time()
 
     # Create DNA 
 
@@ -565,8 +565,8 @@ for name in ('Verilog/Infected/',''):
     printVectors("K-MersRandomMut_custom",nameVerilog, VectorizedKmer)
 
     clearDNAAssignments()
-    # end = time.time()
-    # print(f"Runtime of the program is {end - start}")
+    end = time.time()
+    print(f"Runtime of the program is {end - start}")
 
     
 
