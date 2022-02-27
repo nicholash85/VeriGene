@@ -408,21 +408,24 @@ def KmerCreator(SequenceOrder):
     DNA += SequenceOrder[w]
   
   end2 = time.time()
-  print("Runtime of the "+"DNA"+"step is "+str(end2 - start2))
+  print("Runtime of the "+"DNA"+" step is "+str(end2 - start2))
   start2 = time.time()
   
   ModDNA = ModifyKmer(DNA)
   end2 = time.time()
-  print("Runtime of the "+"ModifyKmer"+"step is "+str(end2 - start2))
+  print("Runtime of the "+"ModifyKmer"+" step is "+str(end2 - start2))
   start2 = time.time()
 
   # print(f"\nDNA: {DNA}\n")
-  Kmer = ''
+  # Kmer = ''
+  # for k in range(len(ModDNA)-5):
+  #   Kmer = Kmer + ModDNA[k:k+6] + ' '
+  Kmer = []
   for k in range(len(ModDNA)-5):
-    Kmer = Kmer + ModDNA[k:k+6] + ' '
+    Kmer.append(ModDNA[k:k+6])
   
   end2 = time.time()
-  print("Runtime of the "+"Kmer"+"step is "+str(end2 - start2))
+  print("Runtime of the "+"Kmer"+" step is "+str(end2 - start2))
   start2 = time.time()
 
   # print(f"\nKmer: {Kmer}\n")
@@ -432,10 +435,10 @@ def KmerCreator(SequenceOrder):
   return Kmer
 
 # Convert DNA (a,c,t,g) to Hexadecimal
-def VectorizeKmer(ModKmer):
+def VectorizeKmer(KmerArray):
   start = time.time()
 
-  KmerArray = ModKmer.split(" ")
+  # KmerArray = ModKmer.split(" ")
   VectorArray = []
   for CurrentKmer in KmerArray:
     NumberizedChars = []
