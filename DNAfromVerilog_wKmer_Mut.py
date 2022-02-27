@@ -566,7 +566,7 @@ for name in ('Verilog/Infected/',''):
 
     clearDNAAssignments()
     end = time.time()
-    print(f"Runtime of the program is {end - start}")
+    print("Runtime of the program is "+str(end - start))
 
     
 
