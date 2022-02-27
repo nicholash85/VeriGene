@@ -545,23 +545,23 @@ for name in ('Verilog/Infected/',''):
     # Get file parameters
     type, Filename = getFileValues(nameVerilog)
     end1 = time.time()
-    print("Runtime of the step is "+str(end1 - start1))
+    print("Runtime of the "+"getFileValues"+"step is "+str(end1 - start1))
     start1 = time.time()
 
     Verilog = readVerilogGates(nameVerilog)
     #debugVerilogRead(Verilog)
     end1 = time.time()
-    print("Runtime of the step is "+str(end1 - start1))
+    print("Runtime of the "+"readVerilogGates"+"step is "+str(end1 - start1))
     start1 = time.time()
 
     assignDNAParts(Verilog)
     end1 = time.time()
-    print("Runtime of the step is "+str(end1 - start1))
+    print("Runtime of the "+"assignDNAParts"+"step is "+str(end1 - start1))
     start1 = time.time()
 
     TypeOrder, PartOrder, SequenceOrder = createDNASequence(Verilog)
     end1 = time.time()
-    print("Runtime of the step is "+str(end1 - start1))
+    print("Runtime of the "+"createDNASequence"+"step is "+str(end1 - start1))
     start1 = time.time()
     
     # debugDNA(TypeOrder, PartOrder, SequenceOrder)
@@ -570,7 +570,7 @@ for name in ('Verilog/Infected/',''):
     # Create Kmer
     ModKmer = KmerCreator(SequenceOrder)
     end1 = time.time()
-    print("Runtime of the step is "+str(end1 - start1))
+    print("Runtime of the "+"KmerCreator"+"step is "+str(end1 - start1))
     start1 = time.time()
 
     # printKmerFile("DNA_Custom",nameVerilog, ModKmer)
@@ -578,19 +578,19 @@ for name in ('Verilog/Infected/',''):
     # Vectorize Data
     VectorizedKmer = VectorizeKmer(ModKmer)
     end1 = time.time()
-    print("Runtime of the step is "+str(end1 - start1))
+    print("Runtime of the "+"VectorizeKmer"+"step is "+str(end1 - start1))
     start1 = time.time()
 
     printVectors("K-MersRandomMut_custom",nameVerilog, VectorizedKmer)
     end1 = time.time()
-    print("Runtime of the step is "+str(end1 - start1))
+    print("Runtime of the "+"printVectors"+"step is "+str(end1 - start1))
     start1 = time.time()
 
     clearDNAAssignments()
     end1 = time.time()
-    print("Runtime of the step is "+str(end1 - start1))
+    print("Runtime of the "+"clearDNAAssignments"+"step is "+str(end1 - start1))
     start1 = time.time()
-    
+
     end = time.time()
     print("Runtime of the program is "+str(end - start))
 
