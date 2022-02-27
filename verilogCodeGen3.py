@@ -398,54 +398,54 @@ for inNum in range(2, numInputsMax + 1): #MaxInputs
                     InfAssignedGates.append(tempInfGate)
 
                 #Create uninfected verilog text
-                temp =  f"module gate_level_{str(fileCount)}(output {outputList}, input {inputList});\n"
+                temp =  "module gate_level_"+str(fileCount)+ "(output "+outputList+", input "+inputList+");\n"
                 if len(usedWires) > 0:
-                    temp += f"\twire "
+                    temp += "\twire "
                     for k in range(0,len(usedWires)):
                         if (k == len(usedWires) - 1):
-                            temp += f"{usedWires[k]};\n\n"
+                            temp += usedWires[k]+";\n\n"
                         else:
-                            temp += f"{usedWires[k]}, "
+                            temp += usedWires[k]+", "
                 
                 for l in range(0, len(AssignedGates)):
-                    temp += f"\t{AssignedGates[l]}\n"
+                    temp += "\t"+AssignedGates[l]+"\n"
 
-                temp += f"endmodule"
+                temp += "endmodule"
                 #print("Uninfected Verilog:")
                 #print('{0}\n'.format(temp))
 
                 #Create infected Verilog Text
-                Inftemp =  f"module Inf_gate_level_{str(fileCount)}(output {outputList},"
+                Inftemp =  "module Inf_gate_level_"+str(fileCount)+"(output "+outputList+","
                 for infOut in InfOutputs:
-                    Inftemp += f" {infOut},"
-                Inftemp += f" input {inputList}"
+                    Inftemp += " "+infOut+","
+                Inftemp += " input "+inputList
                 for infIn in InfInputs:
-                    Inftemp += f", {infIn}"
+                    Inftemp += ", "+infIn
                 Inftemp += ");\n"
                 if len(usedWires) > 0 or len(InfWires) > 0:
-                    Inftemp += f"\twire "
+                    Inftemp += "\twire "
                     for e in range(0,len(InfWires)):
                         if len(usedWires) > 0:
-                            Inftemp += f"{InfWires[e]}, "
+                            Inftemp += InfWires[e]+", "
                         elif e == len(InfWires) - 1:
-                            Inftemp += f"{InfWires[e]};\n\n"
+                            Inftemp += InfWires[e]+";\n\n"
                         else:
-                            Inftemp += f"{InfWires[e]}, "
+                            Inftemp += InfWires[e]+", "
                     for k in range(0,len(usedWires)):
                         if (k == len(usedWires) - 1):
-                            Inftemp += f"{usedWires[k]};\n\n"
+                            Inftemp += usedWires[k]+";\n\n"
                         else:
-                            Inftemp += f"{usedWires[k]}, "
+                            Inftemp += usedWires[k]+", "
                 
                 for l in range(0, len(InfAssignedGates)):
-                    Inftemp += f"\t{InfAssignedGates[l]}\n"
+                    Inftemp += "\t"+InfAssignedGates[l]+"\n"
 
-                Inftemp += f"endmodule"
+                Inftemp += "endmodule"
                 #print("Infected Verilog:")
                 #print('{0}\n'.format(Inftemp))
 
-                filenameUninf = f"Verilog/Uninfected/gate_level_{str(fileCount)}_in{inNum}_out{outNum}_gates{numGates}.v"
-                filenameInf = f"Verilog/Infected/Inf_gate_level_{str(fileCount)}_in{inNum}_out{outNum}_gates{numGates}.v"    
+                filenameUninf = "Verilog/Uninfected/gate_level_"+str(fileCount)+"_in"+inNum+"_out"+outNum+"_gates"+numGates+".v"
+                filenameInf = "Verilog/Infected/Inf_gate_level_"+str(fileCount)+"_in"+inNum+"_out"+outNum+"_gates"+numGates+".v"    
 
                 #Write Uninfected Verilog
                 print("Writing Uninfected file to {0}.".format(filenameUninf))
