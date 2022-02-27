@@ -3,6 +3,7 @@ from os import read
 import sys
 import os
 import shutil
+from pathlib import Path
 
 
 # Given an entire file string, this function gets the type (folder before) and filename
@@ -446,8 +447,8 @@ emptyDirectories('NORVerilog')
 print("Working")
 for name in ('~\\Documents\\DNAwithVerilog\\Verilog\\Uninfected\\',''):  
   print(name)
-  print(glob.glob(name + '/*.v'))
-  for nameVerilog in glob.glob(name + '/*.v'):
+  print(Path(name).glob('/*.v'))
+  for nameVerilog in Path(name).glob('/*.v'):
     print("Here")
     # print file being processed
     print("\n"+nameVerilog)
