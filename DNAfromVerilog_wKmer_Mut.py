@@ -401,18 +401,29 @@ def ModifyKmer(Kmer):
   return ModKmer
 
 def KmerCreator(SequenceOrder):
-  start = time.time()
+  start2 = time.time()
   
   DNA = ""
   for w in range(0,len(SequenceOrder)):
     DNA += SequenceOrder[w]
   
+  end2 = time.time()
+  print("Runtime of the "+"DNA"+"step is "+str(end2 - start2))
+  start2 = time.time()
+  
   ModDNA = ModifyKmer(DNA)
+  end2 = time.time()
+  print("Runtime of the "+"ModifyKmer"+"step is "+str(end2 - start2))
+  start2 = time.time()
 
   # print(f"\nDNA: {DNA}\n")
   Kmer = ''
   for k in range(len(ModDNA)-5):
     Kmer = Kmer + ModDNA[k:k+6] + ' '
+  
+  end2 = time.time()
+  print("Runtime of the "+"Kmer"+"step is "+str(end2 - start2))
+  start2 = time.time()
 
   # print(f"\nKmer: {Kmer}\n")
 
@@ -534,9 +545,9 @@ for name in ('Verilog/Infected/',''):
   for nameVerilog in os.listdir(name):
     start = start1 = time.time()
     nameVerilog = os.path.join(name,nameVerilog)
-    end1 = time.time()
-    print("Runtime of the "+"os.path.join"+"step is "+str(end1 - start1))
-    start1 = time.time()
+    # end1 = time.time()
+    # print("Runtime of the "+"os.path.join"+"step is "+str(end1 - start1))
+    # start1 = time.time()
 
     # Create DNA 
 
