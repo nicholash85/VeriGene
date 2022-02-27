@@ -441,14 +441,14 @@ def emptyDirectories(FilePath):
 
 
 #Empty Directories
-#emptyDirectories('NORVerilog')
+emptyDirectories('NORVerilog')
 # Loop through Verilog files
 print("Working")
 for name in ('Verilog\\Infected\\',''):  
   for nameVerilog in glob.glob(name + '/*.v'):
   
     # print file being processed
-    # print(f"\n{nameVerilog}")
+    print("\n"+nameVerilog)
 
     # Get file parameters
     type, Filename = getFileValues(nameVerilog)
