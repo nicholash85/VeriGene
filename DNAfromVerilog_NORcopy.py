@@ -401,18 +401,32 @@ def ModifyKmer(Kmer):
   return ModKmer
 
 def KmerCreator(SequenceOrder):
-  start = time.time()
+  # start2 = time.time()
   
   DNA = ""
   for w in range(0,len(SequenceOrder)):
     DNA += SequenceOrder[w]
   
+  # end2 = time.time()
+  # print("Runtime of the "+"DNA"+" step is "+str(end2 - start2))
+  # start2 = time.time()
+  
   ModDNA = ModifyKmer(DNA)
+  # end2 = time.time()
+  # print("Runtime of the "+"ModifyKmer"+" step is "+str(end2 - start2))
+  # start2 = time.time()
 
   # print(f"\nDNA: {DNA}\n")
-  Kmer = ''
+  # Kmer = ''
+  # for k in range(len(ModDNA)-5):
+  #   Kmer = Kmer + ModDNA[k:k+6] + ' '
+  Kmer = []
   for k in range(len(ModDNA)-5):
-    Kmer = Kmer + ModDNA[k:k+6] + ' '
+    Kmer.append(ModDNA[k:k+6])
+  
+  # end2 = time.time()
+  # print("Runtime of the "+"Kmer"+" step is "+str(end2 - start2))
+  # start2 = time.time()
 
   # print(f"\nKmer: {Kmer}\n")
 
@@ -421,10 +435,10 @@ def KmerCreator(SequenceOrder):
   return Kmer
 
 # Convert DNA (a,c,t,g) to Hexadecimal
-def VectorizeKmer(ModKmer):
-  start = time.time()
+def VectorizeKmer(KmerArray):
+  # start = time.time()
 
-  KmerArray = ModKmer.split(" ")
+  # KmerArray = ModKmer.split(" ")
   VectorArray = []
   for CurrentKmer in KmerArray:
     NumberizedChars = []
@@ -469,9 +483,8 @@ def VectorizeKmer(ModKmer):
 
     VectorArray.append("".join(HexChars))
 
-  VectorString = " ".join(VectorArray)
   # print(VectorString)
-  return VectorString 
+  return VectorArray
 
 def printVectors(Folder,nameVerilog, VectorizedKmer):
   type, Filename = getFileValues(nameVerilog)
@@ -486,28 +499,17 @@ def printVectors(Folder,nameVerilog, VectorizedKmer):
 
   name = Folder + "/" + test + "/" + type + "/" + Filename + ".txt"
 
-  print(name)
+  # print(name)
 
-  # DNAFile = open(name,"w")
-  # DNAFile.write(VectorizedKmer)
-  # DNAFile.close()
+  DNAFile = open(name,"w")
+  DNAFile.write(" ".join(VectorizedKmer))
+  DNAFile.close()
 
 def emptyDirectories(FilePath):
   print("Emptying Directories")
   for test in ["Test","Train","Validation"]:
   # Empty Directories
-    folder = os.path.join(sys.path[0], FilePath + '/' + test + '/Uninfected')
-    for filename in os.listdir(folder):
-        file_path = os.path.join(folder, filename)
-        try:
-            if os.path.isfile(file_path) or os.path.islink(file_path):
-                os.unlink(file_path)
-            elif os.path.isdir(file_path):
-                shutil.rmtree(file_path)
-        except Exception as e:
-            print('Failed to delete %s. Reason: %s' % (file_path, e))
-
-    # folder = os.path.join(sys.path[0], FilePath + '/' + test + '/Infected')
+    # folder = os.path.join(sys.path[0], FilePath + '/' + test + '/Uninfected')
     # for filename in os.listdir(folder):
     #     file_path = os.path.join(folder, filename)
     #     try:
@@ -517,6 +519,17 @@ def emptyDirectories(FilePath):
     #             shutil.rmtree(file_path)
     #     except Exception as e:
     #         print('Failed to delete %s. Reason: %s' % (file_path, e))
+
+    folder = os.path.join(sys.path[0], FilePath + '/' + test + '/Infected')
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e))
 
   print(FilePath+" emptied.")
 
@@ -530,43 +543,70 @@ emptyDirectories('K-MersRandomMut_custom_NOR')
 # Read all DNA parts from files
 readAllDNAParts()
 # Loop through Verilog files
-for name in ('NORVerilog/Uninfected/',''):
+for name in ('NORVerilog/Infected/',''):
   for nameVerilog in os.listdir(name):
+    # start = start1 = time.time()
     nameVerilog = os.path.join(name,nameVerilog)
-    # start = time.time()
+    # end1 = time.time()
+    # print("Runtime of the "+"os.path.join"+"step is "+str(end1 - start1))
+    # start1 = time.time()
 
     # Create DNA 
 
     # print file being processed
-    #print(f"\n{nameVerilog}")
-
+    print("\n"+nameVerilog)
 
     # Get file parameters
     type, Filename = getFileValues(nameVerilog)
+    # end1 = time.time()
+    # print("Runtime of the "+"getFileValues"+"step is "+str(end1 - start1))
+    # start1 = time.time()
 
     Verilog = readVerilogGates(nameVerilog)
     #debugVerilogRead(Verilog)
+    # end1 = time.time()
+    # print("Runtime of the "+"readVerilogGates"+"step is "+str(end1 - start1))
+    # start1 = time.time()
 
     assignDNAParts(Verilog)
+    # end1 = time.time()
+    # print("Runtime of the "+"assignDNAParts"+"step is "+str(end1 - start1))
+    # start1 = time.time()
 
     TypeOrder, PartOrder, SequenceOrder = createDNASequence(Verilog)
+    # end1 = time.time()
+    # print("Runtime of the "+"createDNASequence"+"step is "+str(end1 - start1))
+    # start1 = time.time()
     
     # debugDNA(TypeOrder, PartOrder, SequenceOrder)
     # printDNAFiles(nameVerilog, SequenceOrder)
 
     # Create Kmer
     ModKmer = KmerCreator(SequenceOrder)
+    # end1 = time.time()
+    # print("Runtime of the "+"KmerCreator"+"step is "+str(end1 - start1))
+    # start1 = time.time()
 
     # printKmerFile("DNA_Custom",nameVerilog, ModKmer)
 
     # Vectorize Data
     VectorizedKmer = VectorizeKmer(ModKmer)
+    # end1 = time.time()
+    # print("Runtime of the "+"VectorizeKmer"+"step is "+str(end1 - start1))
+    # start1 = time.time()
 
     printVectors("K-MersRandomMut_custom_NOR",nameVerilog, VectorizedKmer)
+    # end1 = time.time()
+    # print("Runtime of the "+"printVectors"+"step is "+str(end1 - start1))
+    # start1 = time.time()
 
     clearDNAAssignments()
+    # end1 = time.time()
+    # print("Runtime of the "+"clearDNAAssignments"+"step is "+str(end1 - start1))
+    # start1 = time.time()
+
     # end = time.time()
-    # print(f"Runtime of the program is {end - start}")
+    # print("Runtime of the program is "+str(end - start))
 
     
 
