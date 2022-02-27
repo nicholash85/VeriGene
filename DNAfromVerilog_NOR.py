@@ -534,7 +534,8 @@ emptyDirectories('K-MersRandomMut_custom_NOR')
 readAllDNAParts()
 # Loop through Verilog files
 for name in ('','NORVerilog\\Infected\\'):
-  for nameVerilog in glob.glob(name + '/*.v'):
+  for nameVerilog in os.listdir(name):
+    nameVerilog = os.path.join(name,nameVerilog)
     # start = time.time()
 
     # Create DNA 
