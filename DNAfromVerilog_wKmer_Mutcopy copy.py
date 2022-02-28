@@ -538,7 +538,7 @@ def emptyDirectories(FilePath):
 # ==============================
 
 #Clear Directory
-emptyDirectories('K-MersRandomMut_custom')
+emptyDirectories('DNA')
 
 # Read all DNA parts from files
 readAllDNAParts()
