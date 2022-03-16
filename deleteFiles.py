@@ -40,12 +40,7 @@ def emptyDirectories2(FilePath):
 
 input = input("Are you sure you want to delete files?(Y/N)")
 if input=="Y":
-  emptyDirectories('DNA_Custom_OLD2')
-  emptyDirectories2('K-MersRandom')
-  emptyDirectories2('K-MersRandom_Custom')
-  emptyDirectories2('K-MersRandom_Custom_NOR')
-  emptyDirectories2('K-MersRandomMut')
-  emptyDirectories2('K-MersRandomMut_custom')
-  emptyDirectories2('K-MersRandomMut_custom_NOR')
+  emptyDirectories2('DNA')
+  emptyDirectories2('DNA_NOR')
 
 
