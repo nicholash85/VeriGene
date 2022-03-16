@@ -25,7 +25,7 @@ possibleGates = ['and', 'or', 'nor', 'nand', 'xor', 'xnor']
 
 print("Deleting Files")
 #Empty Directories
-folder = os.path.join(sys.path[0],'Verilog/Uninfected')
+folder = os.path.join(sys.path[0],'Verilog2/Uninfected')
 for filename in os.listdir(folder):
     file_path = os.path.join(folder, filename)
     try:
@@ -37,7 +37,7 @@ for filename in os.listdir(folder):
         print('Failed to delete %s. Reason: %s' % (file_path, e))
 
 print("Deleted Uninfected Files")
-folder = os.path.join(sys.path[0],'Verilog/Infected')
+folder = os.path.join(sys.path[0],'Verilog2/Infected')
 for filename in os.listdir(folder):
     file_path = os.path.join(folder, filename)
     #print(f"{file_path}")
@@ -444,8 +444,8 @@ for inNum in range(2, numInputsMax + 1): #MaxInputs
                 #print("Infected Verilog:")
                 #print('{0}\n'.format(Inftemp))
 
-                filenameUninf = "Verilog/Uninfected/gate_level_"+str(fileCount)+"_in"+str(inNum)+"_out"+str(outNum)+"_gates"+str(numGates)+".v"
-                filenameInf = "Verilog/Infected/Inf_gate_level_"+str(fileCount)+"_in"+str(inNum)+"_out"+str(outNum)+"_gates"+str(numGates)+".v"    
+                filenameUninf = "Verilog2/Uninfected/gate_level_"+str(fileCount)+"_in"+str(inNum)+"_out"+str(outNum)+"_gates"+str(numGates)+".v"
+                filenameInf = "Verilog2/Infected/Inf_gate_level_"+str(fileCount)+"_in"+str(inNum)+"_out"+str(outNum)+"_gates"+str(numGates)+".v"    
 
                 #Write Uninfected Verilog
                 print("Writing Uninfected file to {0}.".format(filenameUninf))
