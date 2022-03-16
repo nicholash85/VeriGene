@@ -12,7 +12,7 @@ import shutil
 
 NumFiles = int(input("Enter the max number of files you want: ")) # 10 #65536 max
 fileCount = 0
-
+numInputsMin = int(input("Enter the min number of inputs (18 available, suggested 8 or less): "))#8
 numInputsMax = int(input("Enter the max number of inputs (18 available, suggested 8 or less): "))#8
 numOutputsMax = int(input("Enter the max number of outputs (7 available, suggested 3. Save at least one for info leaking trojan): "))#3
 numGatesMax = int(input("Enter the number of internal gates (suggested 8 max, must be larger than number of outputs): ")) #8
@@ -53,7 +53,7 @@ print("Deleted Infected Files")
 
 
 #Generate Files
-for inNum in range(2, numInputsMax + 1): #MaxInputs
+for inNum in range(numInputsMin, numInputsMax + 1): #MaxInputs
     for outNum in range(1, numOutputsMax + 1): #MaxOutputs
         for numGates in range(outNum,numGatesMax):
             for repeat in range(0,numRepeats):
