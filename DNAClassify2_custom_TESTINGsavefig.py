@@ -53,7 +53,7 @@ raw_val_ds = tf.keras.preprocessing.text_dataset_from_directory(
     batch_size=batch_size)
 
 raw_test_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    'Testm/Test', 
+    'Test/Test', 
     batch_size=batch_size)
 
 def custom_standardization(input_data):
