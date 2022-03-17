@@ -194,7 +194,6 @@ plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
 
-plt.savefig("Images/"+timestr+'_Loss.png')
 plt.savefig("Images/"+timestr+'_Loss.png', format="png")
 
 plt.plot(epochs, acc, 'bo', label='Training acc')
@@ -202,7 +201,6 @@ plt.plot(epochs, val_acc, 'b', label='Validation acc')
 plt.ylabel('Accuracy')
 plt.legend(loc='lower right')
 
-plt.savefig("Images/"+timestr+'_Accuracy.png')
 plt.savefig("Images/"+timestr+'_Accuracy.png', format="png")
 
 export_model = tf.keras.Sequential(
