@@ -157,7 +157,9 @@ model.compile(
     optimizer='adam',
     metrics=['accuracy'])
 
-checkpoint_path = "Test/cp.ckpt"
+timestr = time.strftime("%Y.%m.%d-%H.%M")
+
+checkpoint_path = "Images/cp2"+timestr+".ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 
 # Create a callback that saves the model's weights
@@ -182,8 +184,6 @@ loss = history_dict['loss']
 val_loss = history_dict['val_loss']
 
 epochs = range(1, len(acc) + 1)
-
-timestr = time.strftime("%Y.%m.%d-%H.%M")
 
 # "bo" is for "blue dot"
 plt.plot(epochs, loss, 'bo', label='Training loss')
