@@ -45,15 +45,15 @@ seed = 42
 #     batch_size=batch_size)
 
 raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    'Test/Train', 
+    'K-MersRandomMut_custom/Train', 
     batch_size=batch_size)
 
 raw_val_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    'Test/Validation', 
+    'K-MersRandomMut_custom/Validation', 
     batch_size=batch_size)
 
 raw_test_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    'Test/Test', 
+    'K-MersRandomMut_custom/Test', 
     batch_size=batch_size)
 
 def custom_standardization(input_data):
@@ -159,7 +159,7 @@ model.compile(
 
 timestr = time.strftime("%Y.%m.%d-%H.%M")
 
-checkpoint_path = "Images/cp2"+timestr+".ckpt"
+checkpoint_path = "K-MersRandomMut_custom/cp2_"+timestr+".ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 
 # Create a callback that saves the model's weights
