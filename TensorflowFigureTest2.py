@@ -45,15 +45,15 @@ seed = 42
 #     batch_size=batch_size)
 
 raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    'K-MersRandomMut_custom/Train', 
+    'K-MersRandomMut_custom2/Train', 
     batch_size=batch_size)
 
 raw_val_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    'K-MersRandomMut_custom/Validation', 
+    'K-MersRandomMut_custom2/Validation', 
     batch_size=batch_size)
 
 raw_test_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    'K-MersRandomMut_custom/Test', 
+    'K-MersRandomMut_custom2/Test', 
     batch_size=batch_size)
 
 def custom_standardization(input_data):
@@ -157,7 +157,9 @@ model.compile(
     optimizer='adam',
     metrics=['accuracy'])
 
-checkpoint_path = "Images/cp.ckpt"
+timestr = time.strftime("%Y.%m.%d-%H.%M")
+
+checkpoint_path = "K-MersRandomMut_custom2/cp2_"+timestr+".ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 
 # Create a callback that saves the model's weights
@@ -183,8 +185,6 @@ val_loss = history_dict['val_loss']
 
 epochs = range(1, len(acc) + 1)
 
-timestr = time.strftime("%Y.%m.%d-%H.%M")
-
 # "bo" is for "blue dot"
 plt.plot(epochs, loss, 'bo', label='Training loss')
 # b is for "solid blue line"
@@ -194,7 +194,7 @@ plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
 
-plt.savefig("Images/K-MersRandomMut_custom_"+timestr+'_Loss.png', format="png")
+plt.savefig("Images/K-MersRandomMut_custom2_"+timestr+'_Loss.png', format="png")
 
 plt.plot(epochs, acc, 'bo', label='Training acc')
 plt.plot(epochs, val_acc, 'b', label='Validation acc')
