@@ -1,2 +1,2 @@
-model_checkpoint_path: "cp.ckpt"
-all_model_checkpoint_paths: "cp.ckpt"
+model_checkpoint_path: "cp22022.03.17-14.14.ckpt"
+all_model_checkpoint_paths: "cp22022.03.17-14.14.ckpt"

@@ -441,10 +441,10 @@ def emptyDirectories(FilePath):
 
 
 #Empty Directories
-emptyDirectories('NORVerilog')
+emptyDirectories('NORVerilog2')
 # Loop through Verilog files
 print("Working")
-for name in ('Verilog/Infected/',''):  
+for name in ('Verilog2/Infected/',''):  
   for nameVerilog in os.listdir(name):
     nameVerilog = os.path.join(name,nameVerilog)
     
@@ -461,7 +461,7 @@ for name in ('Verilog/Infected/',''):
     #debugVerilogRead(VerilogNOR)
     WholeVerilog = SetNORVerilog(VerilogNOR)
     #print(WholeVerilog)
-    WriteVerilog(WholeVerilog,type,VerilogNOR.name + '.v','NORVerilog')    
+    WriteVerilog(WholeVerilog,type,VerilogNOR.name + '.v','NORVerilog2')    
 
     
 
