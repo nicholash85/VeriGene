@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import os
 import tensorflow as tf
 import time
+import numpy
 
 from tensorflow.keras import layers
 from tensorflow.keras import losses
@@ -194,7 +195,7 @@ plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
 
-plt.savefig("Images/"+timestr+'_Loss.png', format="png")
+plt.savefig("Images/K-MersRandomMut_custom_"+timestr+'_Loss.png', format="png")
 
 plt.plot(epochs, acc, 'bo', label='Training acc')
 plt.plot(epochs, val_acc, 'b', label='Validation acc')
@@ -203,7 +204,9 @@ plt.xlabel('Epochs')
 plt.ylabel('Accuracy')
 plt.legend(loc='lower right')
 
-plt.savefig("Images/"+timestr+'_Accuracy.png', format="png")
+plt.savefig("Images/K-MersRandomMut_custom_"+timestr+'_Accuracy.png', format="png")
+
+numpy.savetxt("Images/K-MersRandomMut_custom_"+timestr+".csv", (epochs,loss,val_loss,acc,val_acc), delimiter = ", ", fmt='%d')
 
 export_model = tf.keras.Sequential(
     [vectorize_layer, model,
