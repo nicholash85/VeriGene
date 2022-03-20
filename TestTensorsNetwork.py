@@ -206,6 +206,8 @@ plt.legend(loc='lower right')
 
 plt.savefig("TestTensors/K-MersRandomMut_custom2_"+timestr+'_Accuracy.png', format="png")
 
+print("Here")
+print("Epochs: " + epochs + "\nLoss: " + loss + "\nVal_Loss: " + val_loss + "\nAcc: " + acc + "\nval_acc: " + val_acc)
 numpy.savetxt("TestTensors/K-MersRandomMut_custom2_"+timestr+".csv", (epochs,loss,val_loss,acc,val_acc), delimiter = ", ", fmt='%d')
 
 export_model = tf.keras.Sequential(
