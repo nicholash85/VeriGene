@@ -46,15 +46,15 @@ seed = 42
 #     batch_size=batch_size)
 
 raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    'K-MersRandomMut_custom2/Train', 
+    'TestTensors/Train', 
     batch_size=batch_size)
 
 raw_val_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    'K-MersRandomMut_custom2/Validation', 
+    'TestTensors/Validation', 
     batch_size=batch_size)
 
 raw_test_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    'K-MersRandomMut_custom2/Test', 
+    'TestTensors/Test', 
     batch_size=batch_size)
 
 def custom_standardization(input_data):
@@ -160,7 +160,7 @@ model.compile(
 
 timestr = time.strftime("%Y.%m.%d-%H.%M")
 
-checkpoint_path = "K-MersRandomMut_custom2/cp2_"+timestr+".ckpt"
+checkpoint_path = "TestTensors/cp2_"+timestr+".ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 
 # Create a callback that saves the model's weights
@@ -195,7 +195,7 @@ plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
 
-plt.savefig("Images/K-MersRandomMut_custom2_"+timestr+'_Loss.png', format="png")
+plt.savefig("TestTensors/K-MersRandomMut_custom2_"+timestr+'_Loss.png', format="png")
 
 plt.plot(epochs, acc, 'bo', label='Training acc')
 plt.plot(epochs, val_acc, 'b', label='Validation acc')
@@ -204,9 +204,9 @@ plt.xlabel('Epochs')
 plt.ylabel('Accuracy')
 plt.legend(loc='lower right')
 
-plt.savefig("Images/K-MersRandomMut_custom2_"+timestr+'_Accuracy.png', format="png")
+plt.savefig("TestTensors/K-MersRandomMut_custom2_"+timestr+'_Accuracy.png', format="png")
 
-numpy.savetxt("Images/K-MersRandomMut_custom2_"+timestr+".csv", (epochs,loss,val_loss,acc,val_acc), delimiter = ", ", fmt='%d')
+numpy.savetxt("TestTensors/K-MersRandomMut_custom2_"+timestr+".csv", (epochs,loss,val_loss,acc,val_acc), delimiter = ", ", fmt='%d')
 
 export_model = tf.keras.Sequential(
     [vectorize_layer, model,
