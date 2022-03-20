@@ -208,7 +208,7 @@ plt.savefig("TestTensors/K-MersRandomMut_custom2_"+timestr+'_Accuracy.png', form
 
 print("Here")
 print("Epochs: " + str(epochs) + "\nLoss: " + str(loss) + "\nVal_Loss: " + str(val_loss) + "\nAcc: " + str(acc) + "\nval_acc: " + str(val_acc))
-numpy.savetxt("TestTensors/K-MersRandomMut_custom2_"+timestr+".csv", (epochs,loss,val_loss,acc,val_acc), delimiter = ", ", fmt='%d')
+numpy.savetxt("TestTensors/K-MersRandomMut_custom2_"+timestr+".csv", (numpy.asarray(epochs),numpy.asarray(loss),numpy.asarray(val_loss),numpy.asarray(acc),numpy.asarray(val_acc)), delimiter = ", ", fmt='%d')
 
 export_model = tf.keras.Sequential(
     [vectorize_layer, model,
