@@ -53,12 +53,8 @@ print("Deleted Infected Files")
 
 
 #Generate Files
-<<<<<<< HEAD
 # for inNum in range(numInputsMin, numInputsMax + 1): #MaxInputs
 for inNum in [2,4,8,16,32,64]: #MaxInputs
-=======
-for inNum in range(numInputsMin, numInputsMax + 1): #MaxInputs
-
     for outNum in range(1, numOutputsMax + 1): #MaxOutputs
     #for outNum in [1,2,4,8,16,32,64]:
         for numGates in range(outNum,numGatesMax):
