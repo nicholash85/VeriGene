@@ -21,7 +21,7 @@ from tensorflow.python.ops.gen_math_ops import mod
 # os.listdir(dataset_dir)
 # train_dir = os.path.join(dataset_dir, 'Train')
 # os.listdir(train_dir)
-batch_size = 32
+batch_size = 3
 
 seed = 42
 
@@ -160,8 +160,9 @@ model.compile(
     metrics=['accuracy'])
 
 timestr = time.strftime("%Y.%m.%d-%H.%M")
+ResultDir = os.makedirs("Results/"+Folder+"_"+timestr+"_Results")
 
-checkpoint_path = "K-MersRandomMut_custom/cp2_"+timestr+".ckpt"
+checkpoint_path = ResultDir+"/cp2_"+timestr+".ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 
 # Create a callback that saves the model's weights
@@ -196,7 +197,7 @@ plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
 
-plt.savefig("Images/"+Folder+"_"+timestr+'_Loss.png', format="png")
+plt.savefig(ResultDir+"/"+Folder+"_"+timestr+'_Loss.png', format="png")
 
 plt.clf()
 plt.cla()
@@ -209,22 +210,14 @@ plt.xlabel('Epochs')
 plt.ylabel('Accuracy')
 plt.legend(loc='lower right')
 
-plt.savefig("Images/"+Folder+"_"+timestr+'_Accuracy.png', format="png")
+plt.savefig(ResultDir+"/"+Folder+"_"+timestr+'_Accuracy.png', format="png")
 
 #Print CSV
 #Headers
 csvText = "Epoch, Loss, Validation Loss, Accuracy, Validation Accuracy\n"
 for EpochNum in epochs:
     csvText = csvText + str(EpochNum) + ", " + str(loss[EpochNum-1]) + ", " + str(val_loss[EpochNum-1]) + ", " + str(acc[EpochNum-1]) + ", " + str(val_acc[EpochNum-1]) + "\n"
-File = open(Folder+"/"+Folder+"_"+timestr+".csv", "w")
-File.write(csvText)
-File.close()
-#Print CSV
-#Headers
-csvText = "Epoch, Loss, Validation Loss, Accuracy, Validation Accuracy\n"
-for EpochNum in epochs:
-    csvText = csvText + str(EpochNum) + ", " + str(loss[EpochNum-1]) + ", " + str(val_loss[EpochNum-1]) + ", " + str(acc[EpochNum-1]) + ", " + str(val_acc[EpochNum-1]) + "\n"
-File = open("TestTensors/K-MersRandomMut_custom2_"+timestr+".csv", "w")
+File = open(ResultDir+"/"+Folder+"_"+timestr+".csv", "w")
 File.write(csvText)
 File.close()
 
