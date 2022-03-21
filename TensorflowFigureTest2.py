@@ -170,7 +170,7 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
                                                  save_weights_only=True,
                                                  verbose=1)
 
-history = model.fit(train_ds, validation_data=val_ds, epochs=1,callbacks=[cp_callback])
+history = model.fit(train_ds, validation_data=val_ds, epochs=10,callbacks=[cp_callback])
 
 print(model.summary())
 loss, accuracy = model.evaluate(test_ds)
