@@ -210,8 +210,11 @@ plt.savefig("TestTensors/K-MersRandomMut_custom2_"+timestr+'_Accuracy.png', form
 #Headers
 csvText = "Epoch, Loss, Validation Loss, Accuracy, Validation Accuracy\n"
 for EpochNum in epochs:
-    csvText = csvText + str(EpochNum) + ", " + loss[EpochNum-1] + ", " + val_loss[EpochNum-1] + ", " + acc[EpochNum-1] + ", " + val_acc[EpochNum-1] + "\n"
-    
+    csvText = csvText + str(EpochNum) + ", " + str(loss[EpochNum-1]) + ", " + str(val_loss[EpochNum-1]) + ", " + str(acc[EpochNum-1]) + ", " + str(val_acc[EpochNum-1]) + "\n"
+File = open("TestTensors/K-MersRandomMut_custom2_"+timestr+".csv", "w")
+File.write(csvText)
+File.close()
+
 print("Epochs: " + str(epochs) + "\nLoss: " + str(loss) + "\nVal_Loss: " + str(val_loss) + "\nAcc: " + str(acc) + "\nval_acc: " + str(val_acc))
 
 export_model = tf.keras.Sequential(
