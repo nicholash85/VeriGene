@@ -45,16 +45,17 @@ seed = 42
 #     'K-Mers/Test', 
 #     batch_size=batch_size)
 
+Folder = "K-MersRandomMut_custom2"
 raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    'K-MersRandomMut_custom2/Train', 
+    Folder+'/Train', 
     batch_size=batch_size)
 
 raw_val_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    'K-MersRandomMut_custom2/Validation', 
+    Folder+'/Validation', 
     batch_size=batch_size)
 
 raw_test_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    'K-MersRandomMut_custom2/Test', 
+    Folder+'/Test', 
     batch_size=batch_size)
 
 def custom_standardization(input_data):
@@ -160,7 +161,7 @@ model.compile(
 
 timestr = time.strftime("%Y.%m.%d-%H.%M")
 
-checkpoint_path = "K-MersRandomMut_custom2/cp2_"+timestr+".ckpt"
+checkpoint_path = Folder+"/cp2_"+timestr+".ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 
 # Create a callback that saves the model's weights
@@ -195,7 +196,11 @@ plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
 
-plt.savefig("Images/K-MersRandomMut_custom2_"+timestr+'_Loss.png', format="png")
+plt.savefig("Images/"+Folder+"_"+timestr+'_Loss.png', format="png")
+
+plt.clf()
+plt.cla()
+plt.close()
 
 plt.plot(epochs, acc, 'bo', label='Training acc')
 plt.plot(epochs, val_acc, 'b', label='Validation acc')
@@ -204,9 +209,16 @@ plt.xlabel('Epochs')
 plt.ylabel('Accuracy')
 plt.legend(loc='lower right')
 
-plt.savefig("Images/K-MersRandomMut_custom2_"+timestr+'_Accuracy.png', format="png")
+plt.savefig("Images/"+Folder+"_"+timestr+'_Accuracy.png', format="png")
 
-numpy.savetxt("Images/K-MersRandomMut_custom2_"+timestr+".csv", (epochs,loss,val_loss,acc,val_acc), delimiter = ", ", fmt='%d')
+#Print CSV
+#Headers
+csvText = "Epoch, Loss, Validation Loss, Accuracy, Validation Accuracy\n"
+for EpochNum in epochs:
+    csvText = csvText + str(EpochNum) + ", " + str(loss[EpochNum-1]) + ", " + str(val_loss[EpochNum-1]) + ", " + str(acc[EpochNum-1]) + ", " + str(val_acc[EpochNum-1]) + "\n"
+File = open(Folder+"/"+Folder+"_"+timestr+".csv", "w")
+File.write(csvText)
+File.close()
 
 export_model = tf.keras.Sequential(
     [vectorize_layer, model,
