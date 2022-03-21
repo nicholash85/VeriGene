@@ -197,6 +197,10 @@ plt.legend()
 
 plt.savefig("TestTensors/K-MersRandomMut_custom2_"+timestr+'_Loss.png', format="png")
 
+plt.clf()
+plt.cla()
+plt.close()
+
 plt.plot(epochs, acc, 'bo', label='Training acc')
 plt.plot(epochs, val_acc, 'b', label='Validation acc')
 plt.title('Training and validation accuracy')
@@ -214,8 +218,6 @@ for EpochNum in epochs:
 File = open("TestTensors/K-MersRandomMut_custom2_"+timestr+".csv", "w")
 File.write(csvText)
 File.close()
-
-print("Epochs: " + str(epochs) + "\nLoss: " + str(loss) + "\nVal_Loss: " + str(val_loss) + "\nAcc: " + str(acc) + "\nval_acc: " + str(val_acc))
 
 export_model = tf.keras.Sequential(
     [vectorize_layer, model,
