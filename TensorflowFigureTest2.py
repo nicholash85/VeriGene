@@ -21,7 +21,7 @@ from tensorflow.python.ops.gen_math_ops import mod
 # os.listdir(dataset_dir)
 # train_dir = os.path.join(dataset_dir, 'Train')
 # os.listdir(train_dir)
-batch_size = 32
+batch_size = 3
 
 seed = 42
 
