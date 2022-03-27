@@ -20,6 +20,8 @@ K-MersRandomMutOld/
 K-MersRandom_custom_NOR/
 DNA/
 DNA_NOR/
+Verilog2_Nueral/
+NORVerilog2_Nueral/
 
 # Distribution / packaging
 .Python
