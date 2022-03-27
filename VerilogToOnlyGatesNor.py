@@ -90,8 +90,8 @@ def emptyDirectories(FilePath):
 # ==============================
 # MAIN PROGRAM PROCESSING 
 # ==============================
-InputFolder = 'Verilog2'
-OutputFolder = 'Verilog2_Nueral'
+InputFolder = 'NORVerilog2'
+OutputFolder = 'NORVerilog2_Nueral'
 #Clear Directory
 emptyDirectories(OutputFolder)
 
