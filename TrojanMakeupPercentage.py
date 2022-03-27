@@ -529,7 +529,7 @@ def RegDNASize(InputFolder, DNAFolder, OutputFolder):
 # ==============================
 folders = []
 percentage = []
-ResultsFolder = 'Results/Percent_Infected/'
+ResultsFolder = 'Results/Percent_Infected'
 
 VerilogFolder, percent = percentInfVerilog('Verilog2',ResultsFolder)
 folders.append(VerilogFolder)
