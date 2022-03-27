@@ -509,16 +509,16 @@ def emptyDirectories(FilePath):
   print("Emptying Directories")
   for test in ["Test","Train","Validation"]:
   # Empty Directories
-    # folder = os.path.join(sys.path[0], FilePath + '/' + test + '/Uninfected')
-    # for filename in os.listdir(folder):
-    #     file_path = os.path.join(folder, filename)
-    #     try:
-    #         if os.path.isfile(file_path) or os.path.islink(file_path):
-    #             os.unlink(file_path)
-    #         elif os.path.isdir(file_path):
-    #             shutil.rmtree(file_path)
-    #     except Exception as e:
-    #         print('Failed to delete %s. Reason: %s' % (file_path, e))
+    folder = os.path.join(sys.path[0], FilePath + '/' + test + '/Uninfected')
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e))
 
     folder = os.path.join(sys.path[0], FilePath + '/' + test + '/Infected')
     for filename in os.listdir(folder):
@@ -536,14 +536,15 @@ def emptyDirectories(FilePath):
 # ==============================
 # MAIN PROGRAM PROCESSING 
 # ==============================
-
+InputFolder = 'Verilog2'
+OutputFolder = 'K-MersRandomMut_custom2'
 #Clear Directory
-emptyDirectories('K-MersRandomMut_custom2')
+emptyDirectories(OutputFolder)
 
 # Read all DNA parts from files
 readAllDNAParts()
 # Loop through Verilog files
-for name in ('Verilog2/Infected/',''):
+for name in (InputFolder+'/Uninfected/',InputFolder+'/Infected/'):
   for nameVerilog in os.listdir(name):
     # start = start1 = time.time()
     nameVerilog = os.path.join(name,nameVerilog)
@@ -595,7 +596,7 @@ for name in ('Verilog2/Infected/',''):
     # print("Runtime of the "+"VectorizeKmer"+"step is "+str(end1 - start1))
     # start1 = time.time()
 
-    printVectors("K-MersRandomMut_custom2",nameVerilog, VectorizedKmer)
+    printVectors(OutputFolder,nameVerilog, VectorizedKmer)
     # end1 = time.time()
     # print("Runtime of the "+"printVectors"+"step is "+str(end1 - start1))
     # start1 = time.time()

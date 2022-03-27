@@ -536,14 +536,15 @@ def emptyDirectories(FilePath):
 # ==============================
 # MAIN PROGRAM PROCESSING 
 # ==============================
-
+InputFolder = 'Verilog2'
+OutputFolder = 'K-MersRandomMut_custom2'
 #Clear Directory
-emptyDirectories('K-MersRandomMut_custom2')
+emptyDirectories(OutputFolder)
 
 # Read all DNA parts from files
 readAllDNAParts()
 # Loop through Verilog files
-for name in ('Verilog2/Uninfected/',''):
+for name in (InputFolder+'/Uninfected/',InputFolder+'/Infected/'):
   for nameVerilog in os.listdir(name):
     # start = start1 = time.time()
     nameVerilog = os.path.join(name,nameVerilog)
@@ -595,7 +596,7 @@ for name in ('Verilog2/Uninfected/',''):
     # print("Runtime of the "+"VectorizeKmer"+"step is "+str(end1 - start1))
     # start1 = time.time()
 
-    printVectors("K-MersRandomMut_custom2",nameVerilog, VectorizedKmer)
+    printVectors(OutputFolder,nameVerilog, VectorizedKmer)
     # end1 = time.time()
     # print("Runtime of the "+"printVectors"+"step is "+str(end1 - start1))
     # start1 = time.time()
