@@ -162,6 +162,7 @@ model.compile(
 timestr = time.strftime("%Y.%m.%d-%H.%M")
 ResultDir = "Results/"+Folder+"_"+timestr+"_Results"
 os.makedirs(ResultDir)
+
 checkpoint_path = ResultDir+"/cp2_"+timestr+".ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 
