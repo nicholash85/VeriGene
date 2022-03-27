@@ -18,15 +18,21 @@ def VerilogLines(nameVerilog):
   Lines = VerilogFile.readlines()
   VerilogFile.close()
   
+  print(Lines)
+
   # Remove Comments
   for k in range(0,len(Lines)):
     if len(Lines[k].split('//')) > 1:
       Lines[k] = Lines[k].split('//')[0]
 
+  print(Lines) 
+
   SingleLine = ''
   #Make single line
   for k in range(0,len(Lines)):
     SingleLine + Lines[k] + ' '
+  
+  print(SingleLine)
 
   # Remove Punctuation
   SingleLine.replace('(',' ')
