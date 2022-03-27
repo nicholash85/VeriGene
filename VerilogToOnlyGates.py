@@ -25,12 +25,10 @@ def VerilogLines(nameVerilog):
     if len(Lines[k].split('//')) > 1:
       Lines[k] = Lines[k].split('//')[0]
 
-  print(Lines) 
-
   SingleLine = ''
   #Make single line
   for k in range(0,len(Lines)):
-    SingleLine + Lines[k] + ' '
+    SingleLine = SingleLine + Lines[k] + ' '
   
   print(SingleLine)
 
