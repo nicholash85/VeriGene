@@ -31,12 +31,12 @@ def VerilogLines(nameVerilog):
     SingleLine = SingleLine + Lines[k] + ' '
 
   # Remove Punctuation
-  SingleLine.replace('(',' ')
-  SingleLine.replace(')',' ')
-  SingleLine.replace(';',' ')
-  SingleLine.replace(',',' ')
-  SingleLine.replace('\n',' ')
-  SingleLine.replace('\t',' ')
+  SingleLine = SingleLine.replace('(',' ')
+  SingleLine = SingleLine.replace(')',' ')
+  SingleLine = SingleLine.replace(';',' ')
+  SingleLine = SingleLine.replace(',',' ')
+  SingleLine = SingleLine.replace('\n',' ')
+  SingleLine = SingleLine.replace('\t',' ')
 
   print(SingleLine)
 
