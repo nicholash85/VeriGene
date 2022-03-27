@@ -160,8 +160,8 @@ model.compile(
     metrics=['accuracy'])
 
 timestr = time.strftime("%Y.%m.%d-%H.%M")
-ResultDir = os.makedirs("Results/"+Folder+"_"+timestr+"_Results")
-
+ResultDir = "Results/"+Folder+"_"+timestr+"_Results"
+os.makedirs(ResultDir)
 checkpoint_path = ResultDir+"/cp2_"+timestr+".ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 
