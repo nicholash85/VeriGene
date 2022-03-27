@@ -459,7 +459,7 @@ def RegDNASize(InputFolder, DNAFolder, OutputFolder):
   # Read all DNA parts from files
   readAllDNAParts()
   # Loop through Verilog files
-  for name in [InputFolder+'/Uninfected/',]InputFolder+'/Infected/']:
+  for name in [InputFolder+'/Infected/']:
     for nameVerilog in os.listdir(name):
       # start = start1 = time.time()
       nameVerilog = os.path.join(name,nameVerilog)
