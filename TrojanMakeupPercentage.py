@@ -72,6 +72,7 @@ def percentInfVerilog(VerilogFolder, ResultsFolder):
   # Print Individual File Percentages
   #Print CSV
   #Headers
+  print("Writing " + VerilogFolder + " to CSV")
   csvText = "Filename, Number of Infected, Total Number, Infection Percentage\n"
   for files in range(0,len(filenames)):
       csvText = csvText + filenames[files] + ", " + str(numInfArr[files]) + ", " + str(numArr[files]) + ", " + str(PercentInfArr[files]) + "\n"
@@ -508,6 +509,7 @@ def RegDNASize(InputFolder, DNAFolder, OutputFolder):
   # Print Individual File Percentages
   #Print CSV
   #Headers
+  print("Writing " + DNAFolder + " to CSV")
   csvText = "Filename, Number of Infected, Total Number, Infection Percentage\n"
   for files in range(0,len(filenames)):
       csvText = csvText + filenames[files] + ", " + str(numInfArr[files]) + ", " + str(numArr[files]) + ", " + str(PercentInfArr[files]) + "\n"
@@ -548,6 +550,7 @@ percentage.append(percent)
 # Print Individual File Percentages
 #Print CSV
 #Headers
+print("Writing " + "Overall Results" + " to CSV")
 csvText = "Folder, Infection Percentage\n"
 for files in range(0,len(folders)):
     csvText = csvText + folders[files] + ", " + str(percentage[files]) + "\n"
