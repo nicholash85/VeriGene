@@ -17,8 +17,6 @@ def VerilogLines(nameVerilog):
   VerilogFile = open(nameVerilog,'r')
   Lines = VerilogFile.readlines()
   VerilogFile.close()
-  
-  print(Lines)
 
   # Remove Comments
   for k in range(0,len(Lines)):
@@ -38,8 +36,9 @@ def VerilogLines(nameVerilog):
   SingleLine = SingleLine.replace('\n',' ')
   SingleLine = SingleLine.replace('\t',' ')
 
-  print(SingleLine)
+  SingleLine = ' '.join(SingleLine.split())
 
+  print(SingleLine)
   return SingleLine
 
 def printVectors(Folder,nameVerilog, SingleLine):
