@@ -29,8 +29,6 @@ def VerilogLines(nameVerilog):
   #Make single line
   for k in range(0,len(Lines)):
     SingleLine = SingleLine + Lines[k] + ' '
-  
-  print(SingleLine)
 
   # Remove Punctuation
   SingleLine.replace('(',' ')
