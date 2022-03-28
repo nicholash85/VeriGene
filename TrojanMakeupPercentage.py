@@ -24,7 +24,7 @@ def VerilogLines(nameVerilog):
       LineInfo = LineInfo.replace(',',' ')
       LineInfo = LineInfo.replace('\n',' ')
       LineInfo = LineInfo.replace('\t',' ')
-      numInf = len(LineInfo.split())
+      numInf = numInf + len(LineInfo.split())
       
 
   SingleLine = ''
