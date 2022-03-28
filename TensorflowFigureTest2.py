@@ -21,8 +21,8 @@ from tensorflow.python.ops.gen_math_ops import mod
 # os.listdir(dataset_dir)
 # train_dir = os.path.join(dataset_dir, 'Train')
 # os.listdir(train_dir)
-batch_size = 3
-
+batch_size = 2000
+# batch_size1 = 100
 seed = 42
 
 # raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
@@ -156,6 +156,7 @@ for layer in model.layers:
     print(layer.output_shape)
 
 model.compile(
+    # steps_per_execution = batch_size1,
     loss=losses.SparseCategoricalCrossentropy(from_logits=True),
     optimizer='adam',
     metrics=['accuracy'])
@@ -228,6 +229,7 @@ export_model = tf.keras.Sequential(
      layers.Activation('sigmoid')])
 
 export_model.compile(
+    # steps_per_execution = batch_size1,
     loss=losses.SparseCategoricalCrossentropy(from_logits=False),
     optimizer='adam',
     metrics=['accuracy'])
@@ -272,6 +274,7 @@ for layer in model.layers:
 model.add(layers.Dense(num_labels))
 
 model.compile(
+    # steps_per_execution = batch_size1,
     loss=losses.SparseCategoricalCrossentropy(from_logits=True),
     optimizer='adam',
     metrics=['accuracy'])
