@@ -10,6 +10,7 @@ import os
 import sys
 import shutil
 
+OutputFolder = "Verilog3"
 NumFiles = int(input("Enter the max number of files you want: ")) # 10 #65536 max
 fileCount = 0
 numInputsMin = int(input("Enter the min number of inputs (18 available, suggested 8 or less): "))#8
@@ -25,7 +26,7 @@ possibleGates = ['and', 'or', 'nor', 'nand', 'xor', 'xnor']
 
 print("Deleting Files")
 #Empty Directories
-folder = os.path.join(sys.path[0],'Verilog2/Uninfected')
+folder = os.path.join(sys.path[0],OutputFolder + '/Uninfected')
 for filename in os.listdir(folder):
     file_path = os.path.join(folder, filename)
     try:
@@ -37,7 +38,7 @@ for filename in os.listdir(folder):
         print('Failed to delete %s. Reason: %s' % (file_path, e))
 
 print("Deleted Uninfected Files")
-folder = os.path.join(sys.path[0],'Verilog2/Infected')
+folder = os.path.join(sys.path[0],OutputFolder + '/Infected')
 for filename in os.listdir(folder):
     file_path = os.path.join(folder, filename)
     #print(f"{file_path}")
@@ -55,7 +56,8 @@ print("Deleted Infected Files")
 #Generate Files
 # for inNum in range(numInputsMin, numInputsMax + 1): #MaxInputs
 for inNum in [2,4,8,16,32,64]: #MaxInputs
-    for outNum in range(1, numOutputsMax + 1): #MaxOutputs
+    # for outNum in range(1, numOutputsMax + 1): #MaxOutputs
+    for outNum in [2,4,8,16,32,64]: #MaxOutputs
     #for outNum in [1,2,4,8,16,32,64]:
         for numGates in range(outNum,numGatesMax):
             for repeat in range(0,numRepeats):
@@ -348,7 +350,7 @@ for inNum in [2,4,8,16,32,64]: #MaxInputs
                                     DeletionTrigger = 'DeletionTrigger' + str(numInfections)
                                     InfInputs.append(DeletionTrigger) 
 
-                                    tempInfGate = tempInfGate + faultWire + ',' + gateIn1 + ',' + gateIn2 + ');  //FAULT GATE DOS EXTERNALLY TRIGGERED ON FLASE\n'
+                                    tempInfGate = tempInfGate + faultWire + ',' + gateIn1 + ',' + gateIn2 + ');  //FAULT GATE DOS EXTERNALLY TRIGGERED ON FALSE\n'
                                     tempInfGate = tempInfGate + '\tand(' + gateOut + ',' + faultWire + ',' + DeletionTrigger + ');   //FAULT GATE DOS EXTERNALLY TRIGGERED ON FALSE'
                                 
                                 #Gate 'deletion'/ small-scale DOS Interally triggered on false
@@ -446,8 +448,8 @@ for inNum in [2,4,8,16,32,64]: #MaxInputs
                 #print("Infected Verilog:")
                 #print('{0}\n'.format(Inftemp))
 
-                filenameUninf = "Verilog2/Uninfected/gate_level_"+str(fileCount)+"_in"+str(inNum)+"_out"+str(outNum)+"_gates"+str(numGates)+".v"
-                filenameInf = "Verilog2/Infected/Inf_gate_level_"+str(fileCount)+"_in"+str(inNum)+"_out"+str(outNum)+"_gates"+str(numGates)+".v"    
+                filenameUninf = OutputFolder + "Uninfected/gate_level_"+str(fileCount)+"_in"+str(inNum)+"_out"+str(outNum)+"_gates"+str(numGates)+".v"
+                filenameInf = OutputFolder + "/Infected/Inf_gate_level_"+str(fileCount)+"_in"+str(inNum)+"_out"+str(outNum)+"_gates"+str(numGates)+".v"    
 
                 #Write Uninfected Verilog
                 print("Writing Uninfected file to {0}.".format(filenameUninf))

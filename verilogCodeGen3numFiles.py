@@ -10,11 +10,11 @@ import os
 import sys
 import shutil
 
-NumFiles = int(input("Enter the max number of files you want: ")) # 10 #65536 max
+# NumFiles = int(input("Enter the max number of files you want: ")) # 10 #65536 max
 fileCount = 0
-numInputsMin = int(input("Enter the min number of inputs (18 available, suggested 8 or less): "))#8
-numInputsMax = int(input("Enter the max number of inputs (18 available, suggested 8 or less): "))#8
-numOutputsMax = int(input("Enter the max number of outputs (7 available, suggested 3. Save at least one for info leaking trojan): "))#3
+# numInputsMin = int(input("Enter the min number of inputs (18 available, suggested 8 or less): "))#8
+# numInputsMax = int(input("Enter the max number of inputs (18 available, suggested 8 or less): "))#8
+# numOutputsMax = int(input("Enter the max number of outputs (7 available, suggested 3. Save at least one for info leaking trojan): "))#3
 numGatesMax = int(input("Enter the number of internal gates (suggested 8 max, must be larger than number of outputs): ")) #8
 numRepeats = int(input("Enter the number of repeats: ")) #4
 
@@ -55,7 +55,7 @@ num =0
 #Generate Files
 # for inNum in range(numInputsMin, numInputsMax + 1): #MaxInputs
 for inNum in [2,4,8,16,32,64]: #MaxInputs
-    for outNum in range(1, numOutputsMax + 1): #MaxOutputs
+    for outNum in [2,4,8,16,32,64]: #MaxOutputs
         for numGates in range(outNum,numGatesMax):
             for repeat in range(0,numRepeats):
                 num +=1
