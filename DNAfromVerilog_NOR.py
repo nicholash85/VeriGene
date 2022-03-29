@@ -536,8 +536,8 @@ def emptyDirectories(FilePath):
 # ==============================
 # MAIN PROGRAM PROCESSING 
 # ==============================
-InputFolder = 'NORVerilog2'
-OutputFolder = 'K-MersRandomMut_custom_NOR2'
+InputFolder = 'NORVerilog3'
+OutputFolder = 'K-MersRandomMut_custom_NOR3'
 #Clear Directory
 emptyDirectories(OutputFolder)
 
