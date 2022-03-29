@@ -185,7 +185,7 @@ for inNum in [2,4,8,16,32,64]: #MaxInputs
                     #  and(leakOut, infoToLeak, Trigger)
 
                     # Adds fault to a second circuit 20% of the time or at the last gate
-                    if (Infected == False and k == numGates-1) or (random.randint(0,100) < 20) or (DOSFault == 1):
+                    if (Infected == False and k == numGates-1) or (random.randint(0,100) < (1/numGates)) or (DOSFault == 1):
                         
                         #Complete denial of service module
                         if DOSFault == 1:
