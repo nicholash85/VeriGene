@@ -13,9 +13,9 @@ import shutil
 OutputFolder = "Verilog3"
 NumFiles = int(input("Enter the max number of files you want: ")) # 10 #65536 max
 fileCount = 0
-numInputsMin = int(input("Enter the min number of inputs (18 available, suggested 8 or less): "))#8
-numInputsMax = int(input("Enter the max number of inputs (18 available, suggested 8 or less): "))#8
-numOutputsMax = int(input("Enter the max number of outputs (7 available, suggested 3. Save at least one for info leaking trojan): "))#3
+# numInputsMin = int(input("Enter the min number of inputs (18 available, suggested 8 or less): "))#8
+# numInputsMax = int(input("Enter the max number of inputs (18 available, suggested 8 or less): "))#8
+# numOutputsMax = int(input("Enter the max number of outputs (7 available, suggested 3. Save at least one for info leaking trojan): "))#3
 numGatesMax = int(input("Enter the number of internal gates (suggested 8 max, must be larger than number of outputs): ")) #8
 numRepeats = int(input("Enter the number of repeats: ")) #4
 
