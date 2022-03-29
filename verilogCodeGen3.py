@@ -448,7 +448,7 @@ for inNum in [2,4,8,16,32,64]: #MaxInputs
                 #print("Infected Verilog:")
                 #print('{0}\n'.format(Inftemp))
 
-                filenameUninf = OutputFolder + "Uninfected/gate_level_"+str(fileCount)+"_in"+str(inNum)+"_out"+str(outNum)+"_gates"+str(numGates)+".v"
+                filenameUninf = OutputFolder + "/Uninfected/gate_level_"+str(fileCount)+"_in"+str(inNum)+"_out"+str(outNum)+"_gates"+str(numGates)+".v"
                 filenameInf = OutputFolder + "/Infected/Inf_gate_level_"+str(fileCount)+"_in"+str(inNum)+"_out"+str(outNum)+"_gates"+str(numGates)+".v"    
 
                 #Write Uninfected Verilog
