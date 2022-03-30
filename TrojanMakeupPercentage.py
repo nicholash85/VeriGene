@@ -180,9 +180,8 @@ def readVerilogGates(nameVerilog):
         if len(Lines[k].split("//")) > 1:
           inf = True
           numInf += 1
-          print(Lines[k])
-          print(Lines[k].split("//"))
-          print(len(Lines[k].split("//")) > 1)
+          # print(Lines[k])
+          # print(Lines[k].split("//"))
           time.sleep(0.5)
         normNum += 1
         line = line.split(")")[0]
