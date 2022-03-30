@@ -119,12 +119,12 @@ def debugVerilogRead(Verilog):
   print("\nVerilog File Name: "+ str(Verilog.name))
   print("Verilog Input List: "+ str(Verilog.input))
   print("Verilog Output List: "+str(Verilog.output))
-  print("Verilog Wire List: "+str(Verilog.wires+"\n"))
+  print("Verilog Wire List: "+str(Verilog.wires)+"\n")
     
   for k in range(0,len(Verilog.gates)):
     print("\t Verilog gate "+str(k)+": "+str(Verilog.gates[k].name))
     print("\t Gate "+str(k)+" inputs: "+str(Verilog.gates[k].input))
-    print("\t Gate "+str(k)+" outputs: "+str(Verilog.gates[k].output+"\n"))
+    print("\t Gate "+str(k)+" outputs: "+str(Verilog.gates[k].output)+"\n")
 
 
 def ConvertVerilogToLine(InputFolder, OutputFolder):
