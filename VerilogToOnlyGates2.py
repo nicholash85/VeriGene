@@ -127,7 +127,7 @@ def debugVerilogRead(Verilog):
     print("\t Gate "+str(k)+" outputs: "+Verilog.gates[k].output+"\n")
 
 
-def ConvertToLine(InputFolder, OutputFolder):
+def ConvertVerilogToLine(InputFolder, OutputFolder):
   # Loop through Verilog files
   for name in [InputFolder+'/Infected/',InputFolder+'/Uninfected/']:
     for nameVerilog in os.listdir(name):
@@ -156,9 +156,9 @@ def ConvertToLine(InputFolder, OutputFolder):
 # ==============================
 ResultsFolder = 'Results/Percent_Infected'
 
-VerilogFolder, percent = RegGateSize('Verilog2',ResultsFolder)
+ConvertVerilogToLine('Verilog2',ResultsFolder)
 
-VerilogFolder, percent = RegGateSize('NORVerilog2',ResultsFolder)
+ConvertVerilogToLine('NORVerilog2',ResultsFolder)
 
 
 
