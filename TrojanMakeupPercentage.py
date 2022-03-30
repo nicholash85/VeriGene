@@ -177,7 +177,7 @@ def readVerilogGates(nameVerilog):
       #Get gates
       elif len(line)>1:
         inf = False
-        if len(Lines[k].split("//")) > 0:
+        if len(Lines[k].split("//")) > 1:
           inf = True
           numInf += 1
           print(Lines[k])
