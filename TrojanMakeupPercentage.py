@@ -182,7 +182,7 @@ def readVerilogGates(nameVerilog):
           numInf += 1
           # print(Lines[k])
           # print(Lines[k].split("//"))
-          time.sleep(0.5)
+          # time.sleep(0.5)
         normNum += 1
         line = line.split(")")[0]
         line = line.replace("(",",")
