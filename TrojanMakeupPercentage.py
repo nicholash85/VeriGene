@@ -110,13 +110,14 @@ class VerilogGates:
 
 # This class holds the info from a verilog file
 class VerilogInfo:
-  def __init__(self,name,output,input,wires,gates,infNum):
+  def __init__(self,name,output,input,wires,gates,infNum,normNum):
     self.name = name
     self.output = output[:]
     self.input = input[:]
     self.wires = wires[:]
     self.gates = gates[:]
     self.infNum = infNum
+    self.normNum = normNum
     
 # Reads logic gates from Verilog
 def readVerilogGates(nameVerilog):
@@ -132,6 +133,7 @@ def readVerilogGates(nameVerilog):
   wires = []
   gates = []
   numInf = 0
+  normNum = 0
   for k in range(0,len(Lines)):
 
     #Start of Verilog File
@@ -178,6 +180,7 @@ def readVerilogGates(nameVerilog):
         if len(Lines[k].split("//")) > 0:
           inf = True
           numInf += 1
+        normNum += 1
         line = line.split(")")[0]
         line = line.replace("(",",")
         gateParts = line.split(",")
@@ -188,7 +191,7 @@ def readVerilogGates(nameVerilog):
           tempGate = VerilogGates(gateParts[0],gateParts[1],[gateParts[2]],inf)
         gates.append(tempGate)
     
-  return VerilogInfo(name,outputs,inputs,wires,gates,numInf)
+  return VerilogInfo(name,outputs,inputs,wires,gates,numInf,normNum)
 
 class GeneralDNAPart:
   use = ""
@@ -523,6 +526,59 @@ def RegDNASize(InputFolder, DNAFolder, OutputFolder):
   
   return DNAFolder,percentAve
 
+def RegGateSize(InputFolder, OutputFolder):
+  filenames = []
+  numInfArr = []
+  numArr = []
+  PercentInfArr = []
+
+  total = 0
+  k = 0
+  # Read all DNA parts from files
+  readAllDNAParts()
+  # Loop through Verilog files
+  for name in [InputFolder+'/Infected/']:
+    for nameVerilog in os.listdir(name):
+      # start = start1 = time.time()
+      nameVerilog = os.path.join(name,nameVerilog)
+      # end1 = time.time()
+      # print("Runtime of the "+"os.path.join"+"step is "+str(end1 - start1))
+      # start1 = time.time()
+
+      # Create DNA 
+
+      # print file being processed
+      print("\n"+nameVerilog)
+
+      Verilog = readVerilogGates(nameVerilog)
+      #debugVerilogRead(Verilog)
+      # end1 = time.time()
+      # print("Runtime of the "+"readVerilogGates"+"step is "+str(end1 - start1))
+      # start1 = time.time()
+
+      filenames.append(nameVerilog)
+      numInfArr.append(Verilog.infNum)
+      numArr.append(Verilog.normNum)
+      PercentInfArr.append(Verilog.infNum/Verilog.normNum)
+      total += (Verilog.infNum/Verilog.normNum)
+      k += 1
+  
+  # Print Individual File Percentages
+  #Print CSV
+  #Headers
+  print("Writing " + InputFolder + " to CSV")
+  csvText = "Filename, Number of Infected, Total Number, Infection Percentage\n"
+  for files in range(0,len(filenames)):
+      csvText = csvText + filenames[files] + ", " + str(numInfArr[files]) + ", " + str(numArr[files]) + ", " + str(PercentInfArr[files]) + "\n"
+  File = open(OutputFolder+"/"+InputFolder+"_Percent_Makeup.csv", "w")
+  File.write(csvText)
+  File.close()
+
+  percentAve = total/k
+  percentStr = InputFolder + ": " + str(percentAve) + " Infected"
+  print(percentStr)
+  
+  return InputFolder,percentAve
 
 # ==============================
 # MAIN PROGRAM PROCESSING 
@@ -531,11 +587,11 @@ folders = []
 percentage = []
 ResultsFolder = 'Results/Percent_Infected'
 
-VerilogFolder, percent = percentInfVerilog('Verilog2',ResultsFolder)
+VerilogFolder, percent = RegGateSize('Verilog2',ResultsFolder)
 folders.append(VerilogFolder)
 percentage.append(percent)
 
-VerilogFolder, percent = percentInfVerilog('NORVerilog2',ResultsFolder)
+VerilogFolder, percent = RegGateSize('NORVerilog2',ResultsFolder)
 folders.append(VerilogFolder)
 percentage.append(percent)
 
