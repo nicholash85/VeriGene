@@ -21,7 +21,7 @@ from tensorflow.python.ops.gen_math_ops import mod
 # os.listdir(dataset_dir)
 # train_dir = os.path.join(dataset_dir, 'Train')
 # os.listdir(train_dir)
-batch_size = 2000
+batch_size = 3
 # batch_size1 = 100
 seed = 42
 
@@ -45,7 +45,7 @@ seed = 42
 #     'K-Mers/Test', 
 #     batch_size=batch_size)
 
-Folder = "K-MersRandomMut_custom2"
+Folder = "K-MersRandomMut_custom3"
 raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
     Folder+'/Train', 
     batch_size=batch_size)
