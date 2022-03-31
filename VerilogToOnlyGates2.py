@@ -186,13 +186,13 @@ def renameVarsVerilog(Verilog, SingleLineVerilog):
 
 def emptyDirectories(FilePath):
   print("Emptying Directories")
-  os.mkdir(FilePath)
+  # os.mkdir(FilePath)
   
   for test in ["Test","Train","Validation"]:
-    os.mkdir(FilePath + '/' + test)
+    # os.mkdir(FilePath + '/' + test)
   # Empty Directories
     folder = os.path.join(sys.path[0], FilePath + '/' + test + '/Uninfected')
-    os.mkdir(folder)
+    # os.mkdir(folder)
     for filename in os.listdir(folder):
         file_path = os.path.join(folder, filename)
         try:
@@ -204,7 +204,7 @@ def emptyDirectories(FilePath):
             print('Failed to delete %s. Reason: %s' % (file_path, e))
 
     folder = os.path.join(sys.path[0], FilePath + '/' + test + '/Infected')
-    os.mkdir(folder)
+    # os.mkdir(folder)
     for filename in os.listdir(folder):
         file_path = os.path.join(folder, filename)
         try:
