@@ -245,7 +245,7 @@ OutputFolder = 'Verilog3_Nueral'
 emptyDirectories(OutputFolder)
 
 # Loop through Verilog files
-for name in (InputFolder+'/Uninfected/',InputFolder+'/Infected/'):
+for name in [InputFolder+'/Infected/']:
   for nameVerilog in os.listdir(name):
     # start = start1 = time.time()
     nameVerilog = os.path.join(name,nameVerilog)
