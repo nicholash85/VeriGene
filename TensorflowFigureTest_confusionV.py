@@ -187,12 +187,13 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
 history = model.fit(train_ds, validation_data=val_ds, epochs=epochs,callbacks=[cp_callback])
 
 #Split Test_ds into x and y
+print(len(test_ds))
 predictions = model.predict(test_ds)
 prediction_classes = [1 if prob > 0.5 else 0 for prob in np.ravel(predictions)]
-print(y)
-print(prediction_classes)
-print(len(y))
-print(len(prediction_classes))
+# print(y)
+# print(prediction_classes)
+# print(len(y))
+# print(len(prediction_classes))
 print(confusion_matrix(y, prediction_classes))
 
 print(model.summary())
