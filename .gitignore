@@ -7,14 +7,14 @@ __pycache__/
 *.so
 
 #folders
-Verilog/
+Verilog*/
 Verilog2/
-NORVerilog/
+NORVerilog*/
 NORVerilog2/
 K-MersRandomMut/
 K-MersRandomMut_custom_NOR/
 K-MersRandomMut_custom_NOR2/
-K-MersRandomMut_custom/
+K-MersRandomMut_custom*/
 K-MersRandomMut_custom2/
 K-MersRandomMutOld/
 K-MersRandom_custom_NOR/
