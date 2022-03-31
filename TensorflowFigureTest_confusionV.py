@@ -103,8 +103,13 @@ test_ds = raw_test_ds.map(vectorize_text)
 print()
 
 print("Test Label: ", test_ds)
-print("Test Label: ", dir(test_ds[first_label]))
 
+temp_x = []
+temp_y = []
+for x,y in test_ds:
+    temp_x.append(x)
+    temp_y.append(y)
+print(temp_y)
 
 exit()
 
