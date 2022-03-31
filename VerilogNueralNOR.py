@@ -47,7 +47,7 @@ seed = 42
 #     'K-Mers/Test', 
 #     batch_size=batch_size)
 
-Folder = "NORVerilog3_Nueral"
+Folder = "NORVerilog3_Nueral_Shuffle"
 raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
     Folder+'/Train', 
     batch_size=batch_size)
@@ -196,7 +196,7 @@ epochs = range(1, len(acc) + 1)
 plt.plot(epochs, loss, 'bo', label='Training loss')
 # b is for "solid blue line"
 plt.plot(epochs, val_loss, 'b', label='Validation loss')
-plt.title('Training and validation loss')
+plt.title(Folder+' Training and validation loss')
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
@@ -209,7 +209,7 @@ plt.close()
 
 plt.plot(epochs, acc, 'bo', label='Training acc')
 plt.plot(epochs, val_acc, 'b', label='Validation acc')
-plt.title('Training and validation accuracy')
+plt.title(Folder+' Training and validation accuracy')
 plt.xlabel('Epochs')
 plt.ylabel('Accuracy')
 plt.legend(loc='lower right')
