@@ -99,7 +99,10 @@ print('Vocabulary size: {}'.format(len(vectorize_layer.get_vocabulary())))
 train_ds = raw_train_ds.map(vectorize_text)
 val_ds = raw_val_ds.map(vectorize_text)
 test_ds = raw_test_ds.map(vectorize_text)
-print(len(test_ds))
+
+print()
+
+print("Test Label: ", test_ds.class_names[first_label])
 
 exit()
 
