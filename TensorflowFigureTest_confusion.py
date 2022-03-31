@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 import tensorflow as tf
 import time
-import numpy
+import numpy as np
 
 from tensorflow.keras import layers
 from tensorflow.keras import losses
@@ -99,12 +99,15 @@ print('Vocabulary size: {}'.format(len(vectorize_layer.get_vocabulary())))
 train_ds = raw_train_ds.map(vectorize_text)
 val_ds = raw_val_ds.map(vectorize_text)
 test_ds = raw_test_ds.map(vectorize_text)
+print(len(test_ds))
+
+exit()
 
 AUTOTUNE = tf.data.AUTOTUNE
 
-train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
-val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
-test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
+# train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
+# val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
+# test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
 # def create_model(vocab_size, num_labels):
 #   model = tf.keras.Sequential([
@@ -119,6 +122,7 @@ test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
 # vocab_size is VOCAB_SIZE + 1 since 0 is used additionally for padding.
 # model = create_model(vocab_size=max_features + 1, num_labels=4)
+"""
 vocab_size=max_features + 1
 num_labels=4
 
@@ -176,10 +180,10 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
 
 history = model.fit(train_ds, validation_data=val_ds, epochs=epochs,callbacks=[cp_callback])
 
-# #Split Test_ds into x and y
-# predictions = model.predict(test_ds)
-# prediction_classes = [1 if prob > 0.5 else 0 for prob in np.ravel(predictions)]
-# print(confusion_matrix(y_test, prediction_classes))
+#Split Test_ds into x and y
+predictions = model.predict(test_ds)
+prediction_classes = [1 if prob > 0.5 else 0 for prob in np.ravel(predictions)]
+print(confusion_matrix(y_test, prediction_classes))
 
 print(model.summary())
 loss, accuracy = model.evaluate(test_ds)
@@ -293,3 +297,4 @@ model.load_weights(checkpoint_path)
 # Re-evaluate the model
 loss, acc = model.evaluate(test_ds, verbose=2)
 print("Restored model, accuracy: {:5.2f}%".format(100 * acc))
+"""
