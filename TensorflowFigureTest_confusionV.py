@@ -102,7 +102,7 @@ test_ds = raw_test_ds.map(vectorize_text)
 
 print()
 
-print("Test Label: ", test_ds.class_names[first_label])
+print("Test Label: ", test_ds)
 
 exit()
 
