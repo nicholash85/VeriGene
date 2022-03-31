@@ -21,7 +21,9 @@ from tensorflow.python.ops.gen_math_ops import mod
 # os.listdir(dataset_dir)
 # train_dir = os.path.join(dataset_dir, 'Train')
 # os.listdir(train_dir)
-batch_size = 3
+
+batch_size = 32
+epochs = 100
 # batch_size1 = 100
 seed = 42
 
@@ -173,7 +175,7 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
                                                  save_weights_only=True,
                                                  verbose=1)
 
-history = model.fit(train_ds, validation_data=val_ds, epochs=10,callbacks=[cp_callback])
+history = model.fit(train_ds, validation_data=val_ds, epochs=epochs,callbacks=[cp_callback])
 
 print(model.summary())
 loss, accuracy = model.evaluate(test_ds)
