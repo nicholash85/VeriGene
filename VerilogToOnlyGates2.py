@@ -162,21 +162,21 @@ def renameVarsVerilog(Verilog, SingleLineVerilog):
   SingleLineVerilog = SingleLineVerilog.replace(Verilog.name,name)
 
   # Rename inputs
-  for inIndex in range(len(Verilog.input),0,-1):
+  for inIndex in range(len(Verilog.input)-1,-1,-1):
     inNameOld = Verilog.input[inIndex]
     inNameNew = "in" + inIndex
 
     SingleLineVerilog = SingleLineVerilog.replace(inNameOld,inNameNew)
 
   # Rename outputs
-  for outIndex in range(len(Verilog.output),0,-1):
+  for outIndex in range(len(Verilog.output)-1,-1,-1):
     outNameOld = Verilog.output[outIndex]
     outNameNew = "out" + outIndex
 
     SingleLineVerilog = SingleLineVerilog.replace(outNameOld,outNameNew)
 
   # Rename wires
-  for wireIndex in range(len(Verilog.wires),0,-1):
+  for wireIndex in range(len(Verilog.wires)-1,-1,-1):
     wireNameOld = Verilog.wires[wireIndex]
     wireNameNew = "wire" + wireIndex
 
