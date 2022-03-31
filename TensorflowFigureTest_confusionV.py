@@ -23,7 +23,7 @@ from tensorflow.python.ops.gen_math_ops import mod
 # train_dir = os.path.join(dataset_dir, 'Train')
 # os.listdir(train_dir)
 
-batch_size = 32
+batch_size = 100
 epochs = 1
 
 seed = 42
@@ -192,8 +192,8 @@ predictions = model.predict(test_ds)
 prediction_classes = [1 if prob > 0.5 else 0 for prob in np.ravel(predictions)]
 # print(y)
 # print(prediction_classes)
-# print(len(y))
-# print(len(prediction_classes))
+print(len(y))
+print(len(prediction_classes))
 print(confusion_matrix(y, prediction_classes))
 
 print(model.summary())
