@@ -154,7 +154,7 @@ def renameVarsVerilog(Verilog, SingleLineVerilog):
   # Rename Verilog Module
   name = Verilog.name
   if name.split('_')[0] == "Inf":
-    newName = len(name.split('_')[1])
+    newName = name.split('_')[1]
     for k in range(2,len(name.split('_'))):
       newName = newName + "_" + name.split('_')[k]
     name = newName
@@ -246,6 +246,7 @@ emptyDirectories(OutputFolder)
 
 # Loop through Verilog files
 for name in [InputFolder+'/Infected/']:
+# for name in [InputFolder+'/Uninfected/',InputFolder+'/Infected/']:
   for nameVerilog in os.listdir(name):
     # start = start1 = time.time()
     nameVerilog = os.path.join(name,nameVerilog)
