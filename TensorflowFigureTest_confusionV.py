@@ -53,12 +53,10 @@ raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
     batch_size=batch_size)
 
 raw_val_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    Folder+'/Validation', 
-    batch_size=batch_size)
+    Folder+'/Validation')
 
 raw_test_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    Folder+'/Test', 
-    batch_size=batch_size)
+    Folder+'/Test')
 
 def custom_standardization(input_data):
   lowercase = tf.strings.lower(input_data)   
