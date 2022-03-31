@@ -189,6 +189,7 @@ def emptyDirectories(FilePath):
   for test in ["Test","Train","Validation"]:
   # Empty Directories
     folder = os.path.join(sys.path[0], FilePath + '/' + test + '/Uninfected')
+    os.mkdir(folder)
     for filename in os.listdir(folder):
         file_path = os.path.join(folder, filename)
         try:
@@ -200,6 +201,7 @@ def emptyDirectories(FilePath):
             print('Failed to delete %s. Reason: %s' % (file_path, e))
 
     folder = os.path.join(sys.path[0], FilePath + '/' + test + '/Infected')
+    os.mkdir(folder)
     for filename in os.listdir(folder):
         file_path = os.path.join(folder, filename)
         try:
