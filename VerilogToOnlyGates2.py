@@ -186,7 +186,10 @@ def renameVarsVerilog(Verilog, SingleLineVerilog):
 
 def emptyDirectories(FilePath):
   print("Emptying Directories")
+  os.mkdir(FilePath)
+  
   for test in ["Test","Train","Validation"]:
+    os.mkdir(FilePath + '/' + test)
   # Empty Directories
     folder = os.path.join(sys.path[0], FilePath + '/' + test + '/Uninfected')
     os.mkdir(folder)
