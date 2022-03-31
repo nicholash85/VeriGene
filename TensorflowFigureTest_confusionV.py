@@ -100,16 +100,15 @@ test_ds = raw_test_ds.map(vectorize_text)
 
 print()
 
-print("Test Label: ", test_ds)
-
 # temp_x = []
 # temp_y = []
 # for x,y in test_ds:
 #     temp_x.append(x)
 #     temp_y.append(y)
 # print(temp_y)
-y = np.concatenate([y for x, y in test_ds], axis=0)
-print(y)
+x,y = np.concatenate([(x,y) for x, y in test_ds], axis=0)
+print(len(x))
+print(len(y))
 
 exit()
 
