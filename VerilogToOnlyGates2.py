@@ -184,4 +184,92 @@ def renameVarsVerilog(Verilog, SingleLineVerilog):
 
   return SingleLineVerilog
 
+def emptyDirectories(FilePath):
+  print("Emptying Directories")
+  for test in ["Test","Train","Validation"]:
+  # Empty Directories
+    folder = os.path.join(sys.path[0], FilePath + '/' + test + '/Uninfected')
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e))
 
+    folder = os.path.join(sys.path[0], FilePath + '/' + test + '/Infected')
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e))
+
+  print(FilePath+" emptied.")
+
+def printVectors(Folder,nameVerilog, SingleLine):
+  type, Filename = getFileValues(nameVerilog)
+
+  rand = random.randint(0, 100)
+  if rand < 60:
+    test = 'Train'
+  elif rand < 75:
+    test = 'Validation'
+  else:
+    test = 'Test'
+
+  name = Folder + "/" + test + "/" + type + "/" + Filename + ".txt"
+
+  # print(name)
+
+  DNAFile = open(name,"w")
+  DNAFile.write(SingleLine)
+  DNAFile.close()
+
+# ==============================
+# MAIN PROGRAM PROCESSING 
+# ==============================
+InputFolder = 'Verilog3'
+OutputFolder = 'Verilog3_Nueral'
+#Clear Directory
+emptyDirectories(OutputFolder)
+
+# Loop through Verilog files
+for name in (InputFolder+'/Uninfected/',InputFolder+'/Infected/'):
+  for nameVerilog in os.listdir(name):
+    # start = start1 = time.time()
+    nameVerilog = os.path.join(name,nameVerilog)
+    # end1 = time.time()
+    # print("Runtime of the "+"os.path.join"+"step is "+str(end1 - start1))
+    # start1 = time.time()
+
+    # Create DNA 
+
+    # print file being processed
+    print("\n"+nameVerilog)
+
+    # Get file parameters
+    type, Filename = getFileValues(nameVerilog)
+    # end1 = time.time()
+    # print("Runtime of the "+"getFileValues"+"step is "+str(end1 - start1))
+    # start1 = time.time()
+
+    Verilog = readVerilogGates(nameVerilog)
+    #debugVerilogRead(Verilog)
+    # end1 = time.time()
+    # print("Runtime of the "+"readVerilogGates"+"step is "+str(end1 - start1))
+    # start1 = time.time()
+
+    #Create Single Line
+    VerilogLine = VerilogLines(nameVerilog)
+
+    print(VerilogLine)
+    VerilogLine = renameVarsVerilog(Verilog, VerilogLine)
+    print(VerilogLine)
+
+    # printVectors(OutputFolder,nameVerilog, VerilogLine)
