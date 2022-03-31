@@ -5,6 +5,7 @@ import os
 import tensorflow as tf
 import time
 import numpy as np
+from sklearn.metrics import confusion_matrix
 
 from tensorflow.keras import layers
 from tensorflow.keras import losses
@@ -106,17 +107,13 @@ print()
 #     temp_x.append(x)
 #     temp_y.append(y)
 # print(temp_y)
-x,y = np.concatenate([(x,y) for x, y in test_ds], axis=0)
-print(len(x))
-print(len(y))
-
-exit()
+y = np.concatenate([y for x, y in test_ds], axis=0)
 
 AUTOTUNE = tf.data.AUTOTUNE
 
-# train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
-# val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
-# test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
+train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
+val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
+test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
 # def create_model(vocab_size, num_labels):
 #   model = tf.keras.Sequential([
@@ -131,7 +128,7 @@ AUTOTUNE = tf.data.AUTOTUNE
 
 # vocab_size is VOCAB_SIZE + 1 since 0 is used additionally for padding.
 # model = create_model(vocab_size=max_features + 1, num_labels=4)
-"""
+
 vocab_size=max_features + 1
 num_labels=4
 
@@ -192,7 +189,7 @@ history = model.fit(train_ds, validation_data=val_ds, epochs=epochs,callbacks=[c
 #Split Test_ds into x and y
 predictions = model.predict(test_ds)
 prediction_classes = [1 if prob > 0.5 else 0 for prob in np.ravel(predictions)]
-print(confusion_matrix(y_test, prediction_classes))
+print(confusion_matrix(y, prediction_classes))
 
 print(model.summary())
 loss, accuracy = model.evaluate(test_ds)
@@ -306,4 +303,3 @@ model.load_weights(checkpoint_path)
 # Re-evaluate the model
 loss, acc = model.evaluate(test_ds, verbose=2)
 print("Restored model, accuracy: {:5.2f}%".format(100 * acc))
-"""
