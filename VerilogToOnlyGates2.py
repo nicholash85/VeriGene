@@ -2,7 +2,7 @@ import os
 from time import perf_counter
 from os import read
 import random
-from tokenize import Name, Number
+from tokenize import Name, Number, Single
 import os
 import shutil
 import sys
@@ -16,11 +16,10 @@ def getFileValues(nameVerilog):
 
 # This class holds the gates of the verilog file
 class VerilogGates:
-  def __init__(self,name,output,input,inf):
+  def __init__(self,name,output,input):
     self.name = name
     self.input = input[:]
     self.output = output
-    self.inf = inf
   # def __init__(self, exist):
   #   self.gate = exist.gate
   #   self.input = exist.input
@@ -28,14 +27,12 @@ class VerilogGates:
 
 # This class holds the info from a verilog file
 class VerilogInfo:
-  def __init__(self,name,output,input,wires,gates,infNum,normNum):
+  def __init__(self,name,output,input,wires,gates):
     self.name = name
     self.output = output[:]
     self.input = input[:]
     self.wires = wires[:]
     self.gates = gates[:]
-    self.infNum = infNum
-    self.normNum = normNum
     
 # Reads logic gates from Verilog
 def readVerilogGates(nameVerilog):
@@ -107,12 +104,12 @@ def readVerilogGates(nameVerilog):
         gateParts = line.split(",")
         if len(gateParts) > 3:
           tempInputs = [gateParts[2],gateParts[3]]
-          tempGate = VerilogGates(gateParts[0],gateParts[1],tempInputs,inf)
+          tempGate = VerilogGates(gateParts[0],gateParts[1],tempInputs)
         if len(gateParts) == 3:
-          tempGate = VerilogGates(gateParts[0],gateParts[1],[gateParts[2]],inf)
+          tempGate = VerilogGates(gateParts[0],gateParts[1],[gateParts[2]])
         gates.append(tempGate)
     
-  return VerilogInfo(name,outputs,inputs,wires,gates,numInf,normNum)
+  return VerilogInfo(name,outputs,inputs,wires,gates)
 
 #Prints all Verilog values
 def debugVerilogRead(Verilog):
@@ -126,42 +123,65 @@ def debugVerilogRead(Verilog):
     print("\t Gate "+str(k)+" inputs: "+str(Verilog.gates[k].input))
     print("\t Gate "+str(k)+" outputs: "+str(Verilog.gates[k].output)+"\n")
 
+def VerilogLines(nameVerilog):
+  VerilogFile = open(nameVerilog,'r')
+  Lines = VerilogFile.readlines()
+  VerilogFile.close()
 
-def ConvertVerilogToLine(InputFolder, OutputFolder):
-  # Loop through Verilog files
-  for name in [InputFolder+'/Infected/',InputFolder+'/Uninfected/']:
-    for nameVerilog in os.listdir(name):
-      # start = start1 = time.time()
-      nameVerilog = os.path.join(name,nameVerilog)
-      # end1 = time.time()
-      # print("Runtime of the "+"os.path.join"+"step is "+str(end1 - start1))
-      # start1 = time.time()
+  # Remove Comments
+  for k in range(0,len(Lines)):
+    if len(Lines[k].split('//')) > 1:
+      Lines[k] = Lines[k].split('//')[0]
 
-      # Create DNA 
+  SingleLine = ''
+  #Make single line
+  for k in range(0,len(Lines)):
+    SingleLine = SingleLine + Lines[k] + ' '
 
-      # print file being processed
-      print("\n"+nameVerilog)
+  # Remove Punctuation
+  SingleLine = SingleLine.replace('(',' ')
+  SingleLine = SingleLine.replace(')',' ')
+  SingleLine = SingleLine.replace(';',' ')
+  SingleLine = SingleLine.replace(',',' ')
+  SingleLine = SingleLine.replace('\n',' ')
+  SingleLine = SingleLine.replace('\t',' ')
 
-      Verilog = readVerilogGates(nameVerilog)
-      debugVerilogRead(Verilog)
-      # end1 = time.time()
-      # print("Runtime of the "+"readVerilogGates"+"step is "+str(end1 - start1))
-      # start1 = time.time()
-  
-  
+  SingleLine = ' '.join(SingleLine.split())
 
+  return SingleLine
 
-# ==============================
-# MAIN PROGRAM PROCESSING 
-# ==============================
-ResultsFolder = 'Results/Percent_Infected'
+def renameVarsVerilog(Verilog, SingleLineVerilog):
+  # Rename Verilog Module
+  name = Verilog.name
+  if name.split('_')[0] == "Inf":
+    newName = len(name.split('_')[1])
+    for k in range(2,len(name.split('_'))):
+      newName = newName + "_" + name.split('_')[k]
+    name = newName
 
-ConvertVerilogToLine('Verilog2',ResultsFolder)
+  SingleLineVerilog = SingleLineVerilog.replace(Verilog.name,name)
 
-ConvertVerilogToLine('NORVerilog2',ResultsFolder)
+  # Rename inputs
+  for inIndex in range(len(Verilog.input),0,-1):
+    inNameOld = Verilog.input[inIndex]
+    inNameNew = "in" + inIndex
 
+    SingleLineVerilog = SingleLineVerilog.replace(inNameOld,inNameNew)
 
+  # Rename outputs
+  for outIndex in range(len(Verilog.output),0,-1):
+    outNameOld = Verilog.output[outIndex]
+    outNameNew = "out" + outIndex
 
+    SingleLineVerilog = SingleLineVerilog.replace(outNameOld,outNameNew)
 
+  # Rename wires
+  for wireIndex in range(len(Verilog.wires),0,-1):
+    wireNameOld = Verilog.wires[wireIndex]
+    wireNameNew = "wire" + wireIndex
+
+    SingleLineVerilog = SingleLineVerilog.replace(wireNameOld,wireNameNew)
+
+  return SingleLineVerilog
 
 
