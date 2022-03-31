@@ -45,7 +45,7 @@ seed = 42
 #     'K-Mers/Test', 
 #     batch_size=batch_size)
 
-Folder = "Verilog2_Nueral"
+Folder = "Verilog3_Nueral"
 raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
     Folder+'/Train', 
     batch_size=batch_size)

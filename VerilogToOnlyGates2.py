@@ -273,8 +273,8 @@ for name in [InputFolder+'/Uninfected/',InputFolder+'/Infected/']:
     #Create Single Line
     VerilogLine = VerilogLines(nameVerilog)
 
-    print(VerilogLine)
+    # print(VerilogLine)
     VerilogLine = renameVarsVerilog(Verilog, VerilogLine)
-    print(VerilogLine)
+    # print(VerilogLine)
 
     printVectors(OutputFolder,nameVerilog, VerilogLine)
