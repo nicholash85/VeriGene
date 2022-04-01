@@ -89,8 +89,8 @@ print("Label: ", raw_train_ds.class_names[first_label])
 print("Vectorized DNA: ", vectorize_text(first_DNA, first_label))
 
 # Vocab Size and Make up
-# print("1 ---> ",vectorize_layer.get_vocabulary()[1])
-# print("4 ---> ",vectorize_layer.get_vocabulary()[4])
+print("1 ---> ",vectorize_layer.get_vocabulary()[1])
+print("4 ---> ",vectorize_layer.get_vocabulary()[4])
 print('Vocabulary size: {}'.format(len(vectorize_layer.get_vocabulary())))
 # for k in range(0,len(vectorize_layer.get_vocabulary())):
 #   print("{0} ---> {1}".format(k, vectorize_layer.get_vocabulary()[k]))
@@ -189,7 +189,7 @@ history = model.fit(train_ds, validation_data=val_ds, epochs=epochs,callbacks=[c
 #Split Test_ds into x and y
 print(len(test_ds))
 predictions = model.predict(test_ds)
-print(len(predictions))
+# print(len(predictions))
 prediction_classes = [1 if prob > 0.5 else 0 for prob in np.ravel(predictions)]
 # print(y)
 # print(prediction_classes)
