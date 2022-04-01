@@ -590,19 +590,19 @@ folders = []
 percentage = []
 ResultsFolder = 'Results/Percent_Infected'
 
-VerilogFolder, percent = RegGateSize('Verilog2',ResultsFolder)
+VerilogFolder, percent = RegGateSize('Verilog3',ResultsFolder)
 folders.append(VerilogFolder)
 percentage.append(percent)
 
-VerilogFolder, percent = RegGateSize('NORVerilog2',ResultsFolder)
+VerilogFolder, percent = RegGateSize('NORVerilog3',ResultsFolder)
 folders.append(VerilogFolder)
 percentage.append(percent)
 
-VerilogFolder, percent = RegDNASize('Verilog2','K-MersRandomMut_custom2',ResultsFolder)
+VerilogFolder, percent = RegDNASize('Verilog3','K-MersRandomMut_custom3',ResultsFolder)
 folders.append(VerilogFolder)
 percentage.append(percent)
 
-VerilogFolder, percent = RegDNASize('NORVerilog2','K-MersRandomMut_custom_NOR2',ResultsFolder)
+VerilogFolder, percent = RegDNASize('NORVerilog3','K-MersRandomMut_custom_NOR3',ResultsFolder)
 folders.append(VerilogFolder)
 percentage.append(percent)
 
