@@ -191,7 +191,7 @@ print(len(test_ds))
 predictions = model.predict(test_ds)
 # print(len(predictions))
 # print(predictions)
-print(len(np.ravel(predictions))
+print(len(np.ravel(predictions)))
 prediction_classes = [1 if prob > 0.5 else 0 for prob in np.ravel(predictions)]
 # print(y)
 # print(prediction_classes)
