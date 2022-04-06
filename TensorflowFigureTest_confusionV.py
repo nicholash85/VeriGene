@@ -108,6 +108,7 @@ print()
 #     temp_y.append(y)
 # print(temp_y)
 y = np.concatenate([y for x, y in test_ds], axis=0)
+x = np.concatenate([x for x, y in test_ds], axis=0)
 
 AUTOTUNE = tf.data.AUTOTUNE
 
@@ -195,9 +196,10 @@ print(len(np.ravel(predictions)))
 prediction_classes = [1 if prob > 0.5 else 0 for prob in np.ravel(predictions)]
 # print(y)
 # print(prediction_classes)
+print(len(x))
 print(len(y))
 print(len(prediction_classes))
-print(y[0])
+print(x[0])
 print(confusion_matrix(y, prediction_classes))
 
 print(model.summary())
