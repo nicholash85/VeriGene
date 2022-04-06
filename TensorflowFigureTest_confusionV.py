@@ -197,6 +197,7 @@ prediction_classes = [1 if prob > 0.5 else 0 for prob in np.ravel(predictions)]
 # print(prediction_classes)
 print(len(y))
 print(len(prediction_classes))
+print(y[0])
 print(confusion_matrix(y, prediction_classes))
 
 print(model.summary())
