@@ -194,7 +194,7 @@ print("len(test_ds):" +str(len(test_ds_conf)))
 # predictions = model.predict(test_ds)
 predictions = model.predict(test_ds_conf)
 for qw in range(0,len(np.ravel(test_ds_conf))):
-    print("np.ravel(test_ds): " + str(qw) + ": " + str(np.ravel(test_ds_conf)[qw]))
+    print("np.ravel(test_ds): " + str(qw) + ": " + str((test_ds_conf)[qw]))
 # print(len(predictions))
 # print(predictions)
 print("len(np.ravel(predictions)): "+str(len(np.ravel(predictions))))
