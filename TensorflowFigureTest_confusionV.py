@@ -189,13 +189,11 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
 history = model.fit(train_ds, validation_data=val_ds, epochs=epochs,callbacks=[cp_callback])
 
 #Split Test_ds into x and y
-print(len(test_ds))
-for qw in range(0,len(test_ds)):
-    print("test_ds: " + str(qw) + ": " + str(test_ds[qw]))
+print("len(test_ds):" +str(len(test_ds)))
 predictions = model.predict(test_ds)
 # print(len(predictions))
 # print(predictions)
-print(len(np.ravel(predictions)))
+print("len(np.ravel(predictions))"+str(len(np.ravel(predictions))))
 for qw in range(0,len(np.ravel(predictions))):
     print("np.ravel(predictions): " + str(qw) + ": " + str(np.ravel(predictions)[qw]))
 prediction_classes = [1 if prob > 0.5 else 0 for prob in np.ravel(predictions)]
