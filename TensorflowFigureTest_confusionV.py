@@ -192,10 +192,10 @@ history = model.fit(train_ds, validation_data=val_ds, epochs=epochs,callbacks=[c
 print("len(test_ds):" +str(len(test_ds)))
 predictions = model.predict(test_ds)
 for qw in range(0,len(np.ravel(test_ds))):
-    print("np.ravel(test_ds): " + str(qw) + ": " + str(np.ravel(test_ds)[qw]))
+    print("np.ravel(test_ds): " + str(qw) + ": " + str((np.ravel(test_ds)[qw])[1]))
 # print(len(predictions))
 # print(predictions)
-print("len(np.ravel(predictions))"+str(len(np.ravel(predictions))))
+print("len(np.ravel(predictions)): "+str(len(np.ravel(predictions))))
 for qw in range(0,len(np.ravel(predictions))):
     print("np.ravel(predictions): " + str(qw) + ": " + str(np.ravel(predictions)[qw]))
 prediction_classes = [1 if prob > 0.5 else 0 for prob in np.ravel(predictions)]
