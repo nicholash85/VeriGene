@@ -23,7 +23,7 @@ from tensorflow.python.ops.gen_math_ops import mod
 # os.listdir(train_dir)
 
 batch_size = 32
-epochs = 100
+epochs = 1
 
 seed = 42
 
@@ -47,7 +47,8 @@ seed = 42
 #     'K-Mers/Test', 
 #     batch_size=batch_size)
 
-Folder = "K-MersRandomMut_custom_NOR3"
+# Folder = "K-MersRandomMut_custom_NOR3"
+Folder = "Test_ds"
 raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
     Folder+'/Train', 
     batch_size=batch_size)

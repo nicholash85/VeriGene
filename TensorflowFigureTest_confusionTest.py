@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 import os
 import tensorflow as tf
 import time
-import numpy as np
-from sklearn.metrics import confusion_matrix
+import numpy
 
 from tensorflow.keras import layers
 from tensorflow.keras import losses
@@ -23,8 +22,8 @@ from tensorflow.python.ops.gen_math_ops import mod
 # train_dir = os.path.join(dataset_dir, 'Train')
 # os.listdir(train_dir)
 
-batch_size = 100
-epochs = 1
+batch_size = 32
+epochs = 100
 
 seed = 42
 
@@ -48,17 +47,18 @@ seed = 42
 #     'K-Mers/Test', 
 #     batch_size=batch_size)
 
-# Folder = "Verilog3_Nueral"
 Folder = "Test_ds"
 raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
     Folder+'/Train', 
     batch_size=batch_size)
 
 raw_val_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    Folder+'/Validation')
+    Folder+'/Validation', 
+    batch_size=batch_size)
 
 raw_test_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    Folder+'/Test')
+    Folder+'/Test', 
+    batch_size=batch_size)
 
 def custom_standardization(input_data):
   lowercase = tf.strings.lower(input_data)   
@@ -100,17 +100,6 @@ train_ds = raw_train_ds.map(vectorize_text)
 val_ds = raw_val_ds.map(vectorize_text)
 test_ds = raw_test_ds.map(vectorize_text)
 
-print()
-
-# temp_x = []
-# temp_y = []
-# for x,y in test_ds:
-#     temp_x.append(x)
-#     temp_y.append(y)
-# print(temp_y)
-y = np.concatenate([y for x, y in test_ds], axis=0)
-x = np.concatenate([x for x, y in test_ds], axis=0)
-
 AUTOTUNE = tf.data.AUTOTUNE
 
 train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
@@ -130,7 +119,6 @@ test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
 # vocab_size is VOCAB_SIZE + 1 since 0 is used additionally for padding.
 # model = create_model(vocab_size=max_features + 1, num_labels=4)
-
 vocab_size=max_features + 1
 num_labels=4
 
@@ -188,20 +176,10 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
 
 history = model.fit(train_ds, validation_data=val_ds, epochs=epochs,callbacks=[cp_callback])
 
-#Split Test_ds into x and y
-print(len(test_ds))
-predictions = model.predict(test_ds)
-# print(len(predictions))
-# print(predictions)
-print(len(np.ravel(predictions)))
-prediction_classes = [1 if prob > 0.5 else 0 for prob in np.ravel(predictions)]
-# print(y)
-# print(prediction_classes)
-print(len(x))
-print(len(y))
-print(len(prediction_classes))
-print(x[0])
-print(confusion_matrix(y, prediction_classes))
+# #Split Test_ds into x and y
+# predictions = model.predict(test_ds)
+# prediction_classes = [1 if prob > 0.5 else 0 for prob in np.ravel(predictions)]
+# print(confusion_matrix(y_test, prediction_classes))
 
 print(model.summary())
 loss, accuracy = model.evaluate(test_ds)
@@ -223,7 +201,7 @@ epochs = range(1, len(acc) + 1)
 plt.plot(epochs, loss, 'bo', label='Training loss')
 # b is for "solid blue line"
 plt.plot(epochs, val_loss, 'b', label='Validation loss')
-plt.title('Training and validation loss')
+plt.title(Folder+' Training and validation loss')
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
@@ -236,7 +214,7 @@ plt.close()
 
 plt.plot(epochs, acc, 'bo', label='Training acc')
 plt.plot(epochs, val_acc, 'b', label='Validation acc')
-plt.title('Training and validation accuracy')
+plt.title(Folder+' Training and validation accuracy')
 plt.xlabel('Epochs')
 plt.ylabel('Accuracy')
 plt.legend(loc='lower right')
