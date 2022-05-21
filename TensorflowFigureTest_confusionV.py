@@ -110,6 +110,7 @@ print()
 # print(temp_y)
 y = np.concatenate([y for x, y in test_ds], axis=0)
 x = np.concatenate([x for x, y in test_ds], axis=0)
+test_ds_conf = test_ds
 
 AUTOTUNE = tf.data.AUTOTUNE
 
@@ -191,7 +192,7 @@ history = model.fit(train_ds, validation_data=val_ds, epochs=epochs,callbacks=[c
 #Split Test_ds into x and y
 print("len(test_ds):" +str(len(test_ds)))
 # predictions = model.predict(test_ds)
-predictions = model.predict(x)
+predictions = model.predict(test_ds_conf)
 for qw in range(0,len(np.ravel(test_ds))):
     print("np.ravel(test_ds): " + str(qw) + ": " + str(np.ravel(test_ds)[qw]))
 # print(len(predictions))
@@ -214,10 +215,10 @@ print("x[0]:" + str(x[0]))
 print("confusion_matrix(y, prediction_classes:" + str(confusion_matrix(y, prediction_classes)))
 
 print(model.summary())
-loss, accuracy = model.evaluate(test_ds)
+loss_eval, accuracy_eval = model.evaluate(test_ds)
 
-print("Loss: ", loss)
-print("Accuracy: ", accuracy)
+print("Loss: ", loss_eval)
+print("Accuracy: ", accuracy_eval)
 
 history_dict = history.history
 history_dict.keys()
@@ -272,7 +273,7 @@ export_model.compile(
     metrics=['accuracy'])
 
 # Test it with `raw_test_ds`, which yields raw strings
-loss, accuracy = export_model.evaluate(raw_test_ds)
+loss, accuracy = export_model.evaluate(test_ds)
 print("Accuracy: {:2.2%}".format(accuracy))
 
 
