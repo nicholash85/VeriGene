@@ -211,7 +211,7 @@ for qw in range(0,len(x)):
 for qw in range(0,len(y)):
     print("y: " + str(qw) + ": " + str(y[qw]))
 for qw in range(0,len(x)):
-    minipredict = model.predict(x[qw])
+    minipredict = model.predict(np.array(x[qw]))
     print("minipredict: " + str(qw) + str(minipredict))
 print("len(prediction_classes):" + str(len(prediction_classes)))
 print("x[0]:" + str(x[0]))
