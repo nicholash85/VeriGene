@@ -190,6 +190,8 @@ history = model.fit(train_ds, validation_data=val_ds, epochs=epochs,callbacks=[c
 
 #Split Test_ds into x and y
 print(len(test_ds))
+for qw in range(0,len(test_ds)):
+    print("test_ds: " + str(qw) + ": " + str(test_ds[qw]))
 predictions = model.predict(test_ds)
 # print(len(predictions))
 # print(predictions)
