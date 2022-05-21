@@ -201,6 +201,10 @@ prediction_classes = [1 if prob > 0.5 else 0 for prob in np.ravel(predictions)]
 # print(prediction_classes)
 print("len(x):" + str(len(x)))
 print("len(y):" + str(len(y)))
+for qw in range(0,len(x)):
+    print("x: " + str(qw) + ": " + str(x[qw]))
+for qw in range(0,len(y)):
+    print("y: " + str(qw) + ": " + str(y[qw]))
 print("len(prediction_classes):" + str(len(prediction_classes)))
 print("x[0]:" + str(x[0]))
 print("confusion_matrix(y, prediction_classes:" + str(confusion_matrix(y, prediction_classes)))
