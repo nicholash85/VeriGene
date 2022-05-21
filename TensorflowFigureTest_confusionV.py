@@ -194,7 +194,7 @@ print("len(test_ds):" +str(len(test_ds_conf)))
 # predictions = model.predict(test_ds)
 predictions = model.predict(test_ds_conf)
 for qw in range(0,len(np.ravel(test_ds_conf))):
-    print("np.ravel(test_ds): " + str(qw) + ": " + str((test_ds_conf)[qw]))
+    print("np.ravel(test_ds): " + str(qw) + ": " + str(np.ravel(test_ds_conf)[qw]))
 # print(len(predictions))
 # print(predictions)
 print("len(np.ravel(predictions)): "+str(len(np.ravel(predictions))))
@@ -210,6 +210,9 @@ for qw in range(0,len(x)):
     print("len(x[qw]):" + str(len(x[qw])))
 for qw in range(0,len(y)):
     print("y: " + str(qw) + ": " + str(y[qw]))
+for qw in range(0,len(x)):
+    minipredict = model.predict(x[qw])
+    print("minipredict: " + str(qw) + str(minipredict))
 print("len(prediction_classes):" + str(len(prediction_classes)))
 print("x[0]:" + str(x[0]))
 print("confusion_matrix(y, prediction_classes:" + str(confusion_matrix(y, prediction_classes)))
