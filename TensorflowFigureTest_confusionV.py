@@ -203,6 +203,7 @@ print("len(x):" + str(len(x)))
 print("len(y):" + str(len(y)))
 for qw in range(0,len(x)):
     print("x: " + str(qw) + ": " + str(x[qw]))
+    print("len(x[qw]):" + str(len(x[qw])))
 for qw in range(0,len(y)):
     print("y: " + str(qw) + ": " + str(y[qw]))
 print("len(prediction_classes):" + str(len(prediction_classes)))
