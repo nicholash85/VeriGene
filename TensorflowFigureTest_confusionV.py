@@ -60,7 +60,7 @@ raw_val_ds = tf.keras.preprocessing.text_dataset_from_directory(
 raw_test_ds = tf.keras.preprocessing.text_dataset_from_directory(
     Folder+'/Test')
 
-for q in range(0,len(raw_train_ds.class_names):
+for q in range(0,len(raw_train_ds.class_names)):
     print("Label " + str(q) + " corresponds to " + raw_train_ds.class_names[q])
 
 def custom_standardization(input_data):
