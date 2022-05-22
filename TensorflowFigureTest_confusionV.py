@@ -164,7 +164,7 @@ model.add(layers.Dropout(0.5))
 for layer in model.layers:
     print(layer.name)
     print(layer.output_shape)
-model.add(layers.Dense(num_labels))
+# model.add(layers.Dense(num_labels))
 
 for layer in model.layers:
     print(layer.name)
