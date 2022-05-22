@@ -197,6 +197,8 @@ for qw in range(0,len(np.ravel(test_ds_conf))):
 # print(len(predictions))
 # print(predictions)
 print("len(np.ravel(predictions)): "+str(len(np.ravel(predictions))))
+for qw in range(0,len(predictions)):
+    print("(predictions): " + str(qw) + ": " + str(predictions[qw]))
 for qw in range(0,len(np.ravel(predictions))):
     print("np.ravel(predictions): " + str(qw) + ": " + str(np.ravel(predictions)[qw]))
 prediction_classes = [1 if prob > 0.5 else 0 for prob in np.ravel(predictions)]
