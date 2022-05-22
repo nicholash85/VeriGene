@@ -60,6 +60,9 @@ raw_val_ds = tf.keras.preprocessing.text_dataset_from_directory(
 raw_test_ds = tf.keras.preprocessing.text_dataset_from_directory(
     Folder+'/Test')
 
+print("Label 0 corresponds to", raw_train_ds.class_names[0])
+print("Label 1 corresponds to", raw_train_ds.class_names[1])
+
 def custom_standardization(input_data):
   lowercase = tf.strings.lower(input_data)   
   return tf.strings.regex_replace(lowercase, '', '')
@@ -133,7 +136,7 @@ test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
 # model = create_model(vocab_size=max_features + 1, num_labels=4)
 
 vocab_size=max_features + 1
-num_labels=4
+num_labels=2
 
 model = tf.keras.Sequential([])
 model.add(layers.Embedding(vocab_size, 64, mask_zero=True))
@@ -141,34 +144,34 @@ for layer in model.layers:
     print(layer.name)
     print(layer.output_shape)
 model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
-for layer in model.layers:
-    print(layer.name)
-    print(layer.output_shape)
-model.add(layers.Dropout(0.5))
-for layer in model.layers:
-    print(layer.name)
-    print(layer.output_shape)
+# for layer in model.layers:
+#     print(layer.name)
+#     print(layer.output_shape)
+# model.add(layers.Dropout(0.5))
+# for layer in model.layers:
+#     print(layer.name)
+#     print(layer.output_shape)
+# # model.add(layers.GlobalMaxPooling1D())
+# # for layer in model.layers:
+# #     print(layer.name)
+# #     print(layer.output_shape)
+# # model.add(layers.LSTM(64))
+# # for layer in model.layers:
+# #     print(layer.name)
+# #     print(layer.output_shape)
 # model.add(layers.GlobalMaxPooling1D())
 # for layer in model.layers:
 #     print(layer.name)
 #     print(layer.output_shape)
-# model.add(layers.LSTM(64))
+# model.add(layers.Dropout(0.5))
 # for layer in model.layers:
 #     print(layer.name)
 #     print(layer.output_shape)
-model.add(layers.GlobalMaxPooling1D())
-for layer in model.layers:
-    print(layer.name)
-    print(layer.output_shape)
-model.add(layers.Dropout(0.5))
-for layer in model.layers:
-    print(layer.name)
-    print(layer.output_shape)
 # model.add(layers.Dense(num_labels))
 
-for layer in model.layers:
-    print(layer.name)
-    print(layer.output_shape)
+# for layer in model.layers:
+#     print(layer.name)
+#     print(layer.output_shape)
 
 model.compile(
     loss=losses.SparseCategoricalCrossentropy(from_logits=True),
