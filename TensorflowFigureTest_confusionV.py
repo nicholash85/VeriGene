@@ -194,13 +194,9 @@ history = model.fit(train_ds, validation_data=val_ds, epochs=epochs,callbacks=[c
 
 #confusion matrix
 predictions = model.predict(test_ds)
-print("len(np.ravel(predictions)): "+str(len(np.ravel(predictions))))
-for qw in range(0,len(predictions)):
-    print("(predictions): " + str(qw) + ": " + str(predictions[qw]))
-for qw in range(0,len(np.ravel(predictions))):
-    print("np.ravel(predictions): " + str(qw) + ": " + str(np.ravel(predictions)[qw]))
-prediction_classes = [1 if prob > 0.5 else 0 for prob in np.ravel(predictions)]
-# print(y)
+prediction_classes = []
+for pred in range(0, len(predictions)):
+    prediction_classes.append(np.argmax(predictions[pred]))
 print(prediction_classes)
 print("len(x):" + str(len(x)))
 print("len(y):" + str(len(y)))
