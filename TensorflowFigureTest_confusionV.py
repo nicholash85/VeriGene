@@ -136,7 +136,7 @@ test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
 # model = create_model(vocab_size=max_features + 1, num_labels=4)
 
 vocab_size=max_features + 1
-num_labels=1
+num_labels=2
 
 model = tf.keras.Sequential([])
 model.add(layers.Embedding(vocab_size, 64, mask_zero=True))
