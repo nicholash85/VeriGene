@@ -136,7 +136,7 @@ test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
 # model = create_model(vocab_size=max_features + 1, num_labels=4)
 
 vocab_size=max_features + 1
-num_labels=2
+num_labels=1
 
 model = tf.keras.Sequential([])
 model.add(layers.Embedding(vocab_size, 64, mask_zero=True))
@@ -192,13 +192,8 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
 
 history = model.fit(train_ds, validation_data=val_ds, epochs=epochs,callbacks=[cp_callback])
 
-#Split Test_ds into x and y
-print("len(test_ds):" +str(len(test_ds_conf)))
+#confusion matrix
 predictions = model.predict(test_ds)
-for qw in range(0,len(np.ravel(test_ds_conf))):
-    print("np.ravel(test_ds): " + str(qw) + ": " + str(np.ravel(test_ds_conf)[qw]))
-# print(len(predictions))
-# print(predictions)
 print("len(np.ravel(predictions)): "+str(len(np.ravel(predictions))))
 for qw in range(0,len(predictions)):
     print("(predictions): " + str(qw) + ": " + str(predictions[qw]))
