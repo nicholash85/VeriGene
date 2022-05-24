@@ -198,16 +198,25 @@ prediction_classes = []
 for pred in range(0, len(predictions)):
     prediction_classes.append(np.argmax(predictions[pred]))
 print(prediction_classes)
-print("len(x):" + str(len(x)))
-print("len(y):" + str(len(y)))
-for qw in range(0,len(x)):
-    print("x: " + str(qw) + ": " + str(x[qw]))
-    print("len(x[qw]):" + str(len(x[qw])))
-for qw in range(0,len(y)):
-    print("y: " + str(qw) + ": " + str(y[qw]))
-print("len(prediction_classes):" + str(len(prediction_classes)))
-print("x[0]:" + str(x[0]))
-print("confusion_matrix(y, prediction_classes:" + str(confusion_matrix(y, prediction_classes)))
+confusionMatrix = confusion_matrix(y, prediction_classes)
+print("confusion_matrix(y, prediction_classes):" + str(confusionMatrix)) 
+
+csvText = ' '
+for q in range(0,len(raw_train_ds.class_names)):
+    csvText = csvText + ","  + raw_train_ds.class_names[q]
+csvText = csvText + "\n"
+for loop in range(0,confusionMatrix):
+    csvText = csvText + raw_train_ds.class_names[loop]
+    for inArr in range(0,confusionMatrix[loop]): 
+        csvText = csvText + inArr
+        if inArr != loop[-1]:
+            csvText = csvText + ","
+        else:
+            csvText = csvText + "\n"
+File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
+print("Confusion Matrix: \n" + csvText)
+# File.write(csvText)
+# File.close()
 
 print(model.summary())
 loss_eval, accuracy_eval = model.evaluate(test_ds)
@@ -254,7 +263,7 @@ plt.savefig(ResultDir+"/"+Folder+"_"+timestr+'_Accuracy.png', format="png")
 csvText = "Epoch, Loss, Validation Loss, Accuracy, Validation Accuracy\n"
 for EpochNum in epochs:
     csvText = csvText + str(EpochNum) + ", " + str(loss[EpochNum-1]) + ", " + str(val_loss[EpochNum-1]) + ", " + str(acc[EpochNum-1]) + ", " + str(val_acc[EpochNum-1]) + "\n"
-File = open(ResultDir+"/"+Folder+"_"+timestr+".csv", "w")
+File = open(ResultDir+"/"+Folder+"_"+timestr+"_Training.csv", "w")
 File.write(csvText)
 File.close()
 
