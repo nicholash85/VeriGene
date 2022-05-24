@@ -294,4 +294,12 @@ model.load_weights(checkpoint_path)
 loss, acc = model.evaluate(test_ds, verbose=2)
 print("Restored model, accuracy: {:5.2f}%".format(100 * acc))
 
+#Print Testing Results
+csvText = "Test Accuracy, Restored Model Test Accuracy \n"
+csvText = csvText + str(accuracy) + "," + str(acc) + "\n"
+File = open(ResultDir+"/"+Folder+"_"+timestr+"_TestAcc.csv", "w")
+File.write(csvText)
+File.close()
+print("Printed Results: " + ResultDir+"/"+Folder+"_"+timestr+"_Training.csv\n")
+
 print("\nFinished")
