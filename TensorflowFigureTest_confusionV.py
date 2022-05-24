@@ -102,6 +102,7 @@ print('Vocabulary size: {}'.format(len(vectorize_layer.get_vocabulary())))
 train_ds = raw_train_ds.map(vectorize_text)
 val_ds = raw_val_ds.map(vectorize_text)
 test_ds = raw_test_ds.map(vectorize_text)
+test_ds_conf = raw_test_ds.map(vectorize_text)
 
 print()
 
@@ -113,7 +114,6 @@ print()
 # print(temp_y)
 y = np.concatenate([y for x, y in test_ds], axis=0)
 x = np.concatenate([x for x, y in test_ds], axis=0)
-test_ds_conf = test_ds
 
 AUTOTUNE = tf.data.AUTOTUNE
 
