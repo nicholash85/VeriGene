@@ -205,9 +205,9 @@ csvText = ' '
 for q in range(0,len(raw_train_ds.class_names)):
     csvText = csvText + ","  + raw_train_ds.class_names[q]
 csvText = csvText + "\n"
-for loop in range(0,confusionMatrix):
+for loop in range(0,len(ConfusionMatrix)):
     csvText = csvText + raw_train_ds.class_names[loop]
-    for inArr in range(0,confusionMatrix[loop]): 
+    for inArr in range(0,len(confusionMatrix[loop])): 
         csvText = csvText + inArr
         if inArr != loop[-1]:
             csvText = csvText + ","
