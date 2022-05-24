@@ -96,8 +96,8 @@ print("Vectorized DNA: ", vectorize_text(first_DNA, first_label))
 # print("1 ---> ",vectorize_layer.get_vocabulary()[1])
 # print("4 ---> ",vectorize_layer.get_vocabulary()[4])
 print('Vocabulary size: {}'.format(len(vectorize_layer.get_vocabulary())))
-for k in range(0,len(vectorize_layer.get_vocabulary())):
-  print("{0} ---> {1}".format(k, vectorize_layer.get_vocabulary()[k]))
+# for k in range(0,len(vectorize_layer.get_vocabulary())):
+#   print("{0} ---> {1}".format(k, vectorize_layer.get_vocabulary()[k]))
 
 train_ds = raw_train_ds.map(vectorize_text)
 val_ds = raw_val_ds.map(vectorize_text)
@@ -199,7 +199,7 @@ for pred in range(0, len(predictions)):
     prediction_classes.append(np.argmax(predictions[pred]))
 print(prediction_classes)
 confusionMatrix = confusion_matrix(y, prediction_classes)
-print("confusion_matrix(y, prediction_classes):" + str(confusionMatrix)) 
+print("confusion matrix:" + str(confusionMatrix)) 
 
 csvText = ' '
 for q in range(0,len(raw_train_ds.class_names)):
@@ -208,15 +208,15 @@ csvText = csvText + "\n"
 for loop in range(0,len(confusionMatrix)):
     csvText = csvText + str(raw_train_ds.class_names[loop])
     for inArr in range(0,len(confusionMatrix[loop])): 
-        csvText = csvText + str(confusionMatrix[loop][inArr])
+        csvText = csvText + str(confusionMatrix[loop][inArr]) + ","
         if confusionMatrix[loop][inArr] != confusionMatrix[loop][-1]:
             csvText = csvText + ","
         else:
             csvText = csvText + "\n"
 File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
-print("Confusion Matrix: \n" + csvText)
-# File.write(csvText)
-# File.close()
+# print("Confusion Matrix: \n" + csvText)
+File.write(csvText)
+File.close()
 
 print(model.summary())
 loss_eval, accuracy_eval = model.evaluate(test_ds)
@@ -330,3 +330,5 @@ model.load_weights(checkpoint_path)
 # Re-evaluate the model
 loss, acc = model.evaluate(test_ds, verbose=2)
 print("Restored model, accuracy: {:5.2f}%".format(100 * acc))
+
+print("\nFinished")
