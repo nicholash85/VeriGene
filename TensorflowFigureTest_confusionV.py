@@ -261,7 +261,7 @@ export_model.compile(
     metrics=['accuracy'])
 
 # Test it with `raw_test_ds`, which yields raw strings
-loss, accuracy = export_model.evaluate(test_ds, verbose = 2)
+loss, accuracy = export_model.evaluate(raw_test_ds)
 print("Accuracy: {:2.2%}".format(accuracy))
 
 
