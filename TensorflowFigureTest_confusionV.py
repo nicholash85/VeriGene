@@ -261,7 +261,7 @@ export_model.compile(
     metrics=['accuracy'])
 
 # Test it with `raw_test_ds`, which yields raw strings
-loss, accuracy = export_model.evaluate(raw_test_ds)
+loss, accuracy = export_model.evaluate(test_ds, verbose = 2)
 print("Accuracy: {:2.2%}".format(accuracy))
 
 
@@ -270,33 +270,12 @@ os.listdir(checkpoint_dir)
 # Create a basic model instance
 model = tf.keras.Sequential([])
 model.add(layers.Embedding(vocab_size, 64, mask_zero=True))
-for layer in model.layers:
-    print(layer.name)
-    print(layer.output_shape)
 model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
-for layer in model.layers:
-    print(layer.name)
-    print(layer.output_shape)
 model.add(layers.Dropout(0.5))
-for layer in model.layers:
-    print(layer.name)
-    print(layer.output_shape)
 # model.add(layers.GlobalMaxPooling1D())
-# for layer in model.layers:
-#     print(layer.name)
-#     print(layer.output_shape)
 # model.add(layers.LSTM(64))
-# for layer in model.layers:
-#     print(layer.name)
-#     print(layer.output_shape)
 model.add(layers.GlobalMaxPooling1D())
-for layer in model.layers:
-    print(layer.name)
-    print(layer.output_shape)
 model.add(layers.Dropout(0.5))
-for layer in model.layers:
-    print(layer.name)
-    print(layer.output_shape)
 model.add(layers.Dense(num_labels))
 
 model.compile(
