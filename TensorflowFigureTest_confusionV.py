@@ -140,33 +140,12 @@ num_labels=2
 
 model = tf.keras.Sequential([])
 model.add(layers.Embedding(vocab_size, 64, mask_zero=True))
-for layer in model.layers:
-    print(layer.name)
-    print(layer.output_shape)
 model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
-for layer in model.layers:
-    print(layer.name)
-    print(layer.output_shape)
 model.add(layers.Dropout(0.5))
-for layer in model.layers:
-    print(layer.name)
-    print(layer.output_shape)
 # model.add(layers.GlobalMaxPooling1D())
-# for layer in model.layers:
-#     print(layer.name)
-#     print(layer.output_shape)
 # model.add(layers.LSTM(64))
-# for layer in model.layers:
-#     print(layer.name)
-#     print(layer.output_shape)
 model.add(layers.GlobalMaxPooling1D())
-for layer in model.layers:
-    print(layer.name)
-    print(layer.output_shape)
 model.add(layers.Dropout(0.5))
-for layer in model.layers:
-    print(layer.name)
-    print(layer.output_shape)
 model.add(layers.Dense(num_labels))
 
 for layer in model.layers:
@@ -217,6 +196,7 @@ File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
 # print("Confusion Matrix: \n" + csvText)
 File.write(csvText)
 File.close()
+print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv\n")
 
 print(model.summary())
 loss_eval, accuracy_eval = model.evaluate(test_ds)
@@ -244,6 +224,7 @@ plt.ylabel('Loss')
 plt.legend()
 
 plt.savefig(ResultDir+"/"+Folder+"_"+timestr+'_Loss.png', format="png")
+print("Printed Graph : " + ResultDir+"/"+Folder+"_"+timestr+'_Loss.png\n')
 
 plt.clf()
 plt.cla()
@@ -256,7 +237,9 @@ plt.xlabel('Epochs')
 plt.ylabel('Accuracy')
 plt.legend(loc='lower right')
 
+
 plt.savefig(ResultDir+"/"+Folder+"_"+timestr+'_Accuracy.png', format="png")
+print("Printed Graph : " + ResultDir+"/"+Folder+"_"+timestr+'_Accuracy.png\n')
 
 #Print CSV
 #Headers
@@ -266,6 +249,7 @@ for EpochNum in epochs:
 File = open(ResultDir+"/"+Folder+"_"+timestr+"_Training.csv", "w")
 File.write(csvText)
 File.close()
+print("Printed Results: " + ResultDir+"/"+Folder+"_"+timestr+"_Training.csv\n")
 
 export_model = tf.keras.Sequential(
     [vectorize_layer, model,
