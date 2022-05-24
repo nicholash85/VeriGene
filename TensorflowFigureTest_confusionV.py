@@ -193,30 +193,30 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
 history = model.fit(train_ds, validation_data=val_ds, epochs=epochs,callbacks=[cp_callback])
 
 #confusion matrix
-# predictions = model.predict(test_ds)
-# prediction_classes = []
-# for pred in range(0, len(predictions)):
-#     prediction_classes.append(np.argmax(predictions[pred]))
-# print(prediction_classes)
-# confusionMatrix = confusion_matrix(y, prediction_classes)
-# print("confusion matrix:" + str(confusionMatrix)) 
+predictions = model.predict(test_ds)
+prediction_classes = []
+for pred in range(0, len(predictions)):
+    prediction_classes.append(np.argmax(predictions[pred]))
+print(prediction_classes)
+confusionMatrix = confusion_matrix(y, prediction_classes)
+print("confusion matrix:" + str(confusionMatrix)) 
 
-# csvText = ' '
-# for q in range(0,len(raw_train_ds.class_names)):
-#     csvText = csvText + ","  + str(raw_train_ds.class_names[q])
-# csvText = csvText + "\n"
-# for loop in range(0,len(confusionMatrix)):
-#     csvText = csvText + str(raw_train_ds.class_names[loop])
-#     for inArr in range(0,len(confusionMatrix[loop])): 
-#         csvText = csvText + str(confusionMatrix[loop][inArr]) + ","
-#         if confusionMatrix[loop][inArr] != confusionMatrix[loop][-1]:
-#             csvText = csvText + ","
-#         else:
-#             csvText = csvText + "\n"
-# File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
-# # print("Confusion Matrix: \n" + csvText)
-# File.write(csvText)
-# File.close()
+csvText = ' '
+for q in range(0,len(raw_train_ds.class_names)):
+    csvText = csvText + ","  + str(raw_train_ds.class_names[q])
+csvText = csvText + "\n"
+for loop in range(0,len(confusionMatrix)):
+    csvText = csvText + str(raw_train_ds.class_names[loop])
+    for inArr in range(0,len(confusionMatrix[loop])): 
+        csvText = csvText + str(confusionMatrix[loop][inArr]) + ","
+        if confusionMatrix[loop][inArr] != confusionMatrix[loop][-1]:
+            csvText = csvText + ","
+        else:
+            csvText = csvText + "\n"
+File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
+# print("Confusion Matrix: \n" + csvText)
+File.write(csvText)
+File.close()
 
 print(model.summary())
 loss_eval, accuracy_eval = model.evaluate(test_ds)
@@ -277,7 +277,7 @@ export_model.compile(
     metrics=['accuracy'])
 
 # Test it with `raw_test_ds`, which yields raw strings
-loss, accuracy = export_model.evaluate(test_ds)
+loss, accuracy = export_model.evaluate(raw_test_ds)
 print("Accuracy: {:2.2%}".format(accuracy))
 
 
