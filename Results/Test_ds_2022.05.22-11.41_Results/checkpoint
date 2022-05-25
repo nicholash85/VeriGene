@@ -1,0 +1,2 @@
+model_checkpoint_path: "cp2_2022.05.22-11.41.ckpt"
+all_model_checkpoint_paths: "cp2_2022.05.22-11.41.ckpt"
