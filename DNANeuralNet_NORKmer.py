@@ -49,7 +49,7 @@ seed = 42
 #     batch_size=batch_size)
 
 # Folder = "Verilog3_Nueral"
-Folder = "K-MersRandomMut_custom_NOR3_Shuffle"
+Folder = "K-MersRandomMut_custom_NOR3"
 raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
     Folder+'/Train', 
     batch_size=batch_size)
