@@ -185,9 +185,9 @@ for q in range(0,len(raw_train_ds.class_names)):
     csvText = csvText + ","  + str(raw_train_ds.class_names[q])
 csvText = csvText + "\n"
 for loop in range(0,len(confusionMatrix)):
-    csvText = csvText + str(raw_train_ds.class_names[loop])
+    csvText = csvText + str(raw_train_ds.class_names[loop]) + ","
     for inArr in range(0,len(confusionMatrix[loop])): 
-        csvText = csvText + str(confusionMatrix[loop][inArr]) + ","
+        csvText = csvText + str(confusionMatrix[loop][inArr])
         if confusionMatrix[loop][inArr] != confusionMatrix[loop][-1]:
             csvText = csvText + ","
         else:
