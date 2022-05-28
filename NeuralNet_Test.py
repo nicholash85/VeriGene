@@ -49,7 +49,7 @@ seed = 42
 #     batch_size=batch_size)
 
 # Folder = "Verilog3_Nueral"
-Folder = "K-MersRandomMut_custom3"
+Folder = "Test_ds"
 raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
     Folder+'/Train', 
     batch_size=batch_size)
@@ -301,32 +301,5 @@ File = open(ResultDir+"/"+Folder+"_"+timestr+"_TestAcc.csv", "w")
 File.write(csvText)
 File.close()
 print("Printed Results: " + ResultDir+"/"+Folder+"_"+timestr+"_Training.csv\n")
-
-# #confusion matrix part two
-# predictions = model.predict(test_ds)
-# prediction_classes = []
-# for pred in range(0, len(predictions)):
-#     prediction_classes.append(np.argmax(predictions[pred]))
-# print(prediction_classes)
-# confusionMatrix = confusion_matrix(y, prediction_classes)
-# print("confusion matrix:" + str(confusionMatrix)) 
-
-# csvText = ' '
-# for q in range(0,len(raw_train_ds.class_names)):
-#     csvText = csvText + ","  + str(raw_train_ds.class_names[q])
-# csvText = csvText + "\n"
-# for loop in range(0,len(confusionMatrix)):
-#     csvText = csvText + str(raw_train_ds.class_names[loop]) + ","
-#     for inArr in range(0,len(confusionMatrix[loop])): 
-#         csvText = csvText + str(confusionMatrix[loop][inArr])
-#         if confusionMatrix[loop][inArr] != confusionMatrix[loop][-1]:
-#             csvText = csvText + ","
-#         else:
-#             csvText = csvText + "\n"
-# File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
-# # print("Confusion Matrix: \n" + csvText)
-# File.write(csvText)
-# File.close()
-# print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion2.csv\n")
 
 print("\nFinished")
