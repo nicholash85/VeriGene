@@ -192,7 +192,7 @@ predictions = model.predict(test_ds)
 prediction_classes = []
 for pred in range(0, len(predictions)):
     prediction_classes.append(np.argmax(predictions[pred]))
-print(prediction_classes)
+# print(prediction_classes)
 confusionMatrix = confusion_matrix(y, prediction_classes)
 print("confusion matrix:" + str(confusionMatrix)) 
 

@@ -189,17 +189,20 @@ history = model.fit(train_ds, validation_data=val_ds, epochs=epochs,callbacks=[c
 
 #confusion matrix
 predictions = model.predict(test_ds)
-prediction_classes = []
-for pred in range(0, len(predictions)):
-    prediction_classes.append(np.argmax(predictions[pred]))
-print(prediction_classes)
+# prediction_classes = []
+prediction_classes = np.argmax(predictions)
+# for pred in range(0, len(predictions)):
+#     prediction_classes.append(np.argmax(predictions[pred]))
+print(y)[:20]
+print(prediction_classes)[:20]
+# print(prediction_classes)
 confusionMatrix = confusion_matrix(y, prediction_classes)
 print("confusion matrix:" + str(confusionMatrix)) 
 
 csvText = ' '
 for q in range(0,len(raw_train_ds.class_names)):
     csvText = csvText + ","  + str(raw_train_ds.class_names[q])
-csvText = csvText + "\n"
+csvText = csvText + ",\n"
 for loop in range(0,len(confusionMatrix)):
     csvText = csvText + str(raw_train_ds.class_names[loop]) + ","
     for inArr in range(0,len(confusionMatrix[loop])): 
@@ -207,7 +210,7 @@ for loop in range(0,len(confusionMatrix)):
         if confusionMatrix[loop][inArr] != confusionMatrix[loop][-1]:
             csvText = csvText + ","
         else:
-            csvText = csvText + "\n"
+            csvText = csvText + ",\n"
 File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
 # print("Confusion Matrix: \n" + csvText)
 File.write(csvText)
