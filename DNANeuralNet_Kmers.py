@@ -24,7 +24,7 @@ from tensorflow.python.ops.gen_math_ops import mod
 # os.listdir(train_dir)
 
 batch_size = 100
-epochs = 20
+epochs = 100
 
 seed = 42
 
