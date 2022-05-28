@@ -151,16 +151,16 @@ model = tf.keras.Sequential([])
 model.add(layers.Embedding(vocab_size, 64, mask_zero=True))
 
 model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
-model.add(layers.GlobalMaxPooling1D())
+model.add(layers.GlobalMaxPooling1D(keepdims=True))
 model.add(layers.Dropout(0.2))
 
 model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
-model.add(layers.GlobalMaxPooling1D())
-model.add(layers.Dropout(0.5))
+model.add(layers.GlobalMaxPooling1D(keepdims=True))
+model.add(layers.Dropout(0.2))
 
 model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
-model.add(layers.GlobalMaxPooling1D())
-model.add(layers.Dropout(0.5))
+model.add(layers.GlobalMaxPooling1D(keepdims=False))
+model.add(layers.Dropout(0.2))
 
 model.add(layers.Dense(num_labels))
 
@@ -297,16 +297,16 @@ model = tf.keras.Sequential([])
 model.add(layers.Embedding(vocab_size, 64, mask_zero=True))
 
 model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
-model.add(layers.GlobalMaxPooling1D())
+model.add(layers.GlobalMaxPooling1D(keepdims=True))
 model.add(layers.Dropout(0.2))
 
 model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
-model.add(layers.GlobalMaxPooling1D())
-model.add(layers.Dropout(0.5))
+model.add(layers.GlobalMaxPooling1D(keepdims=True))
+model.add(layers.Dropout(0.2))
 
 model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
-model.add(layers.GlobalMaxPooling1D())
-model.add(layers.Dropout(0.5))
+model.add(layers.GlobalMaxPooling1D(keepdims=False))
+model.add(layers.Dropout(0.2))
 
 model.add(layers.Dense(num_labels))
 
