@@ -180,11 +180,12 @@ File = open(ResultDir+"/"+Folder+"_"+timestr+"_TestAcc.csv", "w")
 
 #confusion matrix
 predictions = model.predict(test_ds)
-prediction_classes = np.array([])
+prediction_classes = []
 
 # prediction_classes = np.argmax(predictions)
 for pred in range(0, len(predictions)):
     prediction_classes.append(np.argmax(predictions[pred]))
+prediction_classes = np.array(prediction_classes)
 
 print("len(y):" + str(len(y)))
 print(y)
