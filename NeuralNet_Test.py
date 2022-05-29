@@ -48,6 +48,15 @@ seed = 42
 #     'K-Mers/Test', 
 #     batch_size=batch_size)
 
+timestr = time.strftime("%Y.%m.%d-%H.%M")
+ResultDir = "Results/"+Folder+"_"+timestr+"_Results"
+
+
+checkpoint_path = ResultDir+"/cp2_"+timestr+".ckpt"
+print(checkpoint_path)
+checkpoint_dir = os.path.dirname(checkpoint_path)
+print(checkpoint_path)
+
 # Folder = "Verilog3_Nueral"
 Folder = "K-MersRandomMut_custom3"
 raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
