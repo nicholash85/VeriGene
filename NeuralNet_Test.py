@@ -47,18 +47,9 @@ seed = 42
 # raw_test_ds = tf.keras.preprocessing.text_dataset_from_directory(
 #     'K-Mers/Test', 
 #     batch_size=batch_size)
-Folder = "K-MersRandomMut_custom3"
-timestr = time.strftime("%Y.%m.%d-%H.%M")
-ResultDir = "Results/"+Folder+"_"+timestr+"_Results"
-
-
-checkpoint_path = ResultDir+"/cp2_"+timestr+".ckpt"
-print(checkpoint_path)
-checkpoint_dir = os.path.dirname(checkpoint_path)
-print(checkpoint_path)
 
 # Folder = "Verilog3_Nueral"
-
+Folder = "K-MersRandomMut_custom3"
 raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
     Folder+'/Train', 
     batch_size=batch_size)
@@ -167,7 +158,7 @@ model.compile(
 loss, acc = model.evaluate(test_ds, verbose=2)
 print("Untrained model, accuracy: {:5.2f}%".format(100 * acc))
 
-checkpoint_path = "Results/K-MersRandomMut_custom3_2022.05.24-20.20_Results/cp2_2022.05.24-20.20.cpkt.index"
+checkpoint_path = "Results/K-MersRandomMut_custom3_2022.05.24-20.20_Results/cp2_2022.05.24-20.20.ckpt"
 # Loads the weights
 model.load_weights(checkpoint_path)
 
