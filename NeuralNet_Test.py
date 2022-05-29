@@ -54,8 +54,8 @@ raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
     Folder+'/Train', 
     batch_size=batch_size)
 
-raw_val_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    Folder+'/Validation')
+# raw_val_ds = tf.keras.preprocessing.text_dataset_from_directory(
+#     Folder+'/Validation')
 
 raw_test_ds = tf.keras.preprocessing.text_dataset_from_directory(
     Folder+'/Test')
@@ -85,12 +85,12 @@ def vectorize_text(text, label):
   return vectorize_layer(text), label
 
 # retrieve a batch (of 32 reviews and labels) from the dataset
-text_batch, label_batch = next(iter(raw_train_ds))
-first_DNA, first_label = text_batch[0], label_batch[0]
-print("DNA: ", first_DNA)
-print("DNA spaced: ", custom_standardization(first_DNA))
-print("Label: ", raw_train_ds.class_names[first_label])
-print("Vectorized DNA: ", vectorize_text(first_DNA, first_label))
+# text_batch, label_batch = next(iter(raw_train_ds))
+# first_DNA, first_label = text_batch[0], label_batch[0]
+# print("DNA: ", first_DNA)
+# print("DNA spaced: ", custom_standardization(first_DNA))
+# print("Label: ", raw_train_ds.class_names[first_label])
+# print("Vectorized DNA: ", vectorize_text(first_DNA, first_label))
 
 # Vocab Size and Make up
 # print("1 ---> ",vectorize_layer.get_vocabulary()[1])
@@ -99,8 +99,8 @@ print('Vocabulary size: {}'.format(len(vectorize_layer.get_vocabulary())))
 # for k in range(0,len(vectorize_layer.get_vocabulary())):
 #   print("{0} ---> {1}".format(k, vectorize_layer.get_vocabulary()[k]))
 
-train_ds = raw_train_ds.map(vectorize_text)
-val_ds = raw_val_ds.map(vectorize_text)
+# train_ds = raw_train_ds.map(vectorize_text)
+# val_ds = raw_val_ds.map(vectorize_text)
 test_ds = raw_test_ds.map(vectorize_text)
 test_ds_conf = raw_test_ds.map(vectorize_text)
 
@@ -117,8 +117,8 @@ x = np.concatenate([x for x, y in test_ds], axis=0)
 
 AUTOTUNE = tf.data.AUTOTUNE
 
-train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
-val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
+# train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
+# val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
 test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
 # def create_model(vocab_size, num_labels):
@@ -186,9 +186,6 @@ prediction_classes = np.argmax(predictions)
 #     prediction_classes.append(np.argmax(predictions[pred]))
 
 print("len(y):" + str(len(y)))
-for qw in range(0,len(x)):
-    print("x: " + str(qw) + ": " + str(x[qw]))
-    print("len(x[qw]):" + str(len(x[qw])))
 for qw in range(0,len(y)):
     print("y: " + str(qw) + ": " + str(y[qw]))
 print(prediction_classes[:20])
