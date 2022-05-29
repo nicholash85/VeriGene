@@ -154,7 +154,7 @@ for layer in model.layers:
     print(layer.output_shape)
 
 model.compile(
-    loss=losses.CategoricalCrossentropy(from_logits=True),
+    loss=losses.SparseCategoricalCrossentropy(from_logits=True),
     optimizer='adam',
     metrics=['accuracy'])
 
