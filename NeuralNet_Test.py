@@ -191,8 +191,8 @@ for qw in range(0,len(x)):
     print("len(x[qw]):" + str(len(x[qw])))
 for qw in range(0,len(y)):
     print("y: " + str(qw) + ": " + str(y[qw]))
-print(prediction_classes)[:20]
-print(predictions)[:20]
+print(prediction_classes[:20])
+print(predictions[:20])
 # print(prediction_classes)
 confusionMatrix = confusion_matrix(y, prediction_classes)
 print("confusion matrix:" + str(confusionMatrix)) 
