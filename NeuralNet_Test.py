@@ -148,10 +148,10 @@ model.add(layers.Dropout(0.5))
 # model.add(layers.LSTM(64))
 model.add(layers.GlobalMaxPooling1D())
 model.add(layers.Dropout(0.5))
-model.add(layers.Dense(num_labels))
+model.add(layers.Dense(num_labels,activation='softmax'))
 
 model.compile(
-    loss=losses.SparseCategoricalCrossentropy(from_logits=True),
+    loss=losses.CategoricalCrossentropy(from_logits=True),
     optimizer='adam',
     metrics=['accuracy'])
 

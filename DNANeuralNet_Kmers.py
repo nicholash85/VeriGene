@@ -138,38 +138,23 @@ test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
 vocab_size=max_features + 1
 num_labels=2
 
+# Create a basic model instance
 model = tf.keras.Sequential([])
-# model.add(layers.Embedding(vocab_size, 64, mask_zero=True))
-# model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
-# model.add(layers.Dropout(0.5))
-# # model.add(layers.GlobalMaxPooling1D())
-# # model.add(layers.LSTM(64))
-# model.add(layers.GlobalMaxPooling1D())
-# model.add(layers.Dropout(0.5))
-# model.add(layers.Dense(num_labels))
-
 model.add(layers.Embedding(vocab_size, 64, mask_zero=True))
-
 model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
-model.add(layers.GlobalMaxPooling1D(keepdims=True,data_format='channels_first'))
-model.add(layers.Dropout(0.2))
-
-model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
-model.add(layers.GlobalMaxPooling1D(keepdims=True,data_format='channels_first'))
-model.add(layers.Dropout(0.2))
-
-model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
+model.add(layers.Dropout(0.5))
+# model.add(layers.GlobalMaxPooling1D())
+# model.add(layers.LSTM(64))
 model.add(layers.GlobalMaxPooling1D())
-model.add(layers.Dropout(0.2))
-
-model.add(layers.Dense(num_labels))
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(num_labels,activation='softmax'))
 
 for layer in model.layers:
     print(layer.name)
     print(layer.output_shape)
 
 model.compile(
-    loss=losses.SparseCategoricalCrossentropy(from_logits=True),
+    loss=losses.CategoricalCrossentropy(from_logits=True),
     optimizer='adam',
     metrics=['accuracy'])
 
@@ -189,13 +174,17 @@ history = model.fit(train_ds, validation_data=val_ds, epochs=epochs,callbacks=[c
 
 #confusion matrix
 predictions = model.predict(test_ds)
-# prediction_classes = []
-prediction_classes = np.argmax(predictions)
-# for pred in range(0, len(predictions)):
-#     prediction_classes.append(np.argmax(predictions[pred]))
-print(y)[:20]
-print(prediction_classes)[:20]
-print(predictions)[:20]
+prediction_classes = []
+
+# prediction_classes = np.argmax(predictions)
+for pred in range(0, len(predictions)):
+    prediction_classes.append(np.argmax(predictions[pred]))
+prediction_classes = np.array(prediction_classes)
+
+print("len(y):" + str(len(y)))
+print(y[:20])
+print(prediction_classes[:20])
+print(predictions[:20])
 # print(prediction_classes)
 confusionMatrix = confusion_matrix(y, prediction_classes)
 print("confusion matrix:" + str(confusionMatrix)) 
@@ -213,7 +202,7 @@ for loop in range(0,len(confusionMatrix)):
         else:
             csvText = csvText + ",\n"
 File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
-# print("Confusion Matrix: \n" + csvText)
+print("Confusion Matrix: \n" + csvText)
 File.write(csvText)
 File.close()
 print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv\n")
@@ -289,33 +278,21 @@ os.listdir(checkpoint_dir)
 
 # Create a basic model instance
 model = tf.keras.Sequential([])
-# model.add(layers.Embedding(vocab_size, 64, mask_zero=True))
-# model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
-# model.add(layers.Dropout(0.5))
-# # model.add(layers.GlobalMaxPooling1D())
-# # model.add(layers.LSTM(64))
-# model.add(layers.GlobalMaxPooling1D())
-# model.add(layers.Dropout(0.5))
-# model.add(layers.Dense(num_labels))
-
 model.add(layers.Embedding(vocab_size, 64, mask_zero=True))
-
 model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
-model.add(layers.GlobalMaxPooling1D(keepdims=True,data_format='channels_first'))
-model.add(layers.Dropout(0.2))
-
-model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
-model.add(layers.GlobalMaxPooling1D(keepdims=True,data_format='channels_first'))
-model.add(layers.Dropout(0.2))
-
-model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
+model.add(layers.Dropout(0.5))
+# model.add(layers.GlobalMaxPooling1D())
+# model.add(layers.LSTM(64))
 model.add(layers.GlobalMaxPooling1D())
-model.add(layers.Dropout(0.2))
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(num_labels,activation='softmax'))
 
-model.add(layers.Dense(num_labels))
+for layer in model.layers:
+    print(layer.name)
+    print(layer.output_shape)
 
 model.compile(
-    loss=losses.SparseCategoricalCrossentropy(from_logits=True),
+    loss=losses.CategoricalCrossentropy(from_logits=True),
     optimizer='adam',
     metrics=['accuracy'])
 
