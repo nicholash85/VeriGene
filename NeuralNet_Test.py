@@ -49,7 +49,7 @@ seed = 42
 #     batch_size=batch_size)
 
 # Folder = "Verilog3_Nueral"
-Folder = "K-MersRandomMut_custom3"
+Folder = "Test_ds"
 raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
     Folder+'/Train', 
     batch_size=batch_size)
@@ -188,8 +188,9 @@ prediction_classes = np.argmax(predictions)
 print("len(y):" + str(len(y)))
 for qw in range(0,len(y)):
     print("y: " + str(qw) + ": " + str(y[qw]))
-print(prediction_classes[:20])
-print(predictions[:20])
+print(y)
+print(prediction_classes)
+print(predictions)
 # print(prediction_classes)
 confusionMatrix = confusion_matrix(y, prediction_classes)
 print("confusion matrix:" + str(confusionMatrix)) 
