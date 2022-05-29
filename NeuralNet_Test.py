@@ -49,7 +49,7 @@ seed = 42
 #     batch_size=batch_size)
 
 # Folder = "Verilog3_Nueral"
-Folder = "Test_ds"
+Folder = "K-MersRandomMut_custom3"
 raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
     Folder+'/Train', 
     batch_size=batch_size)
@@ -138,135 +138,6 @@ test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
 vocab_size=max_features + 1
 num_labels=2
 
-model = tf.keras.Sequential([])
-model.add(layers.Embedding(vocab_size, 64, mask_zero=True))
-model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
-model.add(layers.Dropout(0.5))
-# model.add(layers.GlobalMaxPooling1D())
-# model.add(layers.LSTM(64))
-model.add(layers.GlobalMaxPooling1D())
-model.add(layers.Dropout(0.5))
-model.add(layers.Dense(num_labels))
-
-for layer in model.layers:
-    print(layer.name)
-    print(layer.output_shape)
-
-model.compile(
-    loss=losses.SparseCategoricalCrossentropy(from_logits=True),
-    optimizer='adam',
-    metrics=['accuracy'])
-
-timestr = time.strftime("%Y.%m.%d-%H.%M")
-ResultDir = "Results/"+Folder+"_"+timestr+"_Results"
-os.makedirs(ResultDir)
-
-checkpoint_path = ResultDir+"/cp2_"+timestr+".ckpt"
-checkpoint_dir = os.path.dirname(checkpoint_path)
-
-# Create a callback that saves the model's weights
-cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
-                                                 save_weights_only=True,
-                                                 verbose=1)
-
-history = model.fit(train_ds, validation_data=val_ds, epochs=epochs,callbacks=[cp_callback])
-
-#confusion matrix
-predictions = model.predict(test_ds)
-prediction_classes = []
-for pred in range(0, len(predictions)):
-    prediction_classes.append(np.argmax(predictions[pred]))
-print(prediction_classes)
-confusionMatrix = confusion_matrix(y, prediction_classes)
-print("confusion matrix:" + str(confusionMatrix)) 
-
-csvText = ' '
-for q in range(0,len(raw_train_ds.class_names)):
-    csvText = csvText + ","  + str(raw_train_ds.class_names[q])
-csvText = csvText + "\n"
-for loop in range(0,len(confusionMatrix)):
-    csvText = csvText + str(raw_train_ds.class_names[loop]) + ","
-    for inArr in range(0,len(confusionMatrix[loop])): 
-        csvText = csvText + str(confusionMatrix[loop][inArr])
-        if confusionMatrix[loop][inArr] != confusionMatrix[loop][-1]:
-            csvText = csvText + ","
-        else:
-            csvText = csvText + "\n"
-File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
-# print("Confusion Matrix: \n" + csvText)
-File.write(csvText)
-File.close()
-print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv\n")
-
-print(model.summary())
-loss_eval, accuracy_eval = model.evaluate(test_ds)
-
-print("Loss: ", loss_eval)
-print("Accuracy: ", accuracy_eval)
-
-history_dict = history.history
-history_dict.keys()
-
-acc = history_dict['accuracy']
-val_acc = history_dict['val_accuracy']
-loss = history_dict['loss']
-val_loss = history_dict['val_loss']
-
-epochs = range(1, len(acc) + 1)
-
-# "bo" is for "blue dot"
-plt.plot(epochs, loss, 'bo', label='Training loss')
-# b is for "solid blue line"
-plt.plot(epochs, val_loss, 'b', label='Validation loss')
-plt.title('Training and validation loss')
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.legend()
-
-plt.savefig(ResultDir+"/"+Folder+"_"+timestr+'_Loss.png', format="png")
-print("Printed Graph : " + ResultDir+"/"+Folder+"_"+timestr+'_Loss.png\n')
-
-plt.clf()
-plt.cla()
-plt.close()
-
-plt.plot(epochs, acc, 'bo', label='Training acc')
-plt.plot(epochs, val_acc, 'b', label='Validation acc')
-plt.title('Training and validation accuracy')
-plt.xlabel('Epochs')
-plt.ylabel('Accuracy')
-plt.legend(loc='lower right')
-
-
-plt.savefig(ResultDir+"/"+Folder+"_"+timestr+'_Accuracy.png', format="png")
-print("Printed Graph : " + ResultDir+"/"+Folder+"_"+timestr+'_Accuracy.png\n')
-
-#Print CSV
-#Headers
-csvText = "Epoch, Loss, Validation Loss, Accuracy, Validation Accuracy\n"
-for EpochNum in epochs:
-    csvText = csvText + str(EpochNum) + ", " + str(loss[EpochNum-1]) + ", " + str(val_loss[EpochNum-1]) + ", " + str(acc[EpochNum-1]) + ", " + str(val_acc[EpochNum-1]) + "\n"
-File = open(ResultDir+"/"+Folder+"_"+timestr+"_Training.csv", "w")
-File.write(csvText)
-File.close()
-print("Printed Results: " + ResultDir+"/"+Folder+"_"+timestr+"_Training.csv\n")
-
-export_model = tf.keras.Sequential(
-    [vectorize_layer, model,
-     layers.Activation('sigmoid')])
-
-export_model.compile(
-    loss=losses.SparseCategoricalCrossentropy(from_logits=False),
-    optimizer='adam',
-    metrics=['accuracy'])
-
-# Test it with `raw_test_ds`, which yields raw strings
-loss, accuracy = export_model.evaluate(raw_test_ds)
-print("Accuracy: {:2.2%}".format(accuracy))
-
-
-os.listdir(checkpoint_dir)
-
 # Create a basic model instance
 model = tf.keras.Sequential([])
 model.add(layers.Embedding(vocab_size, 64, mask_zero=True))
@@ -287,6 +158,7 @@ model.compile(
 loss, acc = model.evaluate(test_ds, verbose=2)
 print("Untrained model, accuracy: {:5.2f}%".format(100 * acc))
 
+checkpoint_path = "Results/K-MersRandomMut_custom3_2022.05.24-20.20_Results/cp2_2022.05.24-20.20.cpkt"
 # Loads the weights
 model.load_weights(checkpoint_path)
 
@@ -294,12 +166,47 @@ model.load_weights(checkpoint_path)
 loss, acc = model.evaluate(test_ds, verbose=2)
 print("Restored model, accuracy: {:5.2f}%".format(100 * acc))
 
+timestr = time.strftime("%Y.%m.%d-%H.%M")
+ResultDir = "Results/"+Folder+"_"+timestr+"_Results"
+os.makedirs(ResultDir)
+
 #Print Testing Results
 csvText = "Test Accuracy, Restored Model Test Accuracy \n"
-csvText = csvText + str(accuracy) + "," + str(acc) + "\n"
+csvText = csvText + " ," + str(acc) + "\n"
 File = open(ResultDir+"/"+Folder+"_"+timestr+"_TestAcc.csv", "w")
-File.write(csvText)
-File.close()
-print("Printed Results: " + ResultDir+"/"+Folder+"_"+timestr+"_Training.csv\n")
+# File.write(csvText)
+# File.close()
+# print("Printed Results: " + ResultDir+"/"+Folder+"_"+timestr+"_Training.csv\n")
+
+#confusion matrix
+predictions = model.predict(test_ds)
+# prediction_classes = []
+prediction_classes = np.argmax(predictions)
+# for pred in range(0, len(predictions)):
+#     prediction_classes.append(np.argmax(predictions[pred]))
+print(y)[:20]
+print(prediction_classes)[:20]
+print(predictions)[:20]
+# print(prediction_classes)
+confusionMatrix = confusion_matrix(y, prediction_classes)
+print("confusion matrix:" + str(confusionMatrix)) 
+
+csvText = ' '
+for q in range(0,len(raw_train_ds.class_names)):
+    csvText = csvText + ","  + str(raw_train_ds.class_names[q])
+csvText = csvText + ",\n"
+for loop in range(0,len(confusionMatrix)):
+    csvText = csvText + str(raw_train_ds.class_names[loop]) + ","
+    for inArr in range(0,len(confusionMatrix[loop])): 
+        csvText = csvText + str(confusionMatrix[loop][inArr])
+        if confusionMatrix[loop][inArr] != confusionMatrix[loop][-1]:
+            csvText = csvText + ","
+        else:
+            csvText = csvText + ",\n"
+# File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
+print("Confusion Matrix: \n" + csvText)
+# File.write(csvText)
+# File.close()
+# print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv\n")
 
 print("\nFinished")

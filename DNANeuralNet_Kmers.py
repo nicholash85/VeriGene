@@ -195,6 +195,7 @@ prediction_classes = np.argmax(predictions)
 #     prediction_classes.append(np.argmax(predictions[pred]))
 print(y)[:20]
 print(prediction_classes)[:20]
+print(predictions)[:20]
 # print(prediction_classes)
 confusionMatrix = confusion_matrix(y, prediction_classes)
 print("confusion matrix:" + str(confusionMatrix)) 
