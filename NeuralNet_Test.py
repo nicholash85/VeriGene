@@ -184,7 +184,13 @@ predictions = model.predict(test_ds)
 prediction_classes = np.argmax(predictions)
 # for pred in range(0, len(predictions)):
 #     prediction_classes.append(np.argmax(predictions[pred]))
-print(y)[:20]
+
+print("len(y):" + str(len(y)))
+for qw in range(0,len(x)):
+    print("x: " + str(qw) + ": " + str(x[qw]))
+    print("len(x[qw]):" + str(len(x[qw])))
+for qw in range(0,len(y)):
+    print("y: " + str(qw) + ": " + str(y[qw]))
 print(prediction_classes)[:20]
 print(predictions)[:20]
 # print(prediction_classes)
