@@ -56,10 +56,10 @@ raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
     batch_size=batch_size)
 
 raw_val_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    Folder+'/Validation')
+    Folder+'/Test')
 
 raw_test_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    Folder+'/Test')
+    Folder+'/Validation')
 
 for q in range(0,len(raw_train_ds.class_names)):
     print("Label " + str(q) + " corresponds to " + raw_train_ds.class_names[q])
@@ -103,7 +103,6 @@ print('Vocabulary size: {}'.format(len(vectorize_layer.get_vocabulary())))
 train_ds = raw_train_ds.map(vectorize_text)
 val_ds = raw_val_ds.map(vectorize_text)
 test_ds = raw_test_ds.map(vectorize_text)
-test_ds_conf = raw_test_ds.map(vectorize_text)
 
 print()
 
