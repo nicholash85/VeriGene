@@ -188,7 +188,7 @@ prediction_classes = []
 for pred in range(0, len(predictions)):
     prediction_classes.append(np.argmax(predictions[pred]))
 prediction_classes = np.array(prediction_classes)
-
+y = np.concatenate([y for x, y in train_ds], axis=0)
 print("len(y):" + str(len(y)))
 print(y[:20])
 print(prediction_classes[:20])
