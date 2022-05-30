@@ -24,7 +24,7 @@ from tensorflow.python.ops.gen_math_ops import mod
 # os.listdir(train_dir)
 
 batch_size = 100
-epochs = 100
+epochs = 24
 
 seed = 42
 
@@ -292,7 +292,7 @@ for layer in model.layers:
     print(layer.output_shape)
 
 model.compile(
-    loss=losses.CategoricalCrossentropy(from_logits=True),
+    loss=losses.SparseCategoricalCrossentropy(from_logits=True),
     optimizer='adam',
     metrics=['accuracy'])
 
