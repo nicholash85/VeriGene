@@ -159,7 +159,7 @@ model.compile(
 loss, acc = model.evaluate(test_ds, verbose=2)
 print("Untrained model, accuracy: {:5.2f}%".format(100 * acc))
 
-checkpoint_path = "Results/K-MersRandomMut_custom3_2022.05.30-08.58_Results/cp2_2022.05.30-08.58.ckpt"
+checkpoint_path = "Results/K-MersRandomMut_custom3_2022.05.30-13.08_Results/cp2_2022.05.30-13.08.ckpt"
 # Loads the weights
 model.load_weights(checkpoint_path)
 
