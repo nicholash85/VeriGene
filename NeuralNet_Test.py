@@ -100,7 +100,7 @@ print('Vocabulary size: {}'.format(len(vectorize_layer.get_vocabulary())))
 # for k in range(0,len(vectorize_layer.get_vocabulary())):
 #   print("{0} ---> {1}".format(k, vectorize_layer.get_vocabulary()[k]))
 
-# train_ds = raw_train_ds.map(vectorize_text)
+train_ds = raw_train_ds.map(vectorize_text)
 # val_ds = raw_val_ds.map(vectorize_text)
 test_ds = raw_test_ds.map(vectorize_text)
 test_ds_conf = raw_test_ds.map(vectorize_text)
@@ -118,7 +118,7 @@ x = np.concatenate([x for x, y in test_ds], axis=0)
 
 AUTOTUNE = tf.data.AUTOTUNE
 
-# train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
+train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
 # val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
 test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
@@ -151,7 +151,7 @@ model.add(layers.Dropout(0.5))
 model.add(layers.Dense(num_labels,activation='softmax'))
 
 model.compile(
-    loss=losses.CategoricalCrossentropy(from_logits=True),
+    loss=losses.SparseCategoricalCrossentropy(from_logits=True), 
     optimizer='adam',
     metrics=['accuracy'])
 
@@ -159,13 +159,14 @@ model.compile(
 loss, acc = model.evaluate(test_ds, verbose=2)
 print("Untrained model, accuracy: {:5.2f}%".format(100 * acc))
 
-checkpoint_path = "Results/K-MersRandomMut_custom3_2022.05.24-20.20_Results/cp2_2022.05.24-20.20.ckpt"
+checkpoint_path = "Results/K-MersRandomMut_custom3_2022.05.29-20.56_Results/cp2_2022.05.29-20.56.ckpt"
 # Loads the weights
 model.load_weights(checkpoint_path)
 
 # Re-evaluate the model
 loss, acc = model.evaluate(test_ds, verbose=2)
-print("Restored model, accuracy: {:5.2f}%".format(100 * acc))
+print("Restored model, accuracy testing: {:5.2f}%".format(100 * acc))
+print("Restored model, loss testing: {:5.2f}%".format(loss))
 
 timestr = time.strftime("%Y.%m.%d-%H.%M")
 ResultDir = "Results/"+Folder+"_"+timestr+"_Results"
@@ -174,7 +175,7 @@ os.makedirs(ResultDir)
 #Print Testing Results
 csvText = "Test Accuracy, Restored Model Test Accuracy \n"
 csvText = csvText + " ," + str(acc) + "\n"
-File = open(ResultDir+"/"+Folder+"_"+timestr+"_TestAcc.csv", "w")
+# File = open(ResultDir+"/"+Folder+"_"+timestr+"_TestAcc.csv", "w")
 # File.write(csvText)
 # File.close()
 # print("Printed Results: " + ResultDir+"/"+Folder+"_"+timestr+"_Training.csv\n")
@@ -194,7 +195,7 @@ print(prediction_classes[:20])
 print(predictions[:20])
 # print(prediction_classes)
 confusionMatrix = confusion_matrix(y, prediction_classes)
-print("confusion matrix:" + str(confusionMatrix)) 
+print("confusion matrix testing:" + str(confusionMatrix)) 
 
 csvText = ' '
 for q in range(0,len(raw_train_ds.class_names)):
@@ -209,9 +210,49 @@ for loop in range(0,len(confusionMatrix)):
         else:
             csvText = csvText + ",\n"
 # File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
-print("Confusion Matrix: \n" + csvText)
+print("Confusion Matrix testing: \n" + csvText)
 # File.write(csvText)
 # File.close()
 # print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv\n")
+
+loss, acc = model.evaluate(train_ds, verbose=2)
+print("Restored model, accuracy training: {:5.2f}%".format(100 * acc))
+print("Restored model, loss training: {:5.2f}%".format(loss))
+#confusion matrix
+
+predictions = model.predict(train_ds)
+prediction_classes = []
+
+# prediction_classes = np.argmax(predictions)
+for pred in range(0, len(predictions)):
+    prediction_classes.append(np.argmax(predictions[pred]))
+prediction_classes = np.array(prediction_classes)
+
+print("len(y):" + str(len(y)))
+print(y[:20])
+print(prediction_classes[:20])
+print(predictions[:20])
+# print(prediction_classes)
+confusionMatrix = confusion_matrix(y, prediction_classes)
+print("confusion matrix training:" + str(confusionMatrix)) 
+
+csvText = ' '
+for q in range(0,len(raw_train_ds.class_names)):
+    csvText = csvText + ","  + str(raw_train_ds.class_names[q])
+csvText = csvText + ",\n"
+for loop in range(0,len(confusionMatrix)):
+    csvText = csvText + str(raw_train_ds.class_names[loop]) + ","
+    for inArr in range(0,len(confusionMatrix[loop])): 
+        csvText = csvText + str(confusionMatrix[loop][inArr])
+        if confusionMatrix[loop][inArr] != confusionMatrix[loop][-1]:
+            csvText = csvText + ","
+        else:
+            csvText = csvText + ",\n"
+# File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
+print("Confusion Matrix training: \n" + csvText)
+# File.write(csvText)
+# File.close()
+# print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv\n")
+
 
 print("\nFinished")
