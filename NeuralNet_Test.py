@@ -56,10 +56,10 @@ raw_train_ds = tf.keras.preprocessing.text_dataset_from_directory(
     batch_size=batch_size)
 
 raw_val_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    Folder+'/Test')
+    Folder+'/Validation')
 
 raw_test_ds = tf.keras.preprocessing.text_dataset_from_directory(
-    Folder+'/Validation')
+    Folder+'/Test')
 
 for q in range(0,len(raw_train_ds.class_names)):
     print("Label " + str(q) + " corresponds to " + raw_train_ds.class_names[q])
