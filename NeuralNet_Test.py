@@ -162,11 +162,6 @@ checkpoint_path = "Results/K-MersRandomMut_custom3_2022.05.30-13.08_Results/cp2_
 # Loads the weights
 model.load_weights(checkpoint_path)
 
-# Re-evaluate the model
-loss, acc = model.evaluate(test_ds, verbose=2)
-print("Restored model, accuracy testing: {:5.2f}%".format(100 * acc))
-print("Restored model, loss testing: {:5.2f}%".format(loss))
-
 timestr = time.strftime("%Y.%m.%d-%H.%M")
 ResultDir = "Results/"+Folder+"_"+timestr+"_Results"
 os.makedirs(ResultDir)
@@ -179,7 +174,14 @@ csvText = csvText + " ," + str(acc) + "\n"
 # File.close()
 # print("Printed Results: " + ResultDir+"/"+Folder+"_"+timestr+"_Training.csv\n")
 
+#######################################
+# Evaluate Test
+loss, acc = model.evaluate(test_ds, verbose=2)
+print("Restored model, accuracy testing: {:5.2f}%".format(100 * acc))
+print("Restored model, loss testing: {:5.2f}%".format(loss))
+
 #confusion matrix
+
 predictions = model.predict(test_ds)
 prediction_classes = []
 
@@ -187,7 +189,7 @@ prediction_classes = []
 for pred in range(0, len(predictions)):
     prediction_classes.append(np.argmax(predictions[pred]))
 prediction_classes = np.array(prediction_classes)
-
+y = np.concatenate([y for x, y in test_ds], axis=0)
 print("len(y):" + str(len(y)))
 print(y[:20])
 print(prediction_classes[:20])
@@ -214,9 +216,13 @@ print("Confusion Matrix testing: \n" + csvText)
 # File.close()
 # print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv\n")
 
+
+#######################################
+# Evaluate Train
 loss, acc = model.evaluate(train_ds, verbose=2)
 print("Restored model, accuracy training: {:5.2f}%".format(100 * acc))
 print("Restored model, loss training: {:5.2f}%".format(loss))
+
 #confusion matrix
 
 predictions = model.predict(train_ds)
@@ -253,9 +259,12 @@ print("Confusion Matrix training: \n" + csvText)
 # File.close()
 # print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv\n")
 
-loss, acc = model.evaluate(train_ds, verbose=2)
+#######################################
+# Evaluate Validation
+loss, acc = model.evaluate(val_ds, verbose=2)
 print("Restored model, accuracy validation: {:5.2f}%".format(100 * acc))
 print("Restored model, loss validation: {:5.2f}%".format(loss))
+
 #confusion matrix
 
 predictions = model.predict(val_ds)
@@ -287,10 +296,9 @@ for loop in range(0,len(confusionMatrix)):
         else:
             csvText = csvText + ",\n"
 # File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
-print("Confusion Matrix validaion: \n" + csvText)
+print("Confusion Matrix validation: \n" + csvText)
 # File.write(csvText)
 # File.close()
 # print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv\n")
-
 
 print("\nFinished")
