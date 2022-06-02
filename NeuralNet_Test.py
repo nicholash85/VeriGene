@@ -190,11 +190,10 @@ for pred in range(0, len(predictions)):
     prediction_classes.append(np.argmax(predictions[pred]))
 prediction_classes = np.array(prediction_classes)
 y = np.concatenate([y for x, y in test_ds], axis=0)
-print(y[:20])
 print("len(y):" + str(len(y)))
 print(y[:20])
 print(prediction_classes[:20])
-print(predictions[:20])
+# print(predictions[:20])
 # print(prediction_classes)
 confusionMatrix = confusion_matrix(y, prediction_classes)
 print("confusion matrix testing:" + str(confusionMatrix)) 
@@ -212,7 +211,7 @@ for loop in range(0,len(confusionMatrix)):
         else:
             csvText = csvText + ",\n"
 # File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
-print("Confusion Matrix testing: \n" + csvText)
+# print("Confusion Matrix testing: \n" + csvText)
 # File.write(csvText)
 # File.close()
 # print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv\n")
@@ -237,12 +236,12 @@ y = np.concatenate([y for x, y in train_ds], axis=0)
 print("len(y):" + str(len(y)))
 print(y[:20])
 print(prediction_classes[:20])
-print(predictions[:20])
+# print(predictions[:20])
 # print(prediction_classes)
 confusionMatrix = confusion_matrix(y, prediction_classes)
 print("confusion matrix training:" + str(confusionMatrix)) 
 
-csvText = ' '
+csvText = csvText + '\n'
 for q in range(0,len(raw_train_ds.class_names)):
     csvText = csvText + ","  + str(raw_train_ds.class_names[q])
 csvText = csvText + ",\n"
@@ -255,13 +254,14 @@ for loop in range(0,len(confusionMatrix)):
         else:
             csvText = csvText + ",\n"
 # File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
-print("Confusion Matrix training: \n" + csvText)
+# print("Confusion Matrix training: \n" + csvText)
 # File.write(csvText)
 # File.close()
 # print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv\n")
 
 #######################################
 # Evaluate Validation
+
 loss, acc = model.evaluate(val_ds, verbose=2)
 print("Restored model, accuracy validation: {:5.2f}%".format(100 * acc))
 print("Restored model, loss validation: {:5.2f}%".format(loss))
@@ -279,12 +279,12 @@ y = np.concatenate([y for x, y in val_ds], axis=0)
 print("len(y):" + str(len(y)))
 print(y[:20])
 print(prediction_classes[:20])
-print(predictions[:20])
+# print(predictions[:20])
 # print(prediction_classes)
 confusionMatrix = confusion_matrix(y, prediction_classes)
 print("confusion matrix validation:" + str(confusionMatrix)) 
 
-csvText = ' '
+csvText = csvText + '\n'
 for q in range(0,len(raw_train_ds.class_names)):
     csvText = csvText + ","  + str(raw_train_ds.class_names[q])
 csvText = csvText + ",\n"
@@ -296,10 +296,10 @@ for loop in range(0,len(confusionMatrix)):
             csvText = csvText + ","
         else:
             csvText = csvText + ",\n"
-# File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
-print("Confusion Matrix validation: \n" + csvText)
-# File.write(csvText)
-# File.close()
-# print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv\n")
+File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
+print("Confusion Matrices Final: \n" + csvText)
+File.write(csvText)
+File.close()
+print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv\n")
 
 print("\nFinished")
