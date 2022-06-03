@@ -24,7 +24,7 @@ from tensorflow.python.ops.gen_math_ops import mod
 # os.listdir(train_dir)
 
 batch_size = 100
-epochs = 100
+epochs = 24
 
 seed = 42
 
@@ -106,15 +106,6 @@ test_ds_conf = raw_test_ds.map(vectorize_text)
 
 print()
 
-# temp_x = []
-# temp_y = []
-# for x,y in test_ds:
-#     temp_x.append(x)
-#     temp_y.append(y)
-# print(temp_y)
-y = np.concatenate([y for x, y in test_ds], axis=0)
-x = np.concatenate([x for x, y in test_ds], axis=0)
-
 AUTOTUNE = tf.data.AUTOTUNE
 
 train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
@@ -138,6 +129,7 @@ test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
 vocab_size=max_features + 1
 num_labels=2
 
+# Create a basic model instance
 model = tf.keras.Sequential([])
 model.add(layers.Embedding(vocab_size, 64, mask_zero=True))
 model.add(layers.Conv1D(64, 5, padding="valid", activation="relu", strides=2))
@@ -146,7 +138,7 @@ model.add(layers.Dropout(0.5))
 # model.add(layers.LSTM(64))
 model.add(layers.GlobalMaxPooling1D())
 model.add(layers.Dropout(0.5))
-model.add(layers.Dense(num_labels))
+model.add(layers.Dense(num_labels,activation='softmax'))
 
 for layer in model.layers:
     print(layer.name)
@@ -171,38 +163,48 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
 
 history = model.fit(train_ds, validation_data=val_ds, epochs=epochs,callbacks=[cp_callback])
 
+print(model.summary())
+loss_eval, accuracy_eval = model.evaluate(test_ds)
+
+print("Test Loss: ", loss_eval)
+print("Test Accuracy: ", accuracy_eval)
+
+print()
 #confusion matrix
+
 predictions = model.predict(test_ds)
 prediction_classes = []
+
+# prediction_classes = np.argmax(predictions)
 for pred in range(0, len(predictions)):
     prediction_classes.append(np.argmax(predictions[pred]))
-print(prediction_classes)
+prediction_classes = np.array(prediction_classes)
+y = np.concatenate([y for x, y in test_ds], axis=0)
+print("len(y):" + str(len(y)))
+print(y[:20])
+print(prediction_classes[:20])
+# print(predictions[:20])
+# print(prediction_classes)
 confusionMatrix = confusion_matrix(y, prediction_classes)
-print("confusion matrix:" + str(confusionMatrix)) 
+print("confusion matrix testing:" + str(confusionMatrix)) 
 
 csvText = ' '
 for q in range(0,len(raw_train_ds.class_names)):
     csvText = csvText + ","  + str(raw_train_ds.class_names[q])
-csvText = csvText + "\n"
+csvText = csvText + ",\n"
 for loop in range(0,len(confusionMatrix)):
-    csvText = csvText + str(raw_train_ds.class_names[loop])
+    csvText = csvText + str(raw_train_ds.class_names[loop]) + ","
     for inArr in range(0,len(confusionMatrix[loop])): 
-        csvText = csvText + str(confusionMatrix[loop][inArr]) + ","
+        csvText = csvText + str(confusionMatrix[loop][inArr])
         if confusionMatrix[loop][inArr] != confusionMatrix[loop][-1]:
             csvText = csvText + ","
         else:
-            csvText = csvText + "\n"
-File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
-# print("Confusion Matrix: \n" + csvText)
+            csvText = csvText + ",\n"
+File = open(ResultDir+"/"+Folder+"_"+timestr+"_ConfusionTest.csv", "w")
+print("Confusion Matrix testing: \n" + csvText)
 File.write(csvText)
 File.close()
-print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv\n")
-
-print(model.summary())
-loss_eval, accuracy_eval = model.evaluate(test_ds)
-
-print("Loss: ", loss_eval)
-print("Accuracy: ", accuracy_eval)
+print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_ConfusionTest.csv\n")
 
 history_dict = history.history
 history_dict.keys()
@@ -276,7 +278,11 @@ model.add(layers.Dropout(0.5))
 # model.add(layers.LSTM(64))
 model.add(layers.GlobalMaxPooling1D())
 model.add(layers.Dropout(0.5))
-model.add(layers.Dense(num_labels))
+model.add(layers.Dense(num_labels,activation='softmax'))
+
+for layer in model.layers:
+    print(layer.name)
+    print(layer.output_shape)
 
 model.compile(
     loss=losses.SparseCategoricalCrossentropy(from_logits=True),
@@ -284,15 +290,17 @@ model.compile(
     metrics=['accuracy'])
 
 # Evaluate the model
-loss, acc = model.evaluate(test_ds, verbose=2)
-print("Untrained model, accuracy: {:5.2f}%".format(100 * acc))
+loss_test, acc_test = model.evaluate(test_ds, verbose=2)
+print("Untrained model, accuracy training: {:5.2f}%".format(100 * acc_test))
+print("Untrained model, loss training: {:5.2f}%".format(loss_test))
 
 # Loads the weights
 model.load_weights(checkpoint_path)
 
 # Re-evaluate the model
-loss, acc = model.evaluate(test_ds, verbose=2)
-print("Restored model, accuracy: {:5.2f}%".format(100 * acc))
+loss_test, acc_test = model.evaluate(test_ds, verbose=2)
+print("Restored model, accuracy training: {:5.2f}%".format(100 * acc_test))
+print("Restored model, loss training: {:5.2f}%".format(loss_test))
 
 #Print Testing Results
 csvText = "Test Accuracy, Restored Model Test Accuracy \n"
@@ -300,6 +308,145 @@ csvText = csvText + str(accuracy) + "," + str(acc) + "\n"
 File = open(ResultDir+"/"+Folder+"_"+timestr+"_TestAcc.csv", "w")
 File.write(csvText)
 File.close()
-print("Printed Results: " + ResultDir+"/"+Folder+"_"+timestr+"_Training.csv\n")
+print("Printed Results: " + ResultDir+"/"+Folder+"_"+timestr+"_TestAcc.csv\n")
+
+#######################################
+# Evaluate Test
+loss_test, acc_test = model.evaluate(test_ds, verbose=2)
+print("accuracy testing: {:5.2f}%".format(100 * acc_test))
+print("loss testing: {:5.2f}%".format(loss_test))
+
+#confusion matrix
+
+predictions = model.predict(test_ds)
+prediction_classes = []
+
+# prediction_classes = np.argmax(predictions)
+for pred in range(0, len(predictions)):
+    prediction_classes.append(np.argmax(predictions[pred]))
+prediction_classes = np.array(prediction_classes)
+y = np.concatenate([y for x, y in test_ds], axis=0)
+print("len(y):" + str(len(y)))
+print(y[:20])
+print(prediction_classes[:20])
+# print(predictions[:20])
+# print(prediction_classes)
+confusionMatrix = confusion_matrix(y, prediction_classes)
+print("confusion matrix testing:" + str(confusionMatrix)) 
+
+csvText = ' '
+for q in range(0,len(raw_train_ds.class_names)):
+    csvText = csvText + ","  + str(raw_train_ds.class_names[q])
+csvText = csvText + ",\n"
+for loop in range(0,len(confusionMatrix)):
+    csvText = csvText + str(raw_train_ds.class_names[loop]) + ","
+    for inArr in range(0,len(confusionMatrix[loop])): 
+        csvText = csvText + str(confusionMatrix[loop][inArr])
+        if confusionMatrix[loop][inArr] != confusionMatrix[loop][-1]:
+            csvText = csvText + ","
+        else:
+            csvText = csvText + ",\n"
+# File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
+# print("Confusion Matrix testing: \n" + csvText)
+# File.write(csvText)
+# File.close()
+# print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv\n")
+
+
+#######################################
+# Evaluate Train
+loss_train, acc_train = model.evaluate(train_ds, verbose=2)
+print("accuracy training: {:5.2f}%".format(100 * acc_train))
+print("loss training: {:5.2f}%".format(loss_train))
+
+#confusion matrix
+
+predictions = model.predict(train_ds)
+prediction_classes = []
+
+# prediction_classes = np.argmax(predictions)
+for pred in range(0, len(predictions)):
+    prediction_classes.append(np.argmax(predictions[pred]))
+prediction_classes = np.array(prediction_classes)
+y = np.concatenate([y for x, y in train_ds], axis=0)
+print("len(y):" + str(len(y)))
+print(y[:20])
+print(prediction_classes[:20])
+# print(predictions[:20])
+# print(prediction_classes)
+confusionMatrix = confusion_matrix(y, prediction_classes)
+print("confusion matrix training:" + str(confusionMatrix)) 
+
+csvText = csvText + '\n'
+for q in range(0,len(raw_train_ds.class_names)):
+    csvText = csvText + ","  + str(raw_train_ds.class_names[q])
+csvText = csvText + ",\n"
+for loop in range(0,len(confusionMatrix)):
+    csvText = csvText + str(raw_train_ds.class_names[loop]) + ","
+    for inArr in range(0,len(confusionMatrix[loop])): 
+        csvText = csvText + str(confusionMatrix[loop][inArr])
+        if confusionMatrix[loop][inArr] != confusionMatrix[loop][-1]:
+            csvText = csvText + ","
+        else:
+            csvText = csvText + ",\n"
+# File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
+# print("Confusion Matrix training: \n" + csvText)
+# File.write(csvText)
+# File.close()
+# print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv\n")
+
+#######################################
+# Evaluate Validation
+
+loss_val, acc_val = model.evaluate(val_ds, verbose=2)
+print("accuracy validation: {:5.2f}%".format(100 * acc_val))
+print("loss validation: {:5.2f}%".format(loss_val))
+
+#confusion matrix
+
+predictions = model.predict(val_ds)
+prediction_classes = []
+
+# prediction_classes = np.argmax(predictions)
+for pred in range(0, len(predictions)):
+    prediction_classes.append(np.argmax(predictions[pred]))
+prediction_classes = np.array(prediction_classes)
+y = np.concatenate([y for x, y in val_ds], axis=0)
+print("len(y):" + str(len(y)))
+print(y[:20])
+print(prediction_classes[:20])
+# print(predictions[:20])
+# print(prediction_classes)
+confusionMatrix = confusion_matrix(y, prediction_classes)
+print("confusion matrix validation:" + str(confusionMatrix)) 
+
+csvText = csvText + '\n'
+for q in range(0,len(raw_train_ds.class_names)):
+    csvText = csvText + ","  + str(raw_train_ds.class_names[q])
+csvText = csvText + ",\n"
+for loop in range(0,len(confusionMatrix)):
+    csvText = csvText + str(raw_train_ds.class_names[loop]) + ","
+    for inArr in range(0,len(confusionMatrix[loop])): 
+        csvText = csvText + str(confusionMatrix[loop][inArr])
+        if confusionMatrix[loop][inArr] != confusionMatrix[loop][-1]:
+            csvText = csvText + ","
+        else:
+            csvText = csvText + ",\n"
+
+# Print Confusion Matrices files
+File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
+print("Confusion Matrices Final: \n" + csvText)
+File.write(csvText)
+File.close()
+print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_ConfusionRestored.csv\n")
+
+# Print Accuracy and loss across datasets
+csvText = "Train Accuracy, Train Loss, Validation Accuracy, Validation Loss, Test Accuracy, Test Loss, \n"
+csvText = csvText + str(acc_train) + " ,"  + str(loss_train) + " ," + str(acc_val) + " ," + str(loss_val) + " ," + str(acc_test) + " ," + str(loss_test) + ", \n"
+File = open(ResultDir+"/"+Folder+"_"+timestr+"_AccLossDirectories.csv", "w")
+File.write(csvText)
+File.close()
+print("Printed Results: " + ResultDir+"/"+Folder+"_"+timestr+"_AccLossDirectories.csv\n")
+
 
 print("\nFinished")
