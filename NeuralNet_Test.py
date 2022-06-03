@@ -166,19 +166,11 @@ timestr = time.strftime("%Y.%m.%d-%H.%M")
 ResultDir = "Results/"+Folder+"_"+timestr+"_Results"
 os.makedirs(ResultDir)
 
-#Print Testing Results
-csvText = "Test Accuracy, Restored Model Test Accuracy \n"
-csvText = csvText + " ," + str(acc) + "\n"
-# File = open(ResultDir+"/"+Folder+"_"+timestr+"_TestAcc.csv", "w")
-# File.write(csvText)
-# File.close()
-# print("Printed Results: " + ResultDir+"/"+Folder+"_"+timestr+"_Training.csv\n")
-
 #######################################
 # Evaluate Test
-loss, acc = model.evaluate(test_ds, verbose=2)
-print("Restored model, accuracy testing: {:5.2f}%".format(100 * acc))
-print("Restored model, loss testing: {:5.2f}%".format(loss))
+loss_test, acc_test = model.evaluate(test_ds, verbose=2)
+print("accuracy testing: {:5.2f}%".format(100 * acc_test))
+print("loss testing: {:5.2f}%".format(loss_test))
 
 #confusion matrix
 
@@ -219,9 +211,9 @@ for loop in range(0,len(confusionMatrix)):
 
 #######################################
 # Evaluate Train
-loss, acc = model.evaluate(train_ds, verbose=2)
-print("Restored model, accuracy training: {:5.2f}%".format(100 * acc))
-print("Restored model, loss training: {:5.2f}%".format(loss))
+loss_train, acc_train = model.evaluate(train_ds, verbose=2)
+print("accuracy training: {:5.2f}%".format(100 * acc_train))
+print("loss training: {:5.2f}%".format(loss_train))
 
 #confusion matrix
 
@@ -262,9 +254,9 @@ for loop in range(0,len(confusionMatrix)):
 #######################################
 # Evaluate Validation
 
-loss, acc = model.evaluate(val_ds, verbose=2)
-print("Restored model, accuracy validation: {:5.2f}%".format(100 * acc))
-print("Restored model, loss validation: {:5.2f}%".format(loss))
+loss_val, acc_val = model.evaluate(val_ds, verbose=2)
+print("accuracy validation: {:5.2f}%".format(100 * acc_val))
+print("loss validation: {:5.2f}%".format(loss_val))
 
 #confusion matrix
 
@@ -296,10 +288,21 @@ for loop in range(0,len(confusionMatrix)):
             csvText = csvText + ","
         else:
             csvText = csvText + ",\n"
+
+# Print Confusion Matrices files
 File = open(ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv", "w")
 print("Confusion Matrices Final: \n" + csvText)
 File.write(csvText)
 File.close()
 print("Printed Confusion Matrix File: " + ResultDir+"/"+Folder+"_"+timestr+"_Confusion.csv\n")
+
+# Print Accuracy and loss across datasets
+csvText = "Train Accuracy, Train Loss, Validation Accuracy, Validation Loss, Test Accuracy, Test Loss, \n"
+csvText = csvText + str(acc_train) + " ,"  + str(loss_train) + " ," + str(acc_val) + " ," + str(loss_val) + " ," + str(acc_test) + " ," + str(loss_test) + ", \n"
+File = open(ResultDir+"/"+Folder+"_"+timestr+"_AccLossDirectories.csv", "w")
+File.write(csvText)
+File.close()
+print("Printed Results: " + ResultDir+"/"+Folder+"_"+timestr+"_Training.csv\n")
+
 
 print("\nFinished")
