@@ -24,7 +24,7 @@ from tensorflow.python.ops.gen_math_ops import mod
 # os.listdir(train_dir)
 
 batch_size = 100
-epochs = 24
+epochs = 30
 
 seed = 42
 
@@ -150,7 +150,7 @@ model.compile(
     metrics=['accuracy'])
 
 timestr = time.strftime("%Y.%m.%d-%H.%M")
-ResultDir = "Results/"+Folder+"_"+timestr+"_Results"
+ResultDir = "Results/"+"Kmers"+"_"+timestr+"_Results"
 os.makedirs(ResultDir)
 
 checkpoint_path = ResultDir+"/cp2_"+timestr+".ckpt"
@@ -304,7 +304,7 @@ print("Restored model, loss training: {:5.2f}%".format(loss_test))
 
 #Print Testing Results
 csvText = "Test Accuracy, Restored Model Test Accuracy \n"
-csvText = csvText + str(accuracy) + "," + str(acc) + "\n"
+csvText = csvText + str(accuracy) + "," + str(acc_test) + "\n"
 File = open(ResultDir+"/"+Folder+"_"+timestr+"_TestAcc.csv", "w")
 File.write(csvText)
 File.close()
