@@ -1,2 +1,7 @@
-Hi
-# DNAwithVerilog
+# VeriGene
+
+VeriGene is a tool that allows for the creation of DNA representations of combinational Verilog circuits. Using the python tools available in this repository, the user can create Verilog files for testing with prototype Hardware Trojans (VerilogCodeGen3.py), create NOR based logic versions of this Verilog (verilogNotNorConversion), and turn this Verilog into a neural network friendly version (VerilogToOnlyGates2.py and VerilogToOnlyGatesNor2.py). Sameple DNA parts can also be created using DNAPartsCreator.py to be placed in DNA_Parts/. Using these parts, DNA representations of the Verilog specifications can be created using DNAfromVerilog_wKmer_Mut.py and DNAfromVerilog_NOR.py. The makeup of Trojans in Verilog and the DNA representations can be calculated using the comments in the generated Verilog using TrojanMakeupPercentage.py. Finally a number of Tensorflow Neural Networks are available to analyze the data generated (DNANeuralNet and VerilogNeuralNet files). Previous results, which have been published are presented in Results/. Old results and python code are available in OldRes and OLDPython, respectively. 
+
+If raw Verilog samples and DNA representations are desired, please contact Nicholas Haehn at haehnna@mail.uc.edu. 
+
+Warning that the generation of a large number of Verilog and DNA representation files may take up a significant portion of your devices storage. Please ensure that you have adequate storage availability before attempting to generate DNA files.
